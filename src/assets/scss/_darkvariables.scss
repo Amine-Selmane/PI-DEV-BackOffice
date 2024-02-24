@@ -1,0 +1,134 @@
+/*******************/
+// Theme Fonts
+/********************/
+@import url(https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700);
+$font-family-sans-serif: 'Poppins', sans-serif;
+/*******************/
+// Theme Colors
+/********************/
+$primary: #fb9678;
+$info: #03a9f3;
+$danger: #e46a76;
+$success: #00c292;
+$warning: #fec107;
+$purple: #ab8ce4;
+$cyan: #01c0c8;
+$dark: #021a33;
+$light: #07294b;
+$secondary: #001e3c;
+
+// scss-docs-start gray-color-variables
+$white: #001e3c !default;
+$gray-100: #001e3c !default;
+$gray-200: #0a2744 !default;
+$gray-300: #2f445a !default;
+$gray-400: #4d6277 !default;
+$gray-500: #66788a !default;
+$gray-600: #808f9e !default;
+$gray-700: #99a5b1 !default;
+$gray-800: #b3bcc5 !default;
+$gray-900: #e6e9ec !default;
+$black: rgba(255, 255, 255, 0.9) !default;
+
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'purple': $purple,
+  'cyan': $cyan,
+  'light': $light,
+  'dark': $dark,
+  'gray-700': $gray-700,
+  'light-primary': #1e446d,
+  'light-success': #155856,
+  'light-info': #046494,
+  'light-warning': #a05a00,
+  'light-danger': #9b0000,
+);
+
+
+/*******************/
+// Theme Text Contrast
+/********************/
+$min-contrast-ratio: 2;
+$enable-shadows: false !default;
+/*******************/
+// Theme body bg & text color
+/********************/
+$body-bg: $gray-200 !default;
+$body-color: $gray-900 !default;
+$btn-focus-box-shadow: 0;
+
+// heading fonts setting
+$h1-font-size: 36px !default;
+$h2-font-size: 30px !default;
+$h3-font-size: 24px !default;
+$h4-font-size: 18px !default;
+$h5-font-size: 16px !default;
+$h6-font-size: 14px !default;
+
+/*******************/
+// Theme common variable
+/********************/
+$border-radius: 0.3rem !default;
+$box-shadow: 0;
+$headings-font-weight: 300 !default;
+$headings-margin-bottom: 8px !default;
+
+$font-size-base: 0.875rem; // Assumes the browser default, typically `16px`
+
+$card-border-width: 0 !default;
+$card-border-radius: 0 !default;
+$card-box-shadow: $box-shadow !default;
+$grid-gutter-width: 20px !default;
+$card-spacer-y: 1.5rem;
+$card-spacer-x: 1.5rem;
+
+// table
+$table-cell-padding-y: 1rem;
+$table-cell-padding-x: 1rem;
+$table-hover-bg: $gray-100;
+
+$input-bg: $white !default;
+/*******************/
+// Theme btn
+/********************/
+$btn-focus-width: 0px;
+body .btn {
+  color: $black;
+  &:hover,
+  &.active,
+  &.disabled,
+  &:focus {
+    color: $black;
+  }
+}
+$btn-box-shadow: none !default;
+
+// Progress bars
+$progress-height: 6px !default;
+
+
+// badge
+$badge-font-weight: 400;
+$badge-padding-y: 4px;
+$badge-padding-x: 9px;
+
+/*******************/
+// Theme sidebar width
+/********************/
+$sidebarWidth: 220px;
+$sidebartext: #ffffff;
+$sidebartextlight: rgba(255, 255, 255, 0.6);
+$miniSidebarWidth: 80px;
+
+$topbarHeight: 65px;
+
+$dropdown-border-width: 0 !default;
+$dropdown-box-shadow: $box-shadow !default;
+$dropdown-link-hover-bg: $gray-100 !default;
+
+$enable-negative-margins: true;

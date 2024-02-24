@@ -1,0 +1,98 @@
+.rtl {
+  @import "./rtl-components";
+  @import "./rtl-spacing";
+
+  ol,
+  ul {
+    padding: 0px;
+  }
+  .me-3 {
+    margin-left: 1rem;
+    margin-right: 0px !important;
+  }
+  .me-2 {
+    margin-left: 0.5rem;
+    margin-right: 0px !important;
+  }
+  .ms-3 {
+    margin-left: 0px !important;
+    margin-right: 1rem;
+  }
+  .ms-auto {
+    margin-right: auto;
+    margin-left: unset !important;
+  }
+  .me-auto {
+    margin-right: unset !important;
+    margin-left: auto;
+  }
+
+  .customizerSidebar {
+    left: 0px;
+    right: auto;
+    margin-right: 0px;
+    margin-left: -260px;
+    .custombtn {
+      margin-left: 0px;
+      margin-right: -97px;
+      border-radius: 0px 5px 5px 0px;
+    }
+    &.showCustomizer {
+      margin-left: 0px;
+      .custombtn {
+        margin-right: -58px;
+      }
+    }
+  }
+
+  // sidebar
+  .sidebarArea .nav-link {
+    padding: 12px 12px 12px 5px;
+  }
+  .sidebarArea .nav-link {
+    border-left: 0 !important;
+    border-right: 3px solid transparent;
+  }
+  .sidebarArea .nav-item.activeParent > .nav-link {
+    border-left: 0 !important;
+    border-right: 3px solid $sidebar-text-active-dark-color;
+  }
+
+  .sidebarArea .sidebarBox.bg-white .nav-item.activeParent > .nav-link {
+    border-left: 0 !important;
+    border-right: 3px solid $sidebar-text-active-color !important;
+  }
+
+  // form editor
+  .rdw-embedded-modal {
+    left: 5px !important;
+    right: unset !important;
+  }
+
+  .steamline {
+    margin-left: unset;
+    margin-right: 20px;
+    border-left: 0;
+    border-right: 1px solid $border-color;
+    .sl-left {
+      float: right;
+      margin-left: 0;
+      margin-right: -20px;
+    }
+    .sl-right {
+      padding-left: 0;
+      padding-right: 50px;
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    .sidebarArea {
+      margin-left: unset;
+      margin-right: -$sidebarWidth;
+      &.showSidebar {
+        margin-left: unset;
+        margin-right: 0;
+      }
+    }
+  }
+}

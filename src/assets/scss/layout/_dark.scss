@@ -1,0 +1,41 @@
+.dark {
+  .ReactTable .rt-thead.-filters input,
+  .ReactTable .rt-thead.-filters select,
+  .ReactTable .-pagination input,
+  .ReactTable .-pagination select {
+    background: $light;
+    color: #fff;
+  }
+  .ReactTable .-pagination .-btn {
+    color: #fff;
+  }
+  .text-white,
+  .profile-area .dropdown-toggle {
+    color: #fff !important;
+  }
+  .text-dark,
+  .link-dark {
+    color: $black !important;
+  }
+  .sidebarArea {
+    .nav-item.activeParent > .nav-link {
+      border-left: 3px solid #fff !important;
+    }
+    .sidebarBox {
+      .nav-link,
+      .navCaption {
+        color: #fff !important;
+      }
+    }
+  }
+  .horizontalNav {
+    .nav-link,
+    .navCaption {
+      color: #fff;
+    }
+  }
+  .steamline .sl-item,
+  .steamline {
+    border-color: #2f445a;
+  }
+}
