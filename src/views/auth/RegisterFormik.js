@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody } from 'reactstrap';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthLogo from "../../layouts/logo/AuthLogo";
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
 
 const RegisterFormik = () => {
+  const navigate = useNavigate();
+  const [uploadedFile, setUploadedFile] = useState('');
+
   const initialValues = {
-    UserName: '',
+    firstName: '',
+    lastName: '',
+    userName: '',  // Updated to camelCase
     email: '',
     password: '',
     confirmPassword: '',
@@ -17,7 +23,9 @@ const RegisterFormik = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    UserName: Yup.string().required('UserName is required'),
+    firstName: Yup.string().required('First Name is required'),
+    lastName: Yup.string().required('Last Name is required'),
+    userName: Yup.string().required('User Name is required'),
     email: Yup.string().email('Email is invalid').required('Email is required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
@@ -27,6 +35,44 @@ const RegisterFormik = () => {
       .required('Confirm Password is required'),
     acceptTerms: Yup.bool().oneOf([true], 'Accept Terms & Conditions is required'),
   });
+
+  const handleSubmit = async (fields) => {
+    try {
+      const { firstName, lastName, userName, email, password } = fields;
+
+      // Send an HTTP POST request to the backend API endpoint
+      await axios.post('http://localhost:5000/api/register/admin', {
+        username: userName,  // Updated to camelCase
+        password,
+        firstName,
+        lastName,
+        profile: uploadedFile,
+        email,
+      });
+
+      // Registration successful, you can redirect the user to another page or show a success message
+      alert('Registration successful!');
+      navigate('/'); // Redirect to the login page after successful registration
+    } catch (error) {
+      // Handle registration error, you can display an error message or perform any other action
+      console.error('Registration failed:', error);
+      alert('Registration failed. Please try again.');
+    }
+  };
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const onUpload = async (e) => {
+    const base64 = await convertToBase64(e.target.files[0]);
+    setUploadedFile(base64);
+  };
 
   return (
     <div className="loginBox">
@@ -45,96 +91,149 @@ const RegisterFormik = () => {
                 <Formik
                   initialValues={initialValues}
                   validationSchema={validationSchema}
-                  onSubmit={(fields) => {
-                    // eslint-disable-next-line no-alert
-                    alert(`SUCCESS!! :-)\n\n${JSON.stringify(fields, null, 4)}`);
-                  }}
+                  onSubmit={handleSubmit}
                   render={({ errors, touched }) => (
                     <Form>
-                      <FormGroup>
-                        <Label htmlFor="firstName">User Name</Label>
-                        <Field
-                          name="UserName"
-                          type="text"
-                          className={`form-control ${
-                            errors.UserName && touched.UserName ? ' is-invalid' : ''
-                          }`}
-                        />
-                        <ErrorMessage
-                          name="UserName"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </FormGroup>
+  <FormGroup>
+    <Label htmlFor="firstName">First Name</Label>
+    <Field
+      name="firstName"
+      type="text"
+      className={`form-control ${
+        errors.firstName && touched.firstName ? ' is-invalid' : ''
+      }`}
+    />
+    <ErrorMessage
+      name="firstName"
+      component="div"
+      className="invalid-feedback"
+    />
+  </FormGroup>
 
-                      <FormGroup>
-                        <Label htmlFor="email">Email</Label>
-                        <Field
-                          name="email"
-                          type="text"
-                          className={`form-control${
-                            errors.email && touched.email ? ' is-invalid' : ''
-                          }`}
-                        />
-                        <ErrorMessage name="email" component="div" className="invalid-feedback" />
-                      </FormGroup>
-                      <FormGroup>
-                        <Label htmlFor="password">Password</Label>
-                        <Field
-                          name="password"
-                          type="password"
-                          className={`form-control${
-                            errors.password && touched.password ? ' is-invalid' : ''
-                          }`}
-                        />
-                        <ErrorMessage
-                          name="password"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </FormGroup>
-                      <FormGroup>
-                        <Label htmlFor="confirmPassword">Confirm Password</Label>
-                        <Field
-                          name="confirmPassword"
-                          type="password"
-                          className={`form-control${
-                            errors.confirmPassword && touched.confirmPassword ? ' is-invalid' : ''
-                          }`}
-                        />
-                        <ErrorMessage
-                          name="confirmPassword"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </FormGroup>
-                      <FormGroup inline className="form-check">
-                        <Field
-                          type="checkbox"
-                          name="acceptTerms"
-                          id="acceptTerms"
-                          className={`form-check-input ${
-                            errors.acceptTerms && touched.acceptTerms ? ' is-invalid' : ''
-                          }`}
-                        />
-                        <Label htmlFor="acceptTerms" className="form-check-label">
-                          Accept Terms & Conditions
-                        </Label>
-                        <ErrorMessage
-                          name="acceptTerms"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </FormGroup>
-                      <FormGroup>
-                        <Button type="submit" color="primary" className="me-2">
-                          Register
-                        </Button>
-                        <Button type="reset" color="secondary">
-                          Reset
-                        </Button>
-                      </FormGroup>
-                    </Form>
+  <FormGroup>
+    <Label htmlFor="lastName">Last Name</Label>
+    <Field
+      name="lastName"
+      type="text"
+      className={`form-control ${
+        errors.lastName && touched.lastName ? ' is-invalid' : ''
+      }`}
+    />
+    <ErrorMessage
+      name="lastName"
+      component="div"
+      className="invalid-feedback"
+    />
+  </FormGroup>
+
+  <FormGroup>
+    <Label htmlFor="userName">User Name</Label>
+    <Field
+      name="userName"
+      type="text"
+      className={`form-control ${
+        errors.userName && touched.userName ? ' is-invalid' : ''
+      }`}
+    />
+    <ErrorMessage
+      name="userName"
+      component="div"
+      className="invalid-feedback"
+    />
+  </FormGroup>
+
+  <FormGroup>
+    <Label htmlFor="email">Email</Label>
+    <Field
+      name="email"
+      type="email"
+      className={`form-control ${
+        errors.email && touched.email ? ' is-invalid' : ''
+      }`}
+    />
+    <ErrorMessage
+      name="email"
+      component="div"
+      className="invalid-feedback"
+    />
+  </FormGroup>
+
+  <FormGroup>
+    <Label htmlFor="password">Password</Label>
+    <Field
+      name="password"
+      type="password"
+      className={`form-control ${
+        errors.password && touched.password ? ' is-invalid' : ''
+      }`}
+    />
+    <ErrorMessage
+      name="password"
+      component="div"
+      className="invalid-feedback"
+    />
+  </FormGroup>
+
+  <FormGroup>
+    <Label htmlFor="confirmPassword">Confirm Password</Label>
+    <Field
+      name="confirmPassword"
+      type="password"
+      className={`form-control ${
+        errors.confirmPassword && touched.confirmPassword
+          ? ' is-invalid'
+          : ''
+      }`}
+    />
+    <ErrorMessage
+      name="confirmPassword"
+      component="div"
+      className="invalid-feedback"
+    />
+  </FormGroup>
+
+  <FormGroup>
+    <Label htmlFor="profile">Profile Picture</Label>
+    <Field
+      name="profile"
+      type="file"
+      className={`form-control ${
+        errors.profile && touched.profile ? ' is-invalid' : ''
+      }`}
+      onChange={onUpload}
+    />
+    <ErrorMessage
+      name="profile"
+      component="div"
+      className="invalid-feedback"
+    />
+  </FormGroup>
+
+  <FormGroup>
+    <Field
+      type="checkbox"
+      name="acceptTerms"
+      className={`form-check-input ${
+        errors.acceptTerms && touched.acceptTerms ? ' is-invalid' : ''
+      }`}
+    />
+    <Label htmlFor="acceptTerms" className="form-check-label">
+      I accept the Terms & Conditions
+    </Label>
+    <ErrorMessage
+      name="acceptTerms"
+      component="div"
+      className="invalid-feedback"
+    />
+  </FormGroup>
+
+  <div className="mt-4 text-center">
+    <Button type="submit" color="primary" className="w-md">
+      Register
+    </Button>
+  </div>
+</Form>
+
                   )}
                 />
               </CardBody>

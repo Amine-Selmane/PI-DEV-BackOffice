@@ -1,6 +1,10 @@
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
+
+/** auth middlware */
+// import  {AuthorizeUser,ProtectRoute} from './middlware/auth.js';
+
 /****Layouts*****/
 
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
