@@ -3,6 +3,14 @@ import * as Icon from 'react-feather';
 const SidebarData = [
   { caption: 'Personal' },
   {
+    title: 'Event',
+    href: '/Events',
+    icon: <Icon.Disc />,
+    id: 1.2,
+    collapisble: false,
+  },
+  {
+    
     title: 'Dashboards',
     href: '/dashboards',
     id: 1,
@@ -25,6 +33,7 @@ const SidebarData = [
         id: 1.2,
         collapisble: false,
       },
+  
       {
         title: 'Demographical',
         href: '/dashboards/demographical',

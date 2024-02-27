@@ -47,7 +47,8 @@ const Spinner = Loadable(lazy(() => import('../views/ui/Spinner')));
 const Tabs = Loadable(lazy(() => import('../views/ui/Tabs')));
 const Toasts = Loadable(lazy(() => import('../views/ui/Toasts')));
 const Tooltip = Loadable(lazy(() => import('../views/ui/Tooltip')));
-
+const EventCrud = Loadable(lazy(() => import('../Event/CRUD')));
+const EventAdd = Loadable(lazy(() => import('../Event/addEvent')));
 /***** Form Layout Pages ****/
 const FormBasic = Loadable(lazy(() => import('../views/form-layouts/FormBasic')));
 const FormGrid = Loadable(lazy(() => import('../views/form-layouts/FormGrid')));
@@ -108,6 +109,11 @@ const ThemeRoutes = [
     children: [
       { path: '/', name: 'Home', element: <Navigate to="/dashboards/minimal" /> },
       { path: '/dashboards/minimal', name: 'Minimal', exact: true, element: <Minimal /> },
+
+      { path: '/Events', name: 'Events', exact: true, element: <EventCrud /> },
+
+      { path: '/addEvent', name: 'addEvent', exact: true, element: <EventAdd /> },
+
       { path: '/dashboards/analytical', name: 'Analytical', exact: true, element: <Analytical /> },
       { path: '/dashboards/demographical', name: 'Demographical', exact: true, element: <Demographical /> },
       { path: '/dashboards/modern', name: 'Modern', exact: true, element: <Modern /> },
