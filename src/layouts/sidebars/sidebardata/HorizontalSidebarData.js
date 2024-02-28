@@ -76,9 +76,9 @@ const SidebarData = [
         icon: <Icon.Mail />,
       },
       {
-        title: 'CASL',
-        href: '/casl',
-        icon: <Icon.UserCheck />,
+        title: 'Courses',
+        href: '/courses',
+        icon: <Icon.Book />,
       },
       {
         title: 'Shop',

@@ -80,9 +80,9 @@ const SidebarData = [
     collapisble: false,
   },
   {
-    title: 'CASL',
-    href: '/casl',
-    icon: <Icon.UserCheck />,
+    title: 'Courses',
+    href: '/courses',
+    icon: <Icon.Book />,
     id: 2.6,
     collapisble: false,
   },
