@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import Axios for making HTTP requests
-import Iframe from 'react-iframe';
+import { format } from 'date-fns';
+
 import {
   Row,
   Col,
@@ -25,13 +26,8 @@ import img1 from '../../assets/images/users/user4.jpg';
 
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState('1');
+  const [activeTab, setActiveTab] = useState('3');
   const [userData, setUserData] = useState(null);
-  const toggle = (tab) => {
-    if (activeTab !== tab) {
-      setActiveTab(tab);
-    }
-  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -52,6 +48,46 @@ const Profile = () => {
 
     fetchUserData();
   }, []);
+
+  const toggle = (tab) => {
+    if (activeTab !== tab) {
+      setActiveTab(tab);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    if (name === 'msg') { // Assuming 'msg' is the name of the date input field
+      // Format the date value to 'yyyy-MM-dd'
+      const formattedDate = value.split('T')[0];
+      setUserData(prevState => ({
+        ...prevState,
+        dateNaiss: formattedDate
+      }));
+    } else {
+      setUserData(prevState => ({
+        ...prevState,
+        [name]: value
+      }));
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        await axios.put('http://localhost:5000/api/updateuser', userData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log('Profil utilisateur mis à jour avec succès');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du profil utilisateur:', error);
+    }
+  };
 
   return (
     <>
@@ -75,20 +111,16 @@ const Profile = () => {
                 <CardTitle tag="h4">{userData.email}</CardTitle>
 
                 <CardSubtitle className="text-muted fs-5 mt-3">Phone</CardSubtitle>
-                <CardTitle tag="h4">+91 654 784 547</CardTitle>
+                <CardTitle tag="h4">{userData.mobile}</CardTitle>
 
                 <CardSubtitle className="text-muted fs-5 mt-3">Address</CardSubtitle>
-                <CardTitle tag="h4">71 Pilgrim Avenue Chevy Chase, MD 20815</CardTitle>
-                <div>
-                  <Iframe
-                    className="position-relative"
-                    url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508"
-                    width="280"
-                    height="150"
-                    frameborder="0"
-                    allowfullscreen
-                  />
-                </div>
+                <CardTitle tag="h4">{userData.address}</CardTitle>
+
+                <CardSubtitle className="text-muted fs-5 mt-3">Birth Date</CardSubtitle>
+<CardTitle tag="h4">{userData.dateNaiss ? format(new Date(userData.dateNaiss), 'dd/MM/yyyy') : ''}</CardTitle>
+
+
+               
                
               </div>
             </CardBody>
@@ -96,62 +128,56 @@ const Profile = () => {
         </Col>
         <Col xs="12" md="12" lg="8">
           <Card>
-            <Nav tabs>
-              
-              
-              <NavItem>
-                <NavLink
-                  className={activeTab === '3' ? 'active bg-transparent' : 'cursor-pointer'}
-                  onClick={() => {
-                    toggle('3');
-                  }}
-                >
-                  Setting
-                </NavLink>
-              </NavItem>
-            </Nav>
-            <TabContent activeTab={activeTab}>
-              
-              <TabPane tabId="3">
-                <Row>
-                  <Col sm="12">
-                    <div className="p-4">
-                      <Form>
-                        <FormGroup>
-                          <Label>Full Name</Label>
-                          <Input type="text" placeholder="Shaina Agrawal" />
+          <Nav tabs>
+        <NavItem>
+          <NavLink
+            className={activeTab === '3' ? 'active bg-transparent' : 'cursor-pointer'}
+            onClick={() => {
+              toggle('3');
+            }}
+          >
+            Setting
+          </NavLink>
+        </NavItem>
+      </Nav>
+      <TabContent activeTab={activeTab}>
+                <TabPane tabId="3">
+                  <Row>
+                    <Col sm="12">
+                      <div className="p-4">
+                        <Form onSubmit={handleSubmit}>
+                          <FormGroup>
+                            <Label>First Name</Label>
+                            <Input type="text" name="firstName" placeholder="Shaina Agrawal" value={userData.firstName} onChange={handleInputChange} />
+                          </FormGroup>
+                          <FormGroup>
+                            <Label>Last Name</Label>
+                            <Input type="text" name="lastName" placeholder="Shaina Agrawal" value={userData.lastName} onChange={handleInputChange} />
+                          </FormGroup>
+                          <FormGroup>
+                            <Label>Email</Label>
+                            <Input type="email" name="email" placeholder="Jognsmith@cool.com" value={userData.email} onChange={handleInputChange} />
+                          </FormGroup>
+                          <FormGroup>
+                            <Label>Phone No</Label>
+                            <Input type="text" name="mobile" placeholder="123 456 1020" value={userData.mobile} onChange={handleInputChange} />
+                          </FormGroup>
+                          <FormGroup>
+                            <Label>Address</Label>
+                            <Input type="textarea" name="address" value={userData.address} onChange={handleInputChange} />
+                          </FormGroup>
+                          <FormGroup>
+                          <Label>Date of Birth</Label>
+                          <Input type="date" name="dateNaiss" value={userData.dateNaiss} onChange={handleInputChange} />
                         </FormGroup>
-                        <FormGroup>
-                          <Label>Email</Label>
-                          <Input type="email" placeholder="Jognsmith@cool.com" />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label>Password</Label>
-                          <Input type="password" placeholder="Password" />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label>Phone No</Label>
-                          <Input type="text" placeholder="123 456 1020" />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label>Message</Label>
-                          <Input type="textarea" />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label>Select Country</Label>
-                          <Input type="select">
-                            <option>USA</option>
-                            <option>India</option>
-                            <option>America</option>
-                          </Input>
-                        </FormGroup>
-                        <Button color="primary">Update Profile</Button>
-                      </Form>
-                    </div>
-                  </Col>
-                </Row>
-              </TabPane>
-            </TabContent>
+                          <Button color="primary" type="submit">Update Profile</Button>
+                        </Form>
+                      </div>
+                    </Col>
+                  </Row>
+                </TabPane>
+              </TabContent>
+
           </Card>
         </Col>
       </Row>

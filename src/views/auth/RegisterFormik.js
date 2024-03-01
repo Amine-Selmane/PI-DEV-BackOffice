@@ -1,8 +1,11 @@
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody } from 'reactstrap';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthLogo from "../../layouts/logo/AuthLogo";
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
@@ -17,6 +20,9 @@ const RegisterFormik = () => {
     lastName: '',
     userName: '',  // Updated to camelCase
     email: '',
+    dateNaiss: new Date(), // Updated with initial date value
+    mobile: '',
+    address: '',
     password: '',
     confirmPassword: '',
     acceptTerms: false,
@@ -27,6 +33,9 @@ const RegisterFormik = () => {
     lastName: Yup.string().required('Last Name is required'),
     userName: Yup.string().required('User Name is required'),
     email: Yup.string().email('Email is invalid').required('Email is required'),
+    dateNaiss: Yup.date().required('Date is required'),
+    mobile: Yup.string().required('Phone number is required'),
+    address: Yup.string().required('Address is required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
       .required('Password is required'),
@@ -38,7 +47,10 @@ const RegisterFormik = () => {
 
   const handleSubmit = async (fields) => {
     try {
-      const { firstName, lastName, userName, email, password } = fields;
+      const { firstName, lastName, userName, email, password, dateNaiss, address, mobile } = fields;
+      
+      // Format the date before sending
+      const formattedDateNaiss = dateNaiss.toISOString().split('T')[0]; // Format 'yyyy-MM-dd'
 
       // Send an HTTP POST request to the backend API endpoint
       await axios.post('http://localhost:5000/api/register/admin', {
@@ -48,8 +60,12 @@ const RegisterFormik = () => {
         lastName,
         profile: uploadedFile,
         email,
+        dateNaiss: formattedDateNaiss,
+        address,
+        mobile
       });
 
+    
       // Registration successful, you can redirect the user to another page or show a success message
       alert('Registration successful!');
       navigate('/auth/loginformik'); // Redirect to the login page after successful registration
@@ -157,7 +173,58 @@ const RegisterFormik = () => {
                             className="invalid-feedback"
                           />
                         </FormGroup>
+                        
 
+
+                        <FormGroup>
+                        <Label htmlFor="dateNaiss">Date de naissance</Label>
+                        <Field name="dateNaiss">
+                          {({ field, form }) => (
+                            <DatePicker
+                              {...field}
+                              selected={field.value}
+                              onChange={(date) => form.setFieldValue(field.name, date)}
+                              className={`form-control ${errors.dateNaiss && touched.dateNaiss ? 'is-invalid' : ''}`}
+                              dateFormat="yyyy-MM-dd" // Format de date
+                            />
+                          )}
+                        </Field>
+                        <ErrorMessage name="dateNaiss" component="div" className="invalid-feedback" />
+                      </FormGroup>
+
+
+                        <FormGroup>
+                          <Label htmlFor="mobile">Phone number</Label>
+                          <Field
+                            name="mobile"
+                            type="number"
+                            className={`form-control ${
+                              errors.mobile && touched.mobile ? ' is-invalid' : ''
+                            }`}
+                          />
+                          <ErrorMessage
+                            name="mobile"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
+
+
+                        <FormGroup>
+                          <Label htmlFor="address">Address</Label>
+                          <Field
+                            name="address"
+                            type="text"
+                            className={`form-control ${
+                              errors.address && touched.address ? ' is-invalid' : ''
+                            }`}
+                          />
+                          <ErrorMessage
+                            name="address"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
                         <FormGroup>
                           <Label htmlFor="password">Password</Label>
                           <Field
