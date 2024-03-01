@@ -14,6 +14,7 @@ import {
   Input,
 } from 'reactstrap';
 import { MessageSquare } from 'react-feather';
+import { useNavigate } from 'react-router-dom';
 import * as Icon from 'react-feather';
 import MessageDD from './MessageDD';
 import MegaDD from './MegaDD';
@@ -25,10 +26,17 @@ import ProfileDD from './ProfileDD';
 import Logo from '../logo/Logo';
 
 const Header = () => {
+  const navigate = useNavigate();
   const isDarkMode = useSelector((state) => state.customizer.isDark);
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
   const dispatch = useDispatch();
 
+  function userLogout(){
+    localStorage.removeItem('token');
+    navigate('/auth/loginFormik')
+    window.location.reload();
+
+  }
   return (
     <Navbar
       color={topbarColor}
@@ -145,8 +153,8 @@ const Header = () => {
           <DropdownMenu className="ddWidth">
             <ProfileDD />
             <div className="p-2 px-3">
-              <Button color="danger" size="sm">
-                Logout
+              <Button color="danger" size="sm" onClick={userLogout}>
+                Logouttt
               </Button>
             </div>
           </DropdownMenu>

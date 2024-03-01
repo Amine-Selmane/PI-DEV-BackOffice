@@ -52,7 +52,7 @@ const RegisterFormik = () => {
 
       // Registration successful, you can redirect the user to another page or show a success message
       alert('Registration successful!');
-      navigate('/'); // Redirect to the login page after successful registration
+      navigate('/auth/loginformik'); // Redirect to the login page after successful registration
     } catch (error) {
       // Handle registration error, you can display an error message or perform any other action
       console.error('Registration failed:', error);
@@ -94,155 +94,155 @@ const RegisterFormik = () => {
                   onSubmit={handleSubmit}
                   render={({ errors, touched }) => (
                     <Form>
-  <FormGroup>
-    <Label htmlFor="firstName">First Name</Label>
-    <Field
-      name="firstName"
-      type="text"
-      className={`form-control ${
-        errors.firstName && touched.firstName ? ' is-invalid' : ''
-      }`}
-    />
-    <ErrorMessage
-      name="firstName"
-      component="div"
-      className="invalid-feedback"
-    />
-  </FormGroup>
+                        <FormGroup>
+                          <Label htmlFor="firstName">First Name</Label>
+                          <Field
+                            name="firstName"
+                            type="text"
+                            className={`form-control ${
+                              errors.firstName && touched.firstName ? ' is-invalid' : ''
+                            }`}
+                          />
+                          <ErrorMessage
+                            name="firstName"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
 
-  <FormGroup>
-    <Label htmlFor="lastName">Last Name</Label>
-    <Field
-      name="lastName"
-      type="text"
-      className={`form-control ${
-        errors.lastName && touched.lastName ? ' is-invalid' : ''
-      }`}
-    />
-    <ErrorMessage
-      name="lastName"
-      component="div"
-      className="invalid-feedback"
-    />
-  </FormGroup>
+                        <FormGroup>
+                          <Label htmlFor="lastName">Last Name</Label>
+                          <Field
+                            name="lastName"
+                            type="text"
+                            className={`form-control ${
+                              errors.lastName && touched.lastName ? ' is-invalid' : ''
+                            }`}
+                          />
+                          <ErrorMessage
+                            name="lastName"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
 
-  <FormGroup>
-    <Label htmlFor="userName">User Name</Label>
-    <Field
-      name="userName"
-      type="text"
-      className={`form-control ${
-        errors.userName && touched.userName ? ' is-invalid' : ''
-      }`}
-    />
-    <ErrorMessage
-      name="userName"
-      component="div"
-      className="invalid-feedback"
-    />
-  </FormGroup>
+                        <FormGroup>
+                          <Label htmlFor="userName">User Name</Label>
+                          <Field
+                            name="userName"
+                            type="text"
+                            className={`form-control ${
+                              errors.userName && touched.userName ? ' is-invalid' : ''
+                            }`}
+                          />
+                          <ErrorMessage
+                            name="userName"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
 
-  <FormGroup>
-    <Label htmlFor="email">Email</Label>
-    <Field
-      name="email"
-      type="email"
-      className={`form-control ${
-        errors.email && touched.email ? ' is-invalid' : ''
-      }`}
-    />
-    <ErrorMessage
-      name="email"
-      component="div"
-      className="invalid-feedback"
-    />
-  </FormGroup>
+                        <FormGroup>
+                          <Label htmlFor="email">Email</Label>
+                          <Field
+                            name="email"
+                            type="email"
+                            className={`form-control ${
+                              errors.email && touched.email ? ' is-invalid' : ''
+                            }`}
+                          />
+                          <ErrorMessage
+                            name="email"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
 
-  <FormGroup>
-    <Label htmlFor="password">Password</Label>
-    <Field
-      name="password"
-      type="password"
-      className={`form-control ${
-        errors.password && touched.password ? ' is-invalid' : ''
-      }`}
-    />
-    <ErrorMessage
-      name="password"
-      component="div"
-      className="invalid-feedback"
-    />
-  </FormGroup>
+                        <FormGroup>
+                          <Label htmlFor="password">Password</Label>
+                          <Field
+                            name="password"
+                            type="password"
+                            className={`form-control ${
+                              errors.password && touched.password ? ' is-invalid' : ''
+                            }`}
+                          />
+                          <ErrorMessage
+                            name="password"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
 
-  <FormGroup>
-    <Label htmlFor="confirmPassword">Confirm Password</Label>
-    <Field
-      name="confirmPassword"
-      type="password"
-      className={`form-control ${
-        errors.confirmPassword && touched.confirmPassword
-          ? ' is-invalid'
-          : ''
-      }`}
-    />
-    <ErrorMessage
-      name="confirmPassword"
-      component="div"
-      className="invalid-feedback"
-    />
-  </FormGroup>
+                        <FormGroup>
+                          <Label htmlFor="confirmPassword">Confirm Password</Label>
+                          <Field
+                            name="confirmPassword"
+                            type="password"
+                            className={`form-control ${
+                              errors.confirmPassword && touched.confirmPassword
+                                ? ' is-invalid'
+                                : ''
+                            }`}
+                          />
+                          <ErrorMessage
+                            name="confirmPassword"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
 
-  <FormGroup>
-    <Label htmlFor="profile">Profile Picture</Label>
-    <Field
-      name="profile"
-      type="file"
-      className={`form-control ${
-        errors.profile && touched.profile ? ' is-invalid' : ''
-      }`}
-      onChange={onUpload}
-    />
-    <ErrorMessage
-      name="profile"
-      component="div"
-      className="invalid-feedback"
-    />
-  </FormGroup>
+                        <FormGroup>
+                          <Label htmlFor="profile">Profile Picture</Label>
+                          <Field
+                            name="profile"
+                            type="file"
+                            className={`form-control ${
+                              errors.profile && touched.profile ? ' is-invalid' : ''
+                            }`}
+                            onChange={onUpload}
+                          />
+                          <ErrorMessage
+                            name="profile"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
 
-  <FormGroup>
-    <Field
-      type="checkbox"
-      name="acceptTerms"
-      className={`form-check-input ${
-        errors.acceptTerms && touched.acceptTerms ? ' is-invalid' : ''
-      }`}
-    />
-    <Label htmlFor="acceptTerms" className="form-check-label">
-      I accept the Terms & Conditions
-    </Label>
-    <ErrorMessage
-      name="acceptTerms"
-      component="div"
-      className="invalid-feedback"
-    />
-  </FormGroup>
+                        <FormGroup>
+                          <Field
+                            type="checkbox"
+                            name="acceptTerms"
+                            className={`form-check-input ${
+                              errors.acceptTerms && touched.acceptTerms ? ' is-invalid' : ''
+                            }`}
+                          />
+                          <Label htmlFor="acceptTerms" className="form-check-label">
+                            I accept the Terms & Conditions
+                          </Label>
+                          <ErrorMessage
+                            name="acceptTerms"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
 
-  <div className="mt-4 text-center">
-    <Button type="submit" color="primary" className="w-md">
-      Register
-    </Button>
-  </div>
-</Form>
+                        <div className="mt-4 text-center">
+                          <Button type="submit" color="primary" className="w-md">
+                            Register
+                          </Button>
+                        </div>
+                      </Form>
 
-                  )}
-                />
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
-};
+                                        )}
+                                      />
+                                    </CardBody>
+                                  </Card>
+                                </Col>
+                              </Row>
+                            </Container>
+                          </div>
+                        );
+                      };
 
 export default RegisterFormik;
