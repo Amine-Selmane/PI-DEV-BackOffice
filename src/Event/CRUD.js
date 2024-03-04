@@ -1,7 +1,5 @@
-
-
 import React, { useState, useEffect } from 'react';
-import { Form, Input, InputNumber, Table, Popconfirm, Typography, message, Button } from 'antd';
+import { Form, Input, InputNumber, Table, Popconfirm, Typography, message, Button, Image, TimePicker } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -16,7 +14,14 @@ const EditableCell = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  const inputNode =
+    inputType === 'number' ? (
+      <InputNumber />
+    ) : inputType === 'time' ? (
+      <TimePicker format="hh:mm A" />
+    ) : (
+      <Input />
+    );
   return (
     <td {...restProps}>
       {editing ? (
@@ -113,6 +118,13 @@ const EventManagement = () => {
 
   const columns = [
     {
+      title: 'IMAGE',
+      dataIndex: 'imageUrl',
+      width: '25%',
+      render: (text, record) => <Image src={text} alt={record.name} width={50} />,
+      editable: true,
+    },
+    {
       title: 'name',
       dataIndex: 'name',
       width: '25%',
@@ -145,6 +157,18 @@ const EventManagement = () => {
     {
       title: 'nbrPlaces',
       dataIndex: 'nbrPlaces',
+      width: '15%',
+      editable: true,
+    },
+    {
+      title: 'begintime',
+      dataIndex: 'beginTime',
+      width: '15%',
+      editable: true,
+    },
+    {
+      title: 'endtime',
+      dataIndex: 'endTime',
       width: '15%',
       editable: true,
     },
@@ -193,15 +217,20 @@ const EventManagement = () => {
       ...col,
       onCell: (record) => ({
         record,
-        inputType: col.dataIndex === 'date' || col.dataIndex === 'price' || col.dataIndex === 'nbrPlaces' ? 'number' : 'text',
+        inputType:
+          col.dataIndex === 'date' ||
+          col.dataIndex === 'price' ||
+          col.dataIndex === 'nbrPlaces' ||
+          col.dataIndex === 'beginTime' ||
+          col.dataIndex === 'endTime'
+            ? 'text'
+            : 'text', // You can customize the input type for 'beginTime' and 'endTime'
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
       }),
     };
   });
-
-
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -219,446 +248,27 @@ const EventManagement = () => {
   return (
     <div>
       {/* Button to navigate to the Add Event page */}
-      <Button type="primary"  style={{ marginBottom: 16 }}>
-      <Link to="/addEvent">Go to Add Event Page</Link>
+      <Button type="primary" style={{ marginBottom: 16 }}>
+        <Link to="/addEvent">Go to Add Event Page</Link>
       </Button>
-    <Form form={form} component={false}>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
-      />
-    </Form>
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={data}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel,
+          }}
+        />
+      </Form>
     </div>
   );
 };
 
 export default EventManagement;
-
-
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-
-// import {
-//     Input,
-//     InputNumber,
-//     Divider,
-//     Button,
-//     message,
-//     Modal,
-//     Skeleton,
-//     Table,
-//     Typography,
-//     Form,
-//     Space,
-//   } from "antd";
-//   import { BsTrash, BsEye, BsPencilSquare } from "react-icons/bs";
-
-
-// function Crud() {
-//     const { TextArea } = Input;
-
-//     const [events, setEvents] = useState([]);
-//     const [IsUpdate, setIsupdate] = useState(false);
-//     const [Isadded, setIsadded] = useState(false);
-//     const [isModalOpen, setIsModalOpen] = useState(false);
-//     const [EditingModal, setEditingModal] = useState(false);
-//     const [OpenModal, setOpenModal] = useState(false);
-//     const [singleP, setSingleP] = useState({});
-//     const [idEv, setIdEv] = useState(0);
-//     const [name, setName] = useState("");
-//     const [description, setDescription] = useState();
-//     const [price, setPrice] = useState("");
-//     const [nbrPlaces, setNbrPlaces] = useState("");
-//     const [location, setLocation] = useState("");
-//     const [eventdate, seteventdate] = useState("");
-//     const handleCancel = () => {
-//         setIsModalOpen(false);
-//         setSingleP({});
-//       };
-  
-//       const handleOpen = () => {
-//         setOpenModal(true);
-//       };
-
-//       const handleClose = () => {
-//         setOpenModal(false);
-//         setSingleP({});
-//       };
-//       const handleOpenEdit = () => {
-//         setEditingModal(true);
-//       };
-    
-//       const handleEditClose = () => {
-//         setEditingModal(false);
-//         setSingleP({});
-//       };
-//     const fetchData = async () => {
-//         try {
-//           const response = await fetch('http://localhost:5000/events'); // Replace with your API endpoint
-//           if (!response.ok) {
-//             throw new Error('Failed to fetch data.');
-//           }
-//           const data = await response.json();
-//           console.log(data) ;
-
-//           setEvents(data);
-//         } catch (error) {
-//           console.error(error);
-//         }
-//       }
-      
-//   const DeleteHandler = async (idS) => {
-//     try {
-
-//         const deleteProd = await axios.delete(`http://localhost:5000/events/delete/${idS._id}`); // eslint-disable-line no-underscore-dangle
-//         if (!deleteProd.ok) {
-//         throw new Error('Failed to fetch data.');
-//       }
-//       await setEvents(events.filter((p) => p.id !== idS));// eslint-disable-line no-underscore-dangle
-//       message.success("event Deleted");
-//     } catch (err) {
-//       console.error(err.message);
-//     }
-//   };
-//   /* eslint-disable no-underscore-dangle */
-
-//   const FetchSingleProduct = (idS) => {
-//     axios.get(`http://localhost:5000/events/${idS._id}`).then((res) => {
-//       setSingleP(res.data);
-
-//     });/* eslint-enable no-underscore-dangle */
-
-//   };
-//   const onEditProduct = async () => {
-//     try {
-//       const body = { idEv, name, eventdate, location, description, price, nbrPlaces };
-//       const response = await axios.put(`http://localhost:5000/events/update/${idEv}`, body
-//       );
-//       if (response.status === 200) {
-
-//       console.log("yay it been added ");
-//       setIsupdate(!IsUpdate);
-//       handleEditClose();}
-//     } catch (err) {
-//       console.log("nope something wrong happend");
-//       console.error(err.message);
-//     }
-
-//   };
-//   const onSubmitForm = async (formValues) => {
-//     const body = { ...formValues };
-  
-//     try {
-//       const response = await fetch("http://localhost:5000/events/add", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(body),
-//       });
-  
-//       if (response.ok) {
-//         console.log("Event added successfully");
-//         setIsadded(!Isadded);
-//         handleClose();
-  
-//         // Reset form fields to their initial state
-//         setName("");
-//         setLocation("");
-//         setDescription("");
-//         setPrice(0);
-//         setNbrPlaces(0);
-//         seteventdate("");
-  
-//         message.success("Event Added Successfully");
-//       } else {
-//         console.error("Failed to add event");
-//       }
-//     } catch (error) {
-//       console.error("Error adding event:", error);
-//     }
-//   };
-  
-//     useEffect(() => {
-//         fetchData();
-//       }, []);
-//       useEffect(() => {
-//         fetch('http://localhost:5000/events')
-//           .then(res => res.json())
-//           .then((json) => setEvents(json));
-    
-//       }, [IsUpdate, Isadded]);
-//       useEffect(() => {
-//         setName(singleP?.name || "");
-//         setLocation(singleP?.location || 0);
-//         setDescription(singleP?.description || "");
-//         setPrice(singleP?.price || "");
-//         setNbrPlaces(singleP?.nbrPlaces || "");
-//         seteventdate(singleP?.date || "");
-//       }, [singleP]);
-//       const showModal = () => {
-//         setIsModalOpen(true);
-//       };
-    
-// const { Title } = Typography;
-
-// const columns = [
-//   {
-//     title: 'Event Name',
-//     dataIndex: 'name',
-//     key: 'name',
-//   },
-//   {
-//     title: 'Location',
-//     dataIndex: 'location',
-//     key: 'location',
-//   },
-//   {
-//     title: 'Description',
-//     dataIndex: 'description',
-//     key: 'description',
-//   },
-//   {
-//     title: 'Date',
-//     dataIndex: 'date',
-//     key: 'date',
-//   },
-//   {
-//     title: 'Price',
-//     dataIndex: 'price',
-//     key: 'price',
-//   },
-//   {
-//     title: 'Number of places',
-//     dataIndex: 'nbrPlaces',
-//     key: 'nbrPlaces',
-//   },
-  
-
-//    {
-//       title: 'Actions',
-//       dataIndex: 'id',
-//       key: 'id',
-//       render: (_,  id ) => {
-//         return (
-//           <>
-//             <BsTrash
-//               style={{ fontSize: "30px", color: "red", cursor: "pointer" }}
-//               onClick={() =>{
-//                 console.log(id) ;
-//                  DeleteHandler(id) ;
-//                 }}
-
-//             />
-//             <BsEye
-//               style={{ fontSize: "30px", color: "teal", cursor: "pointer" }}
-//               onClick={() => {
-//                 console.log(id)
-//                 showModal();
-//                 FetchSingleProduct(id);
-//               }
-//               }
-
-//             />
-//             <BsPencilSquare style={{ fontSize: "30px", color: "black", cursor: "pointer" }}
-//               onClick={() => {
-//                 setIdEv(id);
-//                 handleOpenEdit();
-//                 FetchSingleProduct(id);
-//               }
-//               } />
-//           </>
-//         );
-//       },
-//     },
-// ];
-
-// const tableProps = {
-//     bordered: true,
-//     size: "large",
-//     showHeader: true,
-
-//     tableLayout: "fixed",
-//   };
-//   const onChange = (value) => {
-//     setPrice(value);
-//   };
-//   const onChangeNbr = (value) => {
-//     setNbrPlaces(value);
-//   };
-// return( <>
-
-// <Space size="large" direction="vertical">
-//       <div className="d-flex justify-content-end">
-
-//         <Button
-
-//           variant="outline-dark" size="lg" style={{ marginRight: 20 }} onClick={() => {
-//             handleOpen();
-
-//           }} >Add</Button>
-//       </div>
-//       {events.length ? (
-//         <Table         {...tableProps}        dataSource={events} columns={columns} pagination={{
-//           pageSize: 5,
-//         }}
-//         />
-//       ) : (
-//         <Skeleton />
-//       )}
-//        <Modal
-//         title="Detail Product"
-//         open={isModalOpen}
-//         onCancel={handleCancel}
-//         footer={null}
-//       >
-      
-//             <p>
-//               <div style={{ display: "flex" }}>
-//                 <div style={{ flexDirection: "column" }}>
-//                   <Title level={1}>{`${singleP?.price}$`}</Title>
-
-//                 </div>
-//               </div>
-//             </p>
-//             <Divider />
-//             <p>
-//               <Title level={2}>{singleP?.name}</Title>
-//             </p>
-//             <p>
-//               <Title level={4}>{singleP?.nbrPlaces}</Title>
-//             </p>
-//             <p>
-//               <Title level={2}>{singleP?.location}</Title>
-//             </p>
-//             <p>
-//               <Title level={2}>{singleP?.eventdate}</Title>
-//             </p>
-//             <p>{singleP?.description}</p>
-        
-//       </Modal>
-//       <Modal
-//         title="Add Event"
-//         open={OpenModal}
-//         onCancel={handleClose}
-//         footer={null}
-//       >
-//         <Form
-//           labelCol={{ span: 4 }}
-//           wrapperCol={{ span: 14 }}
-//           layout="horizontal"
-//           style={{
-//             alignItems: 'center',
-//             marginTop: 32
-//           }}
-//           onFinish={(formValues) => onSubmitForm(formValues)}
-//         >
-//           <Form.Item label="Event Name" required	 >
-//             <Input size='large' placeholder='Product Name ' value={name}
-//               onChange={e => setName(e.target.value)} />
-//           </Form.Item>
-//           <Form.Item label="Location" required	 >
-//             <Input size='large' placeholder='Product Name ' value={location}
-//               onChange={e => setLocation(e.target.value)} />
-//           </Form.Item>
-//           <Form.Item label="Description" required	>
-//             <TextArea rows={2} size='large' value={description}
-//               onChange={e => setDescription(e.target.value)} />
-//           </Form.Item>
-//           <Form.Item label="Price" required	 >
-//           <InputNumber
-//               size="large" onChange={onChange}
-//             />
-//           </Form.Item>
-//           <Form.Item label="Nombre Place" required	>
-//             <InputNumber
-//               size="large" onChange={onChangeNbr}
-//             />
-//           </Form.Item>
-       
-
-
-//           <Form.Item >
-//             <Button variant="outline-primary" type="submit" style={{ width: '100%' }}  >
-//               Add Event
-//             </Button>
-//           </Form.Item>
-
-//         </Form >
-//       </Modal>
-//       <Modal
-//         title="Edit Product"
-//         open={EditingModal}
-//         onCancel={handleEditClose}
-//         footer={null}
-
-//       >
-    
-//             <Form
-//               labelCol={{ span: 4 }}
-//               wrapperCol={{ span: 14 }}
-//               layout="horizontal"
-//               style={{
-//                 alignItems: 'center',
-//                 marginTop: 32
-//               }}
-//               onFinish={onEditProduct}
-//               initialValues={{  // Set initial values for form fields
-//                 name: singleP?.name || "",
-//                 price: singleP?.price || 0,
-//                 description: singleP?.description || "",
-//                 location: singleP?.location || "",
-//                 date: singleP?.date || "",
-//                 nbrPlaces: singleP?.nbrPlaces || 0,
-//               }}
-        
-//             >
-                        
-//           <Form.Item label="Title" required	 >
-//             <Input size='large' placeholder='Product Name ' value={name}
-//               onChange={e => setName(e.target.value)} />
-//           </Form.Item>
-//           <Form.Item label="Price" required	>
-//             <InputNumber
-//               size="large" onChange={onChange}
-//             />
-//           </Form.Item>
-//           <Form.Item label="Description" required	>
-//             <TextArea rows={2} size='large' value={description}
-//               onChange={e => setDescription(e.target.value)} />
-//           </Form.Item>
-//           <Form.Item label="Location" required	 >
-//             <Input size='large' placeholder='Product Name ' value={location}
-//               onChange={e => setLocation(e.target.value)} />
-//           </Form.Item>
-//           <Form.Item label="Nombre Place" required	>
-//             <InputNumber
-//               size="large" onChange={onChangeNbr}
-//             />
-//           </Form.Item>
-       
-
-//               <Form.Item >
-//                 <Button variant="outline-primary" type="submit" style={{ width: '100%' }}  >
-//                   Edit Product
-//                 </Button>
-//               </Form.Item>
-
-//             </Form >
-        
-//       </Modal>
-
-
-// </Space>
-// </>
-// );
-// }
-// export default Crud ;
