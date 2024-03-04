@@ -40,6 +40,13 @@ const SidebarData = [
         collapisble: false,
       },
     ],
+  },{ caption: 'Management' },
+  {
+    title: 'Reports',
+    href: '/reports',
+    icon: <Icon.FileText />,
+    id: 2.1,
+    collapisble: false,
   },
   { caption: 'Apps' },
   {
