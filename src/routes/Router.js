@@ -1,8 +1,10 @@
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
+import ShowBooks from '../components/apps/Books Management/pages/BookManagement';
+import ShowBook from '../components/apps/Books Management/pages/ShowBook';
+import CreateBooks from '../components/apps/Books Management/pages/CreateBook';
 /****Layouts*****/
-
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/BlankLayout')));
 /***** Pages ****/
@@ -106,13 +108,21 @@ const ThemeRoutes = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', name: 'Home', element: <Navigate to="/dashboards/minimal" /> },
+      //{ path: '/', name: 'Home', element: <Navigate to="/dashboards/minimal" /> },
+      { path: '/books', name: 'books', exact: true, element: <ShowBooks /> },
+      { path: '/books/getbookbyid/:id', name: 'books', exact: true, element: <ShowBook /> },
+      { path: '/books/create', name: 'books', exact: true, element: <CreateBooks /> },
+
+
+
+
       { path: '/dashboards/minimal', name: 'Minimal', exact: true, element: <Minimal /> },
       { path: '/dashboards/analytical', name: 'Analytical', exact: true, element: <Analytical /> },
       { path: '/dashboards/demographical', name: 'Demographical', exact: true, element: <Demographical /> },
       { path: '/dashboards/modern', name: 'Modern', exact: true, element: <Modern /> },
       { path: '/apps/notes', name: 'notes', exact: true, element: <Notes /> },
       { path: '/apps/chat', name: 'chat', exact: true, element: <Chat /> },
+
       { path: '/apps/contacts', name: 'contacts', exact: true, element: <Contacts /> },
       { path: '/apps/calendar', name: 'calendar', exact: true, element: <Calendar /> },
       { path: '/apps/email', name: 'email', exact: true, element: <Email /> },
