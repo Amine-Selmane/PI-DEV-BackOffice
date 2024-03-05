@@ -20,6 +20,8 @@ import {
   Label,
   Input,
 } from 'reactstrap';
+import converToBase64 from '../../helper/convert';
+
 
 
 import img1 from '../../assets/images/users/user4.jpg';
@@ -28,6 +30,12 @@ import img1 from '../../assets/images/users/user4.jpg';
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('3');
   const [userData, setUserData] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState('');
+
+  const onUpload = async e =>{
+    const base64 = await converToBase64(e.target.files[0]);
+    setUploadedFile(base64);
+  }
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -77,12 +85,25 @@ const Profile = () => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        await axios.put('http://localhost:5000/api/updateuser', userData, {
+        const updateUserData = {
+          profile: uploadedFile || userData.profile || img1,
+          firstName: userData.firstName,
+          lastName: userData.lastName, 
+          username: userData.username, 
+          email: userData.email, 
+          address: userData.address, 
+          mobile: userData.mobile,
+          dateNaiss: userData.dateNaiss
+          
+
+        }
+        await axios.put('http://localhost:5000/api/updateuser', updateUserData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         console.log('Profil utilisateur mis à jour avec succès');
+        window.location.reload();
       }
     } catch (error) {
       console.error('Erreur lors de la mise à jour du profil utilisateur:', error);
@@ -170,6 +191,13 @@ const Profile = () => {
                           <Label>Date of Birth</Label>
                           <Input type="date" name="dateNaiss" value={userData.dateNaiss} onChange={handleInputChange} />
                         </FormGroup>
+                        <FormGroup>
+                        <Label>Profile Picture</Label>
+                        <Input type="file" name="profile" onChange={onUpload} />
+                        {uploadedFile && (
+                          <img src={uploadedFile} alt="Uploaded Profile" className="mt-2" />
+                        )}
+                      </FormGroup>
                           <Button color="primary" type="submit">Update Profile</Button>
                         </Form>
                       </div>

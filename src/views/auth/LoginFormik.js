@@ -27,7 +27,7 @@ const LoginFormik = () => {
       const response = await axios.post('http://localhost:5000/api/login', values); // Assuming your backend API endpoint for login is '/api/login'
       const { token } = response.data;
       localStorage.setItem('token', token); // Store token in local storage or redux store for future requests
-      navigate('/'); // Redirect to home page on successful login
+      navigate('/dashboards/minimal'); // Redirect to home page on successful login
     } catch (error) {
       if (error.response) {
         // Server responded with a status code that falls out of the range of 2xx

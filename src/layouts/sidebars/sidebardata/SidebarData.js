@@ -315,8 +315,8 @@ const SidebarData = [
   },
   { caption: 'Tables' },
   {
-    title: 'Basic Table',
-    href: '/tables/basic-table',
+    title: 'User Table',
+    href: '/tables/user-table',
     icon: <Icon.Codepen />,
     id: 4.1,
     collapisble: false,

@@ -1,25 +1,35 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Navigate } from 'react-router-dom';
+//import useAuthStore from '../store/storeUser';
 
+// Protéger l'accès à /profile si l'utilisateur n'est pas connecté
+const AuthorizeUser = ({ children }) => {
+  const token = localStorage.getItem('token');
 
-import { Navigate } from "react-router-dom";
-import { useAuthStore } from "../store/store";
+  if (!token) {
+    return <Navigate to='/' replace />;
+  }
 
-///proteger l'acces pour  /profile si user n'est pas connecté !
-export const AuthorizeUser = ({children}) =>{
-    const token = localStorage.getItem('token');
+  return <>{children}</>; // Utiliser des fragments pour englober children
+};
 
-    if(!token){
-        return <Navigate to={'/'} replace={true}></Navigate>
-    }
+AuthorizeUser.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
-    return children;
-}
+// // Ne peut accéder à /password que s'il a entré le nom d'utilisateur
+// export const ProtectRoute = ({ children }) => {
+//   const username = useAuthStore.getState().auth.username;
 
+//   if (!username) {
+//     return <Navigate to={'/'} replace={true} />;
+//   }
 
-//// ne peut acceder à /password ssi il a fait input du username
-export const ProtectRoute = ({children}) =>{
-    const username = useAuthStore.getState().auth.username;
-    if(!username){
-        return <Navigate to={'/'} replace={true}></Navigate>
-    }
-    return children;
-}
+//   return <>{children}</>; // Utiliser des fragments pour englober children
+// };
+
+// ProtectRoute.propTypes = {
+//   children: PropTypes.node.isRequired,
+// };
+export default AuthorizeUser;

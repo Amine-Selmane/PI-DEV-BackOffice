@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardTitle } from 'reactstrap';
-import ProjectTables from '../extraDashboard/ProjectTable';
+import ProjectTables from '../extraDashboard/UserTable';
 
 const OrderStatus = () => {
   return (
