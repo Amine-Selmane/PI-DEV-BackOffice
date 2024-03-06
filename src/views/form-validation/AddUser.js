@@ -44,10 +44,11 @@ const FormValidate = () => {
       console.error('Error:', error);
       // Optionally, you can handle error response here, like showing an error message
     });
-    
+    navigate('/tables/user-table');
     setUser(data);
-    navigate('/tables/basic-table');
   };
+
+  
   
   return (
     <>
@@ -188,8 +189,9 @@ const FormValidate = () => {
                     {...register('role', { required: true })}
                   >
                     <option value="">Select Option</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Teacher">Teacher</option>
+                    <option value="admin">Admin</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="student">Student</option>
                   </select>
                 </div>
                 <span className="text-danger">{errors.role && 'Please select value.'}</span>

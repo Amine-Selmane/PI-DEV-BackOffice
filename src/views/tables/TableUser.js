@@ -11,10 +11,10 @@ const BasicTable = () => {
       {/* Start Inner Div*/}
       {/*--------------------------------------------------------------------------------*/}
       <ComponentCard
-        title="Project Listing"
+        title="Users List"
         subtitle={
           <p>
-            Overview of the projects
+            Overview of users
           </p>
         }
       >

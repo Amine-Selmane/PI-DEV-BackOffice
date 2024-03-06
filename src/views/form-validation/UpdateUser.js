@@ -43,7 +43,7 @@ const FormValidate = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedUser)
     }).then(() => {
-      navigate('/tables/basic-table');
+      navigate('/tables/user-table');
       console.log("User updated");
     }).catch(error => {
       console.error('Error updating User:', error);

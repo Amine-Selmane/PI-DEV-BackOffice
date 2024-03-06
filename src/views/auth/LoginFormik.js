@@ -1,39 +1,51 @@
-import React from 'react';
+import React , { useState }from 'react';
 import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody, Input } from 'reactstrap';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import Axios for making HTTP requests
+import toast, { Toaster } from 'react-hot-toast';
+
 import AuthLogo from "../../layouts/logo/AuthLogo";
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
 
+
+
+
 const LoginFormik = () => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+
   const navigate = useNavigate();
 
   const initialValues = {
-    username: '', // Change email to username to match backend
+    username: '',
     password: '',
   };
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'), // Change email to username
-    password: Yup.string()
-      .required('Password is required'),
+    username: Yup.string().required('Username is required'),
+    password: Yup.string().required('Password is required'),
   });
 
   const handleLogin = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/login', values); // Assuming your backend API endpoint for login is '/api/login'
-      const { token } = response.data;
-      localStorage.setItem('token', token); // Store token in local storage or redux store for future requests
-      navigate('/dashboards/minimal'); // Redirect to home page on successful login
+      const response = await axios.post('http://localhost:5000/api/login', values);
+      const { token, role } = response.data;
+      if (role === 'admin') {
+        localStorage.setItem('token', token);
+        navigate('/dashboards/minimal');
+      } else {
+        toast.error('Unauthorized login only admin');
+      }
     } catch (error) {
       if (error.response) {
-        // Server responded with a status code that falls out of the range of 2xx
-        setErrors({ password: 'Invalid username or password' }); // Set error message for password field
+        setErrors({ password: 'Invalid username or password' });
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error('Error:', error.message);
       }
     }
@@ -88,7 +100,7 @@ const LoginFormik = () => {
                       </FormGroup>
                       <FormGroup className="form-check d-flex" inline>
                         <Label check>
-                          <Input type="checkbox" />
+                          <Input type="checkbox"checked={isChecked} onChange={handleCheckboxChange}/>
                           Remember me
                         </Label>
                         <Link className="ms-auto text-decoration-none" to="/auth/recoverpwd">
@@ -108,6 +120,7 @@ const LoginFormik = () => {
           </Col>
         </Row>
       </Container>
+      <Toaster position='top-center' reverseOrder={false} />
     </div>
   );
 };

@@ -28,12 +28,17 @@ const LockScreen = () => {
 
   const initialValues = {
     password: '',
+    confirmPassword: '',
+
   };
 
   const validationSchema = Yup.object().shape({
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
       .required('Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .required('Confirm Password is required'),
   });
 
   const handlePasswordReset = async (values) => {
@@ -97,6 +102,23 @@ const LockScreen = () => {
                           className="invalid-feedback"
                         />
                       </FormGroup>
+                      <FormGroup>
+                          <Label htmlFor="confirmPassword">Confirm Password</Label>
+                          <Field
+                            name="confirmPassword"
+                            type="password"
+                            className={`form-control ${
+                              errors.confirmPassword && touched.confirmPassword
+                                ? ' is-invalid'
+                                : ''
+                            }`}
+                          />
+                          <ErrorMessage
+                            name="confirmPassword"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
                       <FormGroup>
                         <Button type="submit" color="info" block className="me-2">
                           Reset Password

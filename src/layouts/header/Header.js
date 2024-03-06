@@ -7,13 +7,11 @@ import SimpleBar from 'simplebar-react';
 import {
   Navbar,
   Nav,
-  NavItem,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   Button,
-  Input,
 } from 'reactstrap';
 import { MessageSquare } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
@@ -94,15 +92,7 @@ const Header = () => {
 
       <Nav className="me-auto d-none d-lg-flex" navbar>
 
-        <NavItem className="app-search ps-3">
-          <Input
-            id="txt-srch"
-            name="search"
-            placeholder="Search & Enter"
-            className="rounded-pill"
-            type="text"
-          />
-        </NavItem>
+        
       </Nav>
 
       <div className="d-flex align-items-center">
