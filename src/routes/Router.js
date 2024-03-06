@@ -1,9 +1,10 @@
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
-import ShowBooks from '../components/apps/Books Management/pages/BookManagement';
 import ShowBook from '../components/apps/Books Management/pages/ShowBook';
+import BookManagement from '../components/apps/Books Management/pages/BookManagement';
 import CreateBooks from '../components/apps/Books Management/pages/CreateBook';
+import UpdateBook from '../components/apps/Books Management/pages/updateBook';
 /****Layouts*****/
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/BlankLayout')));
@@ -109,9 +110,11 @@ const ThemeRoutes = [
     element: <FullLayout />,
     children: [
       //{ path: '/', name: 'Home', element: <Navigate to="/dashboards/minimal" /> },
-      { path: '/books', name: 'books', exact: true, element: <ShowBooks /> },
+      { path: '/books', name: 'books', exact: true, element: <BookManagement /> },
       { path: '/books/getbookbyid/:id', name: 'books', exact: true, element: <ShowBook /> },
       { path: '/books/create', name: 'books', exact: true, element: <CreateBooks /> },
+      { path: '/books/update/:id', name: 'books', exact: true, element: <UpdateBook /> },
+
 
 
 

@@ -1,49 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Form, Input, Table, Popconfirm, Typography, message, Button } from 'antd';
-import { EditOutlined, DeleteOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons'; // Import icons
-import { UploadOutlined } from '@ant-design/icons';
-import { useSnackbar } from 'notistack'; // Import useSnackbar hook
+import { Form, Input, Table, Popconfirm, message, Button } from 'antd';
+import { EditOutlined, DeleteOutlined, SaveOutlined, CloseOutlined, SearchOutlined } from '@ant-design/icons';
 
 const baseURL = 'http://localhost:5000';
-
-const EditableCell = ({
-  editing,
-  dataIndex,
-  title,
-  inputType,
-  record,
-  index,
-  children,
-  ...restProps
-}) => {
-  const inputNode =
-    inputType === 'number' ? <Input type="number" /> : <Input />;
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{ margin: 0 }}
-          rules={[{ required: true, message: `Please input ${title}!` }]}
-          initialValue={record[dataIndex]}
-        >
-          {inputNode}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
 
 const BookManagement = () => {
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState('');
   const [form] = Form.useForm();
-  const { enqueueSnackbar } = useSnackbar(); // Initialize useSnackbar hook
-  const history = useHistory(); // Initialize useHistory hook
+  const [searchTitle, setSearchTitle] = useState('');
 
   const fetchBooks = async () => {
     try {
@@ -72,10 +39,55 @@ const BookManagement = () => {
   const handleDeleteBook = async (id) => {
     try {
       await axios.delete(`${baseURL}/books/deletebook/${id}`);
-      setData(data.filter(report => book.id !== id));
+      setData(data.filter(book => book._id !== id));
       message.success('Book deleted successfully!');
     } catch (error) {
       console.error('Error deleting book:', error);
+    }
+  };
+  
+  const save = async (id) => {
+    try {
+      const row = await form.validateFields();
+      const newData = [...data];
+      const index = newData.findIndex((item) => id === item.id);
+  
+      if (index > -1) {
+        const item = newData[index];
+        newData.splice(index, 1, { ...item, ...row });
+        setData(newData);
+        setEditingKey('');
+        await axios.put(`${baseURL}/books/update/${id}`, row);
+        message.success('Book updated successfully!');
+      } else {
+        newData.push(row);
+        setData(newData);
+        setEditingKey('');
+        message.success('Book updated successfully!');
+      }
+    } catch (error) {
+      console.error('Error saving book:', error);
+      message.error('Failed to update book!');
+    }
+  };
+  
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/books/search`, {
+        params: { title: searchTitle }
+      });
+      setData(response.data.data);
+    } catch (error) {
+      console.error('Error searching books:', error);
+    }
+  };
+
+  const handleReset = async () => {
+    try {
+      await fetchBooks(); // Reset the list by fetching all books
+      setSearchTitle(''); // Clear the search title
+    } catch (error) {
+      console.error('Error resetting list:', error);
     }
   };
 
@@ -110,27 +122,26 @@ const BookManagement = () => {
               Save
             </Button>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <Button icon={<CloseOutlined />} style={{ backgroundColor: 'red', color: 'white' }} />
+              <Button icon={<CloseOutlined />} style={{ backgroundColor: '#F62217', color: 'white' }} />
             </Popconfirm>
           </span>
         ) : (
-          <>
-            <Button
-              icon={<EditOutlined />}
-              disabled={editingKey !== ''}
-              onClick={() => edit(record)}
-              style={{ marginRight: 8, backgroundColor: 'blue', color: 'white' }}
-            >
-              
-            </Button>
+          <span>
+            <Link to={`/books/update/${record._id}`}>
+              <Button
+                icon={<EditOutlined />}
+                style={{ marginRight: 8, backgroundColor: '#1E90FF', color: 'white' }}
+              >
+                
+              </Button>
+            </Link>
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => handleDeleteBook(record.id)} // Call handleDeleteBook function with id parameter
-            //  disabled={editingKey !== ''}
+              onConfirm={() => handleDeleteBook(record._id)}
             >
               <Button icon={<DeleteOutlined />} type="danger" style={{ backgroundColor: 'red', color: 'white' }} />
             </Popconfirm>
-          </>
+          </span>
         );
       },
     },
@@ -138,18 +149,23 @@ const BookManagement = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: 16, textAlign: 'right' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
         <Link to="/books/create">
           <Button type="primary">New</Button>
         </Link>
+        <div>
+          <Input
+            placeholder="Search by title"
+            style={{ width: 200, marginRight: 8 }}
+            value={searchTitle}
+            onChange={(e) => setSearchTitle(e.target.value)}
+          />
+          <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>Search</Button>
+          <Button onClick={handleReset}>Reset</Button> {/* Add a reset button */}
+        </div>
       </div>
       <Form form={form} component={false}>
         <Table
-          components={{
-            body: {
-              cell: EditableCell,
-            },
-          }}
           bordered
           dataSource={data}
           columns={columns}

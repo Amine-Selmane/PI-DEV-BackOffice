@@ -17,7 +17,7 @@ import { ToggleMobileSidebar } from '../../../store/customizer/CustomizerSlice';
 import NavItemContainer from './NavItemContainer';
 import NavSubMenu from './NavSubMenu';
 
-import user1 from '../../../assets/images/users/user4.jpg';
+import user1 from '../../../assets/images/users/user6.jpg';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -50,7 +50,7 @@ const Sidebar = () => {
           <img src={user1} alt="John Deo" width={60} className="rounded-circle mb-2" />
           <UncontrolledDropdown>
             <DropdownToggle caret className="bg-transparent border-0">
-              John Deo
+              Soulaima Ftouhi
             </DropdownToggle>
             <DropdownMenu className='w-100 border'>
               <DropdownItem className="px-4 py-3">

@@ -44,11 +44,17 @@ const ShowBook = () => {
             <span>{book.description}</span>
           </div>
           <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'> Price:</span>
+            <span className='text-xl mr-4 text-gray-500'>Price:</span>
             <span>{book.price}</span>
           </div>
-         
-          
+          {book.file && (
+            <div className='my-4'>
+              <span className='text-xl mr-4 text-gray-500'>File:</span>
+              <a href={book.file} target='_blank' rel='noopener noreferrer'>
+                View File
+              </a>
+            </div>
+          )}
         </div>
       )}
     </div>

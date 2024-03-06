@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Upload, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, ArrowLeftOutlined } from '@ant-design/icons'; // Import the ArrowLeftOutlined icon
 import { Link } from 'react-router-dom';
-
 import axios from 'axios';
 
 const CreateBook = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
+  const [formFilled, setFormFilled] = useState(false);
 
   const onFinish = async (values) => {
     try {
@@ -22,9 +22,11 @@ const CreateBook = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
+
       message.success('Book added successfully!');
       form.resetFields();
       setFileList([]); // Reset file list after successful submission
+      setFormFilled(false); // Reset formFilled state
     } catch (error) {
       console.error('Error adding book:', error);
       message.error('Failed to add book');
@@ -33,6 +35,13 @@ const CreateBook = () => {
 
   const onFileChange = ({ fileList }) => {
     setFileList(fileList);
+    setFormFilled(true); // Set formFilled to true when file is uploaded
+  };
+
+  // Function to check if any form field is filled
+  const isFormEmpty = () => {
+    const fields = form.getFieldsValue();
+    return Object.values(fields).every(value => value === undefined || value === '');
   };
 
   return (
@@ -56,12 +65,14 @@ const CreateBook = () => {
         </Upload>
       </Form.Item>
       <Form.Item>
-      <Link to="/books">
-
         <Button type="primary" htmlType="submit">
           Add Book
         </Button>
-</Link>
+        {isFormEmpty() && ( // Render Cancel button only if form is not empty
+          <Link to="/books">
+            <Button type="default" icon={<ArrowLeftOutlined />}>Cancel</Button> {/* Use ArrowLeftOutlined icon */}
+          </Link>
+        )}
       </Form.Item>
     </Form>
   );
