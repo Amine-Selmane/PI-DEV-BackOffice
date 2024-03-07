@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Form, Input, Table, Popconfirm, message, Button } from 'antd';
-import { EditOutlined, DeleteOutlined, SaveOutlined, CloseOutlined, SearchOutlined } from '@ant-design/icons';
+import { Form, Input, Table, Popconfirm, message, Button, Modal } from 'antd';
+import { EditOutlined, DeleteOutlined, SaveOutlined, CloseOutlined, EyeOutlined,SearchOutlined } from '@ant-design/icons';
+import { BsInfoCircle } from 'react-icons/bs';
 
 const baseURL = 'http://localhost:5000';
 
@@ -11,6 +12,9 @@ const BookManagement = () => {
   const [editingKey, setEditingKey] = useState('');
   const [form] = Form.useForm();
   const [searchTitle, setSearchTitle] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [selectedBook, setSelectedBook] = useState(null); // Add state for selected book
+  const [modalVisible, setModalVisible] = useState(false); // Add state for modal visibility
 
   const fetchBooks = async () => {
     try {
@@ -23,7 +27,7 @@ const BookManagement = () => {
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [sortOrder]);
 
   const isEditing = (record) => record.id === editingKey;
 
@@ -45,32 +49,17 @@ const BookManagement = () => {
       console.error('Error deleting book:', error);
     }
   };
-  
-  const save = async (id) => {
-    try {
-      const row = await form.validateFields();
-      const newData = [...data];
-      const index = newData.findIndex((item) => id === item.id);
-  
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, { ...item, ...row });
-        setData(newData);
-        setEditingKey('');
-        await axios.put(`${baseURL}/books/update/${id}`, row);
-        message.success('Book updated successfully!');
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey('');
-        message.success('Book updated successfully!');
-      }
-    } catch (error) {
-      console.error('Error saving book:', error);
-      message.error('Failed to update book!');
-    }
+
+  const handleViewDetails = (record) => {
+    setSelectedBook(record); // Set selected book
+    setModalVisible(true); // Show modal
   };
-  
+
+  const handleCloseModal = () => {
+    setSelectedBook(null); // Clear selected book
+    setModalVisible(false); // Hide modal
+  };
+
   const handleSearch = async () => {
     try {
       const response = await axios.get(`${baseURL}/books/search`, {
@@ -80,6 +69,11 @@ const BookManagement = () => {
     } catch (error) {
       console.error('Error searching books:', error);
     }
+  };
+
+  const handleSort = () => {
+    const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc'; // Inverser l'ordre de tri actuel
+    setSortOrder(newSortOrder);
   };
 
   const handleReset = async () => {
@@ -112,34 +106,24 @@ const BookManagement = () => {
       dataIndex: 'action',
       render: (_, record) => {
         const editable = isEditing(record);
-        return editable ? (
-          <span>
-            <Button
-              icon={<SaveOutlined />}
-              onClick={() => save(record.id)}
-              style={{ marginRight: 8, backgroundColor: 'blue', color: 'white' }}
-            >
-              Save
-            </Button>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <Button icon={<CloseOutlined />} style={{ backgroundColor: '#F62217', color: 'white' }} />
-            </Popconfirm>
-          </span>
-        ) : (
+        return (
           <span>
             <Link to={`/books/update/${record._id}`}>
               <Button
                 icon={<EditOutlined />}
-                style={{ marginRight: 8, backgroundColor: '#1E90FF', color: 'white' }}
-              >
-                
-              </Button>
+                style={{ marginRight: 8, backgroundColor: '#1E90FF', color: 'white', width: 40 }}
+              />
             </Link>
+            <Button
+              icon={<EyeOutlined />}
+              style={{ marginRight: 8, width: 40 }}
+              onClick={() => handleViewDetails(record)} // Add click handler for details
+            />
             <Popconfirm
               title="Sure to delete?"
               onConfirm={() => handleDeleteBook(record._id)}
             >
-              <Button icon={<DeleteOutlined />} type="danger" style={{ backgroundColor: 'red', color: 'white' }} />
+              <Button icon={<DeleteOutlined />} type="danger" style={{ backgroundColor: 'red', color: 'white', width: 40 }} />
             </Popconfirm>
           </span>
         );
@@ -164,6 +148,11 @@ const BookManagement = () => {
           <Button onClick={handleReset}>Reset</Button> {/* Add a reset button */}
         </div>
       </div>
+      <div style={{ marginBottom: 16, textAlign: 'right' }}>
+        <Button type="primary" onClick={handleSort}>
+          {`Sort by Price `}
+        </Button>
+      </div>
       <Form form={form} component={false}>
         <Table
           bordered
@@ -172,6 +161,23 @@ const BookManagement = () => {
           rowClassName="editable-row"
         />
       </Form>
+
+      {/* Modal to display book details */}
+      <Modal
+        title="Book Details"
+        visible={modalVisible}
+        onCancel={handleCloseModal}
+        footer={null}
+      >
+        {selectedBook && (
+          <div>
+            <p>Title: {selectedBook.title}</p>
+            <p>Description: {selectedBook.description}</p>
+            <p>Price: {selectedBook.price}</p>
+            {/* Additional book details */}
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

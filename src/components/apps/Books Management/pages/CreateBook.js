@@ -21,9 +21,12 @@ const CreateBook = () => {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
+
       });
 
       message.success('Book added successfully!');
+     window.location.href='/books';
+        navigate('/books');
       form.resetFields();
       setFileList([]); // Reset file list after successful submission
       setFormFilled(false); // Reset formFilled state
@@ -70,7 +73,7 @@ const CreateBook = () => {
         </Button>
         {isFormEmpty() && ( // Render Cancel button only if form is not empty
           <Link to="/books">
-            <Button type="default" icon={<ArrowLeftOutlined />}>Cancel</Button> {/* Use ArrowLeftOutlined icon */}
+            <Button type="default" icon={<ArrowLeftOutlined />}>back</Button> {/* Use ArrowLeftOutlined icon */}
           </Link>
         )}
       </Form.Item>

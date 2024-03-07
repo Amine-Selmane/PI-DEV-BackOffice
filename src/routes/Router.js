@@ -5,6 +5,10 @@ import ShowBook from '../components/apps/Books Management/pages/ShowBook';
 import BookManagement from '../components/apps/Books Management/pages/BookManagement';
 import CreateBooks from '../components/apps/Books Management/pages/CreateBook';
 import UpdateBook from '../components/apps/Books Management/pages/updateBook';
+import OrderManagement from '../components/apps/Orders/OrderManagement';
+import CreateOrder from '../components/apps/Orders/CreateOrder';
+import UpdateOrder from '../components/apps/Orders/UpdateOrder';
+
 /****Layouts*****/
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/BlankLayout')));
@@ -21,8 +25,8 @@ const Chat = Loadable(lazy(() => import('../views/apps/chat/Chat')));
 const Contacts = Loadable(lazy(() => import('../views/apps/contacts/Contacts')));
 const Calendar = Loadable(lazy(() => import('../views/apps/calendar/CalendarApp')));
 const Email = Loadable(lazy(() => import('../views/apps/email/Email')));
-const Shop = Loadable(lazy(() => import('../views/apps/ecommerce/Shop')));
-const ShopDetail = Loadable(lazy(() => import('../views/apps/ecommerce/ShopDetail')));
+const Shop = Loadable(lazy(() => import('../views/apps/Orders/Shop')));
+const ShopDetail = Loadable(lazy(() => import('../views/apps/Orders/ShopDetail')));
 const Treeview = Loadable(lazy(() => import('../views/apps/treeview/TreeView')));
 const TicketList = Loadable(lazy(() => import('../views/apps/ticket/TicketList')));
 const TicketDetail = Loadable(lazy(() => import('../views/apps/ticket/TicketDetail')));
@@ -109,12 +113,16 @@ const ThemeRoutes = [
     path: '/',
     element: <FullLayout />,
     children: [
-      //{ path: '/', name: 'Home', element: <Navigate to="/dashboards/minimal" /> },
+      { path: '/', name: 'Home', element: <Navigate to="/dashboards/minimal" /> },
       { path: '/books', name: 'books', exact: true, element: <BookManagement /> },
-      { path: '/books/getbookbyid/:id', name: 'books', exact: true, element: <ShowBook /> },
+      { path: '/books/details/:id', name: 'books', exact: true, element: <ShowBook /> },
       { path: '/books/create', name: 'books', exact: true, element: <CreateBooks /> },
       { path: '/books/update/:id', name: 'books', exact: true, element: <UpdateBook /> },
+///orders
 
+      { path: '/orders', name: 'orders', exact: true, element: < OrderManagement/> },
+      { path: '/orders/create', name: 'books', exact: true, element: <CreateOrder /> },
+      { path: '/orders/updateOrder/:id', name: 'books', exact: true, element: <UpdateOrder /> },
 
 
 

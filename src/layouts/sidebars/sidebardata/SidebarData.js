@@ -10,6 +10,13 @@ const SidebarData = [
       id: 1.2,
       collapsible: false, // Corrected spelling from 'collapisble' to 'collapsible'
     },
+    {
+      title: 'Orders',
+      href: '/orders',
+      icon: <Icon.ShoppingCart />,
+      id: 1.2,
+      collapsible: false, // Corrected spelling from 'collapisble' to 'collapsible'
+    },
   
   
   {
