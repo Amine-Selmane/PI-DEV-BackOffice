@@ -52,9 +52,9 @@
 //     "no-nested-ternary": "off",
 //     "react/react-in-jsx-scope": "off",
 //     "react/destructuring-assignment": "off",
-//     "react/prop-types":0
-//   // "import/no-named-as-default": 0
-//     //"eslint-plugin-import/no-named-as-default-member": 0
+//     "react/prop-types":0,
+//    "import/no-named-as-default": 0,
+//    "eslint-plugin-import/no-named-as-default-member": 0
 
 
 
