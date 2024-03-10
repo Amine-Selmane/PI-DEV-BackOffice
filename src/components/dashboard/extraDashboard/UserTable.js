@@ -76,8 +76,19 @@ const ProjectTables = () => {
   };
 
   const handleDelete = async (userId) => {
-    // Implement your delete logic here
     console.log(`Deleting user with ID: ${userId}`);
+    try {
+      await fetch(`http://localhost:5000/api/deleteuser/${userId}`, {
+        method: 'DELETE'
+      });
+
+      // Remove the deleted disponibilite from the state
+      setUsers(prevDispo => prevDispo.filter(Users => Users.userId !== userId));
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+
   };
 
   return (

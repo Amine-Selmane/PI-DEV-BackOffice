@@ -66,10 +66,14 @@ const TagSelect = Loadable(lazy(() => import('../views/form-pickers/TagSelect'))
 /***** Form Validation Pages ****/
 const AddUser = Loadable(lazy(() => import('../views/form-validation/AddUser')));
 const UpdateUser = Loadable(lazy(() => import('../views/form-validation/UpdateUser')));
+const AddDispo = Loadable(lazy(() => import('../views/form-validation/AddDispo')));
+const UpdateDispo = Loadable(lazy(() => import('../views/form-validation/UpdateDispo')));
 const FormSteps = Loadable(lazy(() => import('../views/form-steps/Steps')));
 const FormEditor = Loadable(lazy(() => import('../views/form-editor/FormEditor')));
 /***** Table Pages ****/
 const Usertable = Loadable(lazy(() => import('../views/tables/TableUser')));
+
+const Dispotable = Loadable(lazy(() => import('../views/tables/TableDispo')));
 const CustomReactTable = Loadable(lazy(() => import('../views/tables/CustomReactTable')));
 const ReactBootstrapTable = Loadable(lazy(() => import('../views/tables/ReactBootstrapTable')));
 
@@ -167,10 +171,14 @@ const ThemeRoutes = [
       { path: '/form-pickers/tag-select', name: 'tag-select', exact: true, element: <TagSelect /> },
       { path: '/addUser', name: 'form-validation', exact: true, element:<AuthorizeUser> <AddUser /> </AuthorizeUser>},
       { path: '/user-update/:UserId', name: 'user-update', exact: true, element:<AuthorizeUser> <UpdateUser /></AuthorizeUser> },
+      { path: '/addDisponibilite', name: 'addDisponibilite', exact: true, element:<AuthorizeUser> <AddDispo /> </AuthorizeUser>},
+      { path: '/disponibilite-update/:id', name: 'Disponibilite-update', exact: true, element:<AuthorizeUser> <UpdateDispo /></AuthorizeUser> },
       { path: '/form-steps', name: 'form-steps', exact: true, element: <FormSteps /> },
       { path: '/form-editor', name: 'form-editor', exact: true, element: <FormEditor /> },
 
       { path: '/tables/user-table', name: 'user-table', exact: true, element:<AuthorizeUser> <Usertable /> </AuthorizeUser>},
+
+      { path: '/tables/disponibilite-table', name: 'disponibilite-table', exact: true, element:<AuthorizeUser> <Dispotable /> </AuthorizeUser>},
       {
         path: '/tables/react-table',
         name: 'react-table',
