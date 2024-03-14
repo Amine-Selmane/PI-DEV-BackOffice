@@ -17,6 +17,7 @@ const CreateBook = () => {
       formData.append('price', values.price);
       formData.append('file', fileList[0]?.originFileObj); // Get the uploaded file object
 
+
       await axios.post('http://localhost:5000/books/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'

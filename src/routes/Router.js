@@ -127,6 +127,7 @@ const ThemeRoutes = [
 
 
 
+
       { path: '/dashboards/minimal', name: 'Minimal', exact: true, element: <Minimal /> },
       { path: '/dashboards/analytical', name: 'Analytical', exact: true, element: <Analytical /> },
       { path: '/dashboards/demographical', name: 'Demographical', exact: true, element: <Demographical /> },
