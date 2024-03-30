@@ -48,6 +48,20 @@ const SidebarData = [
     id: 2.1,
     collapisble: false,
   },
+  {
+    title: 'Quiz',
+    href: '/quiz',
+    icon: <Icon.FileText />,
+    id: 2.1,
+    collapisble: false,
+  },
+  {
+    title: 'Question',
+    href: '/questions',
+    icon: <Icon.FileText />,
+    id: 2.1,
+    collapisble: false,
+  },
   { caption: 'Apps' },
   {
     title: 'Notes',

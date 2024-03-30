@@ -10,20 +10,20 @@ const UpdateReport = () => {
     teacherName: '',
     studentName: '',
     courseName: '',
-    mark: '',
-    markquiz: ''
+    mark: ''
+  //  markquiz: ''
   });
 
   useEffect(() => {
     axios.get(`http://localhost:5000/reports/getbyid/${id}`)
       .then(response => {
-        const { teacher, student, course, mark, markquiz } = response.data.report;
+        const { teacher, student, course, mark } = response.data.report;
         setFormData({
           teacherName: `${teacher.firstName} ${teacher.lastName}`,
           studentName: `${student.firstName} ${student.lastName}`,
           courseName: course.name,
-          mark,
-          markquiz
+          mark
+         // markquiz
         });
       })
       .catch(error => console.error('Error fetching report:', error));
@@ -100,7 +100,7 @@ const UpdateReport = () => {
                   placeholder="Enter Mark"
                 />
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <Label htmlFor="markquiz">MarkQuiz</Label>
                 <Input
                   type="number"
@@ -110,7 +110,7 @@ const UpdateReport = () => {
                   onChange={handleChange}
                   placeholder="Enter MarkQuiz"
                 />
-              </FormGroup>
+              </FormGroup> */}
               <Button color="primary" type="submit">Update Report</Button>
             </Form>
           </ComponentCard>
