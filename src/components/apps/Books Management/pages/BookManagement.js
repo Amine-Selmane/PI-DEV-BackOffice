@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Form, Input, Table, Popconfirm, message, Button, Modal } from 'antd';
-import { EditOutlined, DeleteOutlined, SaveOutlined, CloseOutlined, EyeOutlined,SearchOutlined } from '@ant-design/icons';
-import { BsInfoCircle } from 'react-icons/bs';
+import { EditOutlined, DeleteOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
 
 const baseURL = 'http://localhost:5000';
 
@@ -97,9 +96,10 @@ const BookManagement = () => {
       width: '25%',
     },
     {
-      title: 'Price',
+      title: 'Price ', // Change the title to "Price (TND)"
       dataIndex: 'price',
       width: '15%',
+      render: (text) => `$${text}`, // Render price with a dollar sign
     },
     {
       title: 'Operations',

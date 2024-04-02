@@ -57,8 +57,13 @@ const CreateBook = () => {
         <Input.TextArea placeholder="Enter description" />
       </Form.Item>
       <Form.Item name="price" label="Price" rules={[{ required: true, message: 'Please enter price' }]}>
-        <Input type="number" placeholder="Enter price" />
-      </Form.Item>
+  <Input
+    type="number"
+    placeholder="Enter price (e.g., $)"
+    addonBefore="$"
+  />
+</Form.Item>
+
       <Form.Item name="file" label="File" rules={[{ required: true, message: 'Please upload file' }]}>
         <Upload
           fileList={fileList}

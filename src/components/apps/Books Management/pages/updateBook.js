@@ -73,13 +73,13 @@ const EditBook = () => {
         >
           <Input.TextArea placeholder="Enter description" />
         </Form.Item>
-        <Form.Item
-          name="price"
-          label="Price"
-          rules={[{ required: true, message: 'Please enter price' }]}
-        >
-          <Input type="number" placeholder="Enter price" />
-        </Form.Item>
+        <Form.Item name="price" label="Price" rules={[{ required: true, message: 'Please enter price' }]}>
+  <Input
+    type="number"
+    placeholder="Enter price (e.g., $)"
+    addonBefore="$"
+  />
+</Form.Item>
         <Form.Item
           name="file"
           label="File"

@@ -45,7 +45,7 @@ const ShowBook = () => {
           </div>
           <div className='my-4'>
             <span className='text-xl mr-4 text-gray-500'>Price:</span>
-            <span>{book.price}</span>
+            <span>${book.price}</span>
           </div>
           {book.file && (
             <div className='my-4'>

@@ -25,7 +25,17 @@ const CreateOrder = () => {
 
   const onFinish = async (values) => {
     try {
-      await axios.post('http://localhost:5000/orders/create', values);
+      const orderData = {
+        customerId: values.customerId,
+        items: values.items.map(item => ({ itemId: item, quantity: 1 })), // Map selected book IDs to item objects
+        subtotal: 0, // Assuming subtotal needs to be calculated on the server
+        total: parseFloat(values.totalPrice), // Parse total price as a number
+       // shipping: {}, // Assuming shipping information needs to be handled separately
+        delivery_status: 'pending', // Assuming default delivery status is 'pending'
+        payment_status: 'pending' // Assuming default payment status is 'pending'
+      };
+
+      await axios.post('http://localhost:5000/orders/create', orderData);
 
       message.success('Order added successfully!');
       form.resetFields();
@@ -47,17 +57,28 @@ const CreateOrder = () => {
           ))}
         </Select>
       </Form.Item>
-      <Form.Item name="status" label="Status">
+      <Form.Item name="subtotal" label="subtotal " rules={[{ required: true, message: 'Please enter subtotal price' }]}>
+        <Input type="number" placeholder="Enter subtotal price" />
+      </Form.Item>
+      <Form.Item name="total" label="total " rules={[{ required: true, message: 'Please enter total price' }]}>
+        <Input type="number" placeholder="Enter total price" />
+      </Form.Item>
+      <Form.Item name="delivery_status" label="delivery_status">
         <Select>
           <Option value="pending">Pending</Option>
           <Option value="processing">Processing</Option>
           <Option value="completed">Completed</Option>
         </Select>
       </Form.Item>
-      <Form.Item name="totalPrice" label="Total Price" rules={[{ required: true, message: 'Please enter total price' }]}>
-        <Input type="number" placeholder="Enter total price" />
+      <Form.Item name="
+payment_status" label="
+payment_status">
+        <Select>
+          <Option value="paid">paid</Option>
+        </Select>
       </Form.Item>
       <Form.Item>
+
         <Button type="primary" htmlType="submit">
           Add Order
         </Button>

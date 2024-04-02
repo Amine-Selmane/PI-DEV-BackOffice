@@ -19,7 +19,7 @@ const UpdateOrder = () => {
 
   const fetchOrder = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/orders/${id}`);
+      const response = await axios.get(`http://localhost:5000/orders/getorderbyid/${id}`);
       setOrder(response.data);
       form.setFieldsValue(response.data);
     } catch (error) {
@@ -38,7 +38,15 @@ const UpdateOrder = () => {
 
   const onFinish = async (values) => {
     try {
-      await axios.put(`http://localhost:5000/orders/updateOrder/${id}`, values);
+      await axios.put(`http://localhost:5000/orders/updateOrder/${id}`, {
+        customerId: values.customerId,
+        items: values.items.map(item => ({ itemId: item, quantity: 1 })), // Map selected book IDs to item objects
+        subtotal: order.subtotal, // Assuming subtotal remains unchanged
+        total: order.total, // Assuming total remains unchanged
+        shipping: order.shipping, // Assuming shipping remains unchanged
+        delivery_status: values.status, // Update delivery status based on form value
+        payment_status: order.payment_status // Assuming payment status remains unchanged
+      });
       message.success('Order updated successfully!');
     } catch (error) {
       console.error('Error updating order:', error);
@@ -81,4 +89,3 @@ const UpdateOrder = () => {
 };
 
 export default UpdateOrder;
-``
