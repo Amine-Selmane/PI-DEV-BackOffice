@@ -20,11 +20,9 @@ const Demographical = Loadable(lazy(() => import('../views/dashboards/Demographi
 const Modern = Loadable(lazy(() => import('../views/dashboards/Modern')));
 
 /***** Apps ****/
-const Notes = Loadable(lazy(() => import('../views/apps/notes/Notes')));
 const Chat = Loadable(lazy(() => import('../views/apps/chat/Chat')));
 const Contacts = Loadable(lazy(() => import('../views/apps/contacts/Contacts')));
 const Calendar = Loadable(lazy(() => import('../views/apps/calendar/CalendarApp')));
-const Email = Loadable(lazy(() => import('../views/apps/email/Email')));
 const Shop = Loadable(lazy(() => import('../views/apps/Orders/Shop')));
 const ShopDetail = Loadable(lazy(() => import('../views/apps/Orders/ShopDetail')));
 const Treeview = Loadable(lazy(() => import('../views/apps/treeview/TreeView')));
@@ -132,13 +130,10 @@ const ThemeRoutes = [
       { path: '/dashboards/analytical', name: 'Analytical', exact: true, element: <Analytical /> },
       { path: '/dashboards/demographical', name: 'Demographical', exact: true, element: <Demographical /> },
       { path: '/dashboards/modern', name: 'Modern', exact: true, element: <Modern /> },
-      { path: '/apps/notes', name: 'notes', exact: true, element: <Notes /> },
       { path: '/apps/chat', name: 'chat', exact: true, element: <Chat /> },
 
       { path: '/apps/contacts', name: 'contacts', exact: true, element: <Contacts /> },
       { path: '/apps/calendar', name: 'calendar', exact: true, element: <Calendar /> },
-      { path: '/apps/email', name: 'email', exact: true, element: <Email /> },
-      { path: '/ecom/shop', name: 'email', exact: true, element: <Shop /> },
       { path: '/ecom/shopdetail', name: 'email', exact: true, element: <ShopDetail /> },
       { path: '/tickt/ticket-list', name: 'ticket list', exact: true, element: <TicketList /> },
       {
