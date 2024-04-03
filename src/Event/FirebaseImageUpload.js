@@ -78,12 +78,12 @@
 
 // export default FirebaseImageUpload;
 
-
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
 import { getDownloadURL, listAll, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
 import imageDb from './Config';
+import './FirebaseImageUpload.css'; // Import your CSS file for styling
 
 const FirebaseImageUpload = ({ onImageUpload }) => {
   const [img, setImg] = useState('');
@@ -117,12 +117,10 @@ const FirebaseImageUpload = ({ onImageUpload }) => {
   }, []);
 
   return (
-    <div className="App">
-
-      
+    <div className="image-upload-container">
       <input type="file" onChange={(e) => setImg(e.target.files[0])} />
-      <button type="button" onClick={handleClick}>
-        Upload
+      <button className="upload-button" type="button" onClick={handleClick}>
+        Upload Image
       </button>
       <br />
       {imgUrl.map((dataVal) => (
