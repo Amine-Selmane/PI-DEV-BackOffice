@@ -32,6 +32,12 @@ const ReservationManagement = () => {
       key: 'customerEmail',
     },
     {
+      title: 'Reservation Date',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (createdAt) => (createdAt ? new Date(createdAt).toLocaleDateString('en-GB') : ''),
+    },
+    {
       title: 'Events',
       dataIndex: 'events',
       key: 'events',
@@ -54,7 +60,7 @@ const ReservationManagement = () => {
 
   return (
     <div>
-      <h1>Reservation Management</h1>
+      <h2>List Of Reservations</h2>
       <Table
         dataSource={reservations}
         columns={columns}

@@ -135,6 +135,7 @@ const EventManagement = () => {
       dataIndex: 'date',
       width: '15%',
       editable: true,
+      render: (text) => <span>{text ? new Date(text).toLocaleDateString('en-GB') : ''}</span>,
     },
     {
       title: 'location',
@@ -165,12 +166,14 @@ const EventManagement = () => {
       dataIndex: 'beginTime',
       width: '15%',
       editable: true,
+      render: (text) => <span>{text ? new Date(text).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}</span>,
     },
     {
       title: 'endtime',
       dataIndex: 'endTime',
       width: '15%',
       editable: true,
+      render: (text) => <span>{text ? new Date(text).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}</span>,
     },
     {
       title: 'operation',
@@ -251,6 +254,7 @@ const EventManagement = () => {
       <Button type="primary" style={{ marginBottom: 16 }}>
         <Link to="/addEvent">Go to Add Event Page</Link>
       </Button>
+      <h2>List Of Events</h2>
       <Form form={form} component={false}>
         <Table
           components={{
