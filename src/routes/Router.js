@@ -49,6 +49,7 @@ const Toasts = Loadable(lazy(() => import('../views/ui/Toasts')));
 const Tooltip = Loadable(lazy(() => import('../views/ui/Tooltip')));
 const EventCrud = Loadable(lazy(() => import('../Event/CRUD')));
 const EventAdd = Loadable(lazy(() => import('../Event/addEvent')));
+const Reservations = Loadable(lazy(() => import('../Event/Reservations')));
 /***** Form Layout Pages ****/
 const FormBasic = Loadable(lazy(() => import('../views/form-layouts/FormBasic')));
 const FormGrid = Loadable(lazy(() => import('../views/form-layouts/FormGrid')));
@@ -111,6 +112,7 @@ const ThemeRoutes = [
       { path: '/dashboards/minimal', name: 'Minimal', exact: true, element: <Minimal /> },
 
       { path: '/Events', name: 'Events', exact: true, element: <EventCrud /> },
+      { path: '/Reservations', name: 'Events', exact: true, element: <Reservations /> },
 
       { path: '/addEvent', name: 'addEvent', exact: true, element: <EventAdd /> },
 

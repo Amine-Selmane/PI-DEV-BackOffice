@@ -10,6 +10,13 @@ const SidebarData = [
     collapisble: false,
   },
   {
+    title: 'Reservations',
+    href: '/Reservations',
+    icon: <Icon.Disc />,
+    id: 1.2,
+    collapisble: false,
+  },
+  {
     
     title: 'Dashboards',
     href: '/dashboards',
