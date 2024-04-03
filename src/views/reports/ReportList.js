@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Table, Button, Popconfirm, message, Input } from 'antd';
 import {DeleteOutlined,EditOutlined,SearchOutlined} from '@ant-design/icons';
+import { Bar } from 'react-chartjs-2';
 import '../tables/ReactBootstrapTable.scss'; // Assurez-vous d'importer les styles CSS
 
 //import PropTypes from 'prop-types';
@@ -16,18 +17,70 @@ const ReportList = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [showStatistics, setShowStatistics] = useState(false);
+  const [histogramData, setHistogramData] = useState({});
   //const [searchValue, setSearchValue] = useState('');
  // const [sortOrders, setSortOrders] = useState({});
 //  const [sortField, setSortField] = useState(''); // State pour stocker le champ de tri sélectionné
 
   //const [editingKey, setEditingKey] = useState('');
 
+  const updateHistogramData = (statistics) => {
+    // Initialiser les tableaux pour stocker les données
+    const courseNames = [];
+    const numberOfStudents = [];
+    const averageMarks = [];
+  
+    // Parcourir les statistiques pour extraire les données pertinentes
+    statistics.forEach(stat => {
+      courseNames.push(stat['course name']); // Ajouter le nom du cours
+      numberOfStudents.push(stat['number of students']); // Ajouter le nombre d'étudiants
+      averageMarks.push(stat['average mark']); // Ajouter la moyenne des notes
+    });
+  
+    // Mettre à jour l'état de l'histogramme avec les nouvelles données
+    setHistogramData({
+      labels: courseNames,
+      datasets: [
+        {
+          label: 'Number of Students',
+          data: numberOfStudents,
+          backgroundColor: '#5e72e4', // Couleur de remplissage de l'histogramme
+          borderColor: '#5e72e4', // Couleur de la bordure de l'histogramme
+          borderWidth: 1, // Largeur de la bordure de l'histogramme
+        },
+        {
+          label: 'Average Mark',
+          data: averageMarks,
+          backgroundColor: '#2dce89', // Couleur de remplissage de l'histogramme
+          borderColor: '#2dce89', // Couleur de la bordure de l'histogramme
+          borderWidth: 1, // Largeur de la bordure de l'histogramme
+        },
+      ],
+    });
+  };
+  
+  
+
   const fetchReports = async () => {
     try {
       const response = await axios.get(`${baseURL}/reports/getall?sortOrder=${sortOrder}`);
       setData(response.data.reports);
+      updateHistogramData(response.data.reports);
     } catch (error) {
       console.error('Error fetching reports:', error);
+    }
+  };
+
+  const fetchStatistics = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/statistics`);
+      // Supposons que la réponse contienne les données des statistiques sous forme d'objet
+      const statisticsData = response.data;
+      // Mettre à jour les données de l'histogramme
+      // Assurez-vous de traiter les données pour les adapter à votre format d'histogramme si nécessaire
+      setHistogramData(statisticsData);
+    } catch (error) {
+      console.error('Error fetching statistics:', error);
     }
   };
 
@@ -35,46 +88,15 @@ const ReportList = () => {
     fetchReports();
   }, [sortOrder]);
 
+  useEffect(() => {
+    if (showStatistics) {
+      fetchStatistics();
+    }
+  }, [showStatistics]);
   const toggleStatistics = () => {
     setShowStatistics(!showStatistics);
   };
-  //const isEditing = (record) => record.key === editingKey;
 
-  // const handleSearch = async (courseName) => {
-  //   try {
-  //     const response = await axios.get(`${baseURL}/reports/search${courseName}`);
-  //     setData(response.data.reports);
-  //   } catch (error) {
-  //     console.error('Error searching reports:', error);
-  //   }
-  // };
-  
-  // const handleSortChange = (value) => {
-  //   setSortBy(value); // Mettre à jour le champ de tri sélectionné
-  // };
-
-  // const handleSort = (column) => {
-  //   const sortOrder = sortOrders[column] === 'asc' ? 'desc' : 'asc'; // Inverser l'ordre de tri actuel
-  //   setSortOrders({ ...sortOrders, [column]: sortOrder }); // Mettre à jour l'ordre de tri pour cette colonne
-  // };
-
-  // const sortData = (dataToSort, column) => {
-  //   const order = sortOrders[column] || 'asc'; // Récupérer l'ordre de tri pour cette colonne, par défaut 'asc'
-
-  //   if (!column || !order) return dataToSort;
-
-  //   const sortedData = [...dataToSort].sort((a, b) => {
-  //     if (order === 'asc') {
-  //       return a[column] > b[column] ? 1 : -1;
-  //     } 
-  //       return a[column] < b[column] ? 1 : -1;
-      
-  //   });
-
-  //   return sortedData;
-  // };
-
-  // const sortedData = sortData(data, sortBy);
 
   const handleDelete = async (id) => {
     try {
@@ -89,6 +111,8 @@ const ReportList = () => {
     try {
         const response = await axios.get(`${baseURL}/reports/search/${value}`);
         setData(response.data.reports);
+        updateHistogramData(response.data.reports);
+
     } catch (error) {
         console.error('Error searching reports:', error);
     }
@@ -222,6 +246,12 @@ const toggleSearchInput = () => {
         columns={columns}
         rowClassName="editable-row"
       />
+      {showStatistics && (
+  <div style={{ width: '50%', margin: '0 auto' }}>
+    <h2 style={{ color: 'blue', textAlign: 'center' }}>Histogram</h2>
+    <Bar data={histogramData} />
+  </div>
+)}
     </div>
   );
   

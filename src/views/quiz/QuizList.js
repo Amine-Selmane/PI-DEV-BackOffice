@@ -34,15 +34,15 @@ const QuizList = () => {
 
   const columns = [
     {
-      title: 'Student',
-      dataIndex: 'student',
-      width: '25%',
-      render: (text, record) => <span>{record.student.firstName} {record.student.lastName}</span>,
+      title: 'Grade',
+      dataIndex: 'studentGrade',
+      width: '10%',
+      render: (text, record) => <span>{record.studentGrade}</span>,
     },
     {
       title: 'Course',
       dataIndex: 'course',
-      width: '25%',
+      width: '10%',
       render: (text, record) => <span>{record.course.name}</span>,
     },
     {

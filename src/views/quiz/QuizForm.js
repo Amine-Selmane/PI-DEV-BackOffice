@@ -3,12 +3,12 @@ import axios from 'axios';
 import { Row, Col, Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 
 const QuizForm = () => {
-  const [students, setStudents] = useState([]);
+  const [grades, setGrades] = useState([]); // Utiliser pour stocker les grades distincts des étudiants
   const [courses, setCourses] = useState([]);
   const [questions, setQuestions] = useState([]);
-  const [submitted, setSubmitted] = useState(false); // Ajout de l'état submitted
+  const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
-    studentId: '',
+    studentGrade: '',
     courseId: '',
     questionIds: [], 
     date: '',
@@ -19,8 +19,8 @@ const QuizForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const studentsResponse = await axios.get('http://localhost:5000/students');
-        setStudents(studentsResponse.data);
+        const gradesResponse = await axios.get('http://localhost:5000/grades'); // Endpoint pour récupérer les grades distincts
+        setGrades(gradesResponse.data);
 
         const coursesResponse = await axios.get('http://localhost:5000/courses');
         setCourses(coursesResponse.data);
@@ -46,13 +46,12 @@ const QuizForm = () => {
       setFormData({ ...formData, [name]: value });
     }
   };
-  
 
   const handleSubmit = e => {
     e.preventDefault();
-    setSubmitted(true); // Marquer le formulaire comme soumis
+    setSubmitted(true);
     if (formData.questionIds.length < 5) {
-      return; // Ne pas soumettre le formulaire si le nombre de questions est inférieur à 5
+      return;
     }
     axios.post('http://localhost:5000/quiz/createQuiz', formData)
       .then(response => {
@@ -70,18 +69,18 @@ const QuizForm = () => {
         <Col md={{ size: 6, offset: 3 }}>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <Label htmlFor="studentId">Student</Label>
+              <Label htmlFor="studentGrade">Grade</Label>
               <Input
                 type="select"
-                name="studentId"
-                id="studentId"
-                value={formData.studentId}
+                name="studentGrade"
+                id="studentGrade"
+                value={formData.studentGrade}
                 onChange={handleChange}
               >
-                <option value="">Select Student</option>
-                {students.map(student => (
-                  <option key={student._id} value={student._id}>
-                    {student.firstName} {student.lastName}
+                <option value="">Select Grade</option>
+                {grades.map(grade => (
+                  <option key={grade} value={grade}>
+                    {grade}
                   </option>
                 ))}
               </Input>
@@ -160,8 +159,11 @@ const QuizForm = () => {
       </Row>
     </div>
   );
-  
 };
+
+export default QuizForm;
+
+
 
 
 
@@ -270,4 +272,3 @@ const QuizForm = () => {
 //   );
 // };
 
-export default QuizForm;
