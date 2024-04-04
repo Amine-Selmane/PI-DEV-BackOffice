@@ -1,13 +1,13 @@
 import * as Icon from 'react-feather';
 
 const SidebarData = [
-  { caption: 'Home' },
+  { caption: 'Personal' },
   {
     title: 'Dashboards',
     href: '/dashboards',
     id: 1,
     suffix: '4',
-    suffixColor: 'bg-info',
+    suffixColor: 'bg-cyan rounded-pill text-dark-white',
     icon: <Icon.Home />,
     collapisble: true,
     children: [
@@ -18,27 +18,7 @@ const SidebarData = [
         id: 1.1,
         collapisble: false,
       },
-      {
-        title: 'Analytical',
-        href: '/dashboards/analytical',
-        icon: <Icon.Disc />,
-        id: 1.2,
-        collapisble: false,
-      },
-      {
-        title: 'Demographical',
-        href: '/dashboards/demographical',
-        icon: <Icon.Disc />,
-        id: 1.3,
-        collapisble: false,
-      },
-      {
-        title: 'Modern',
-        href: '/dashboards/modern',
-        icon: <Icon.Disc />,
-        id: 1.4,
-        collapisble: false,
-      },
+      
     ],
   },
   { caption: 'Apps' },
@@ -278,156 +258,22 @@ const SidebarData = [
 
   { caption: 'Tables' },
   {
-    title: 'Tables',
-    href: '/tables',
-    icon: <Icon.Feather />,
-    id: 5,
-    collapisble: true,
-    children: [
-      {
-        title: 'Basic Table',
-        href: '/tables/basic-table',
-        icon: <Icon.Codepen />,
-      },
-      {
-        title: 'React Table',
-        href: '/tables/react-table',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Bootstrap Datatable',
-        href: '/tables/data-table',
-        icon: <Icon.HardDrive />,
-      },
-    ],
+    title: 'User Table',
+    href: '/tables/user-table',
+    icon: <Icon.Codepen />,
+    id: 4.1,
+    collapisble: false,
   },
-  { caption: 'Extra' },
   {
-    title: 'Extra',
-    href: '/extra',
-    icon: <Icon.BookOpen />,
-    id: 6,
-    ddType: 'two-column',
-    collapisble: true,
-    children: [
-      {
-        title: 'Apexchart',
-        href: '/charts/apex',
-        icon: <Icon.Loader />,
-      },
-      {
-        title: 'ChartJs',
-        href: '/charts/chartjs',
-        icon: <Icon.PieChart />,
-      },
-      {
-        title: 'Starterkit',
-        href: '/sample-pages/starterkit',
-        icon: <Icon.Edit />,
-      },
-      {
-        title: 'Profile',
-        href: '/sample-pages/profile',
-        icon: <Icon.User />,
-      },
-      {
-        title: 'Search Result',
-        href: '/sample-pages/search-result',
-        icon: <Icon.Search />,
-      },
-      {
-        title: 'Gallery',
-        href: '/sample-pages/gallery',
-        icon: <Icon.Camera />,
-      },
-      {
-        title: 'Helper Class',
-        href: '/sample-pages/helper-class',
-        icon: <Icon.Headphones />,
-      },
-      {
-        title: 'Widget',
-        href: '/widget',
-        icon: <Icon.Grid />,
-      },
-      {
-        title: 'Bootstrap Icons',
-        href: '/icons/bootstrap',
-        icon: <Icon.Feather />,
-      },
-      {
-        title: 'Feather Icons',
-        href: '/icons/feather',
-        icon: <Icon.Feather />,
-      },
-      {
-        title: 'Vector Map',
-        href: '/map/vector',
-        icon: <Icon.Map />,
-      },
-      {
-        title: 'Login',
-        href: '/auth/loginformik',
-        icon: <Icon.LogIn />,
-      },
-      {
-        title: 'Register',
-        href: '/auth/registerformik',
-        icon: <Icon.Edit2 />,
-      },
-      {
-        title: 'Maintanance',
-        href: '/auth/maintanance',
-        icon: <Icon.Sliders />,
-      },
-      {
-        title: 'Lockscreen',
-        href: '/auth/lockscreen',
-        icon: <Icon.Lock />,
-      },
-      {
-        title: 'Recover Password',
-        href: '/auth/recoverpwd',
-        icon: <Icon.RefreshCcw />,
-      },
-      {
-        title: 'Error',
-        href: '/auth/404',
-        icon: <Icon.AlertCircle />,
-      },
-    ],
+    title: 'Disponibilite Table',
+    href: '/tables/disponibilite-table',
+    icon: <Icon.Codepen />,
+    id: 4.1,
+    collapisble: false,
   },
-  // {
-  //   title: 'DD Menu',
-  //   href: '/',
-  //   id: 7,
-  //   collapisble: true,
-  //   icon: <Icon.Disc />,
-  //   children: [
-  //     {
-  //       title: 'Simple dd 1',
-  //       href: '/',
-  //       icon: <Icon.Disc />,
-  //     },
-  //     {
-  //       title: 'Simple dd 2',
-  //       href: '/',
-  //       icon: <Icon.Disc />,
-  //     },
-  //     {
-  //       title: 'Simple dd 3',
-  //       href: '/',
-  //       icon: <Icon.Disc />,
-  //       children: [
-  //         {
-  //           title: 'Simple dd 1.1',
-  //           href: '/alerts',
-  //           icon: <Icon.Disc />,
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
+  
+ 
+  
 ];
 
 export default SidebarData;

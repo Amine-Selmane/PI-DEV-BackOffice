@@ -43,7 +43,6 @@ const FullLayout = () => {
           <div className={isFixedSidebar && LayoutHorizontal ? 'HsidebarFixed' : ''}>
             <div className="bg-white p-3 text-capitalize">
               <Container fluid className="boxContainer">
-                <h5 className="fw-medium mb-0">{getTitle}</h5>
               </Container>
             </div>
           </div>

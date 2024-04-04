@@ -1,6 +1,11 @@
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
+import  AuthorizeUser  from '../middlware/auth';
+
+/** auth middlware */
+// import  {AuthorizeUser,ProtectRoute} from './middlware/auth.js';
+
 import ReportList from '../views/reports/ReportList';
 import ReportForm from '../views/reports/ReportForm';
 import UpdateReport from '../views/reports/UpdateReport';
@@ -71,11 +76,16 @@ const Datepicker = Loadable(lazy(() => import('../views/form-pickers/DateTimePic
 const TagSelect = Loadable(lazy(() => import('../views/form-pickers/TagSelect')));
 
 /***** Form Validation Pages ****/
-const FormValidate = Loadable(lazy(() => import('../views/form-validation/FormValidation')));
+const AddUser = Loadable(lazy(() => import('../views/form-validation/AddUser')));
+const UpdateUser = Loadable(lazy(() => import('../views/form-validation/UpdateUser')));
+const AddDispo = Loadable(lazy(() => import('../views/form-validation/AddDispo')));
+const UpdateDispo = Loadable(lazy(() => import('../views/form-validation/UpdateDispo')));
 const FormSteps = Loadable(lazy(() => import('../views/form-steps/Steps')));
 const FormEditor = Loadable(lazy(() => import('../views/form-editor/FormEditor')));
 /***** Table Pages ****/
-const Basictable = Loadable(lazy(() => import('../views/tables/TableBasic')));
+const Usertable = Loadable(lazy(() => import('../views/tables/TableUser')));
+
+const Dispotable = Loadable(lazy(() => import('../views/tables/TableDispo')));
 const CustomReactTable = Loadable(lazy(() => import('../views/tables/CustomReactTable')));
 const ReactBootstrapTable = Loadable(lazy(() => import('../views/tables/ReactBootstrapTable')));
 
@@ -118,8 +128,8 @@ const ThemeRoutes = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', name: 'Home', element: <Navigate to="/dashboards/minimal" /> },
-      { path: '/dashboards/minimal', name: 'Minimal', exact: true, element: <Minimal /> },
+      { path: '/', name: 'Home', element: <Navigate to="/auth/loginFormik" /> },
+      { path: '/dashboards/minimal', name: 'Minimal', exact: true, element: <AuthorizeUser><Minimal /></AuthorizeUser> },
       { path: '/dashboards/analytical', name: 'Analytical', exact: true, element: <Analytical /> },
       { path: '/dashboards/demographical', name: 'Demographical', exact: true, element: <Demographical /> },
       { path: '/dashboards/modern', name: 'Modern', exact: true, element: <Modern /> },
@@ -176,11 +186,16 @@ const ThemeRoutes = [
         element: <Datepicker />,
       },
       { path: '/form-pickers/tag-select', name: 'tag-select', exact: true, element: <TagSelect /> },
-      { path: '/form-validation', name: 'form-validation', exact: true, element: <FormValidate /> },
+      { path: '/addUser', name: 'form-validation', exact: true, element:<AuthorizeUser> <AddUser /> </AuthorizeUser>},
+      { path: '/user-update/:UserId', name: 'user-update', exact: true, element:<AuthorizeUser> <UpdateUser /></AuthorizeUser> },
+      { path: '/addDisponibilite', name: 'addDisponibilite', exact: true, element:<AuthorizeUser> <AddDispo /> </AuthorizeUser>},
+      { path: '/disponibilite-update/:id', name: 'Disponibilite-update', exact: true, element:<AuthorizeUser> <UpdateDispo /></AuthorizeUser> },
       { path: '/form-steps', name: 'form-steps', exact: true, element: <FormSteps /> },
       { path: '/form-editor', name: 'form-editor', exact: true, element: <FormEditor /> },
 
-      { path: '/tables/basic-table', name: 'basic-table', exact: true, element: <Basictable /> },
+      { path: '/tables/user-table', name: 'user-table', exact: true, element:<AuthorizeUser> <Usertable /> </AuthorizeUser>},
+
+      { path: '/tables/disponibilite-table', name: 'disponibilite-table', exact: true, element:<AuthorizeUser> <Dispotable /> </AuthorizeUser>},
       {
         path: '/tables/react-table',
         name: 'react-table',
@@ -205,7 +220,7 @@ const ThemeRoutes = [
     { path:"/statistics" , name: 'report', exact: true, element: <StudentStatistics /> },
       { path: '/charts/apex', name: 'apex', exact: true, element: <ApexCharts /> },
       { path: '/charts/chartjs', name: 'chartjs', exact: true, element: <ChartJs /> },
-      { path: '/sample-pages/profile', name: 'profile', exact: true, element: <Profile /> },
+      { path: '/sample-pages/profile', name: 'profile', exact: true, element:<AuthorizeUser> <Profile /> </AuthorizeUser>},
       {
         path: '/sample-pages/helper-class',
         name: 'helper-class',
