@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Input, Nav, NavItem } from 'reactstrap'; // Assuming you are using Reactstrap
+import { Button, Table, Input, Nav, NavItem } from 'reactstrap';
 import { FiUserPlus, FiEdit } from 'react-icons/fi';
 import { FaArchive } from 'react-icons/fa';
 import axios from 'axios';
@@ -12,27 +12,12 @@ const ProjectTables = () => {
   const navigate = useNavigate();
   const [selectedRole, setSelectedRole] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [isPayer, setIsPayer] = useState(null);
-
-  const handleButtonClick = () => {
-    setIsPayer(prevIsPayer => {
-      if (prevIsPayer === null) {
-        return false;
-      } 
-        return !prevIsPayer;
-      
-    });
-  };
-  
-
-
 
   useEffect(() => {
-    // Fetch all users from the backend
     axios.get('http://localhost:5000/api/getall')
       .then(response => {
         setUsers(response.data);
-        setFilteredUsers(response.data); // Initialize filteredUsers with all users
+        setFilteredUsers(response.data);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -40,9 +25,8 @@ const ProjectTables = () => {
   }, []);
 
   useEffect(() => {
-    // Filter users based on selected role
     if (selectedRole === '') {
-      setFilteredUsers(users); // If no role is selected, show all users
+      setFilteredUsers(users);
     } else {
       const filtered = users.filter(user => user.role === selectedRole);
       setFilteredUsers(filtered);
@@ -50,9 +34,8 @@ const ProjectTables = () => {
   }, [selectedRole, users]);
 
   useEffect(() => {
-    // Filter users based on search query
     if (searchQuery === '') {
-      setFilteredUsers(users); // If no search query, show all users
+      setFilteredUsers(users);
     } else {
       const filtered = users.filter(user =>
         user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -66,12 +49,10 @@ const ProjectTables = () => {
     }
   }, [searchQuery, users]);
 
-  // Function to handle filtering by role
   const handleFilterByRole = (role) => {
     setSelectedRole(role);
   };
 
-  // Function to handle search input change
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -96,19 +77,44 @@ const ProjectTables = () => {
         method: 'DELETE'
       });
 
-      // Remove the deleted disponibilite from the state
-      setUsers(prevDispo => prevDispo.filter(Users => Users.userId !== userId));
-      window.location.reload();
+      setUsers(prevUsers => prevUsers.filter(user => user._id !== userId));
     } catch (error) {
       console.error("Error deleting user:", error);
     }
-
   };
+
+  const handleButtonClick = async (userId, email, firstName, lastName) => {
+    try {
+      const currentDate = new Date(); // Get current date
+      const updatedUser = await axios.put(`http://localhost:5000/api/update/${userId}`, {
+        isPayer: true,
+        datePay: currentDate
+      });
+  
+      // Update the users state with the updated user
+      setUsers(prevUsers =>
+        prevUsers.map(user =>
+          user._id === userId ? updatedUser.data : user
+        )
+      );
+  
+      // Send email
+      await axios.post('http://localhost:5000/api/PayementEmail', {
+        email,
+        firstName,
+        lastName,
+        datePay: currentDate // Pass current date to the email endpoint
+      });
+    } catch (error) {
+      console.error("Error updating user or sending email:", error);
+    }
+  };
+  
 
   return (
     <div>
       <Nav className="me-auto d-none d-lg-flex " navbar>
-      <NavItem className="app-search ps-3">
+        <NavItem className="app-search ps-3">
           <Input
             id="txt-srch"
             name="search"
@@ -119,11 +125,9 @@ const ProjectTables = () => {
             onChange={handleSearchChange}
             style={{ borderColor: 'orange' }}
           />
-      </NavItem>
-
+        </NavItem>
       </Nav>
       <div style={{ textAlign: 'right' }}>
-        {/* Buttons for filtering */}
         <Button onClick={() => handleFilterByRole('admin')} className="btn" outline color="primary">Admin</Button>{' '}
         <Button onClick={() => handleFilterByRole('teacher')} className="btn" outline color="primary">Teacher</Button>{' '}
         <Button onClick={() => handleFilterByRole('student')} className="btn" outline color="primary">Student</Button>{' '}
@@ -144,51 +148,47 @@ const ProjectTables = () => {
             <th className='px-4 text-center'>Phone</th>
             <th className='px-4 text-center'>Role</th>
             <th className='px-4 text-center'>Payed</th>
-
             <th className='px-4 text-center' style={{ width: '20%' }}>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.map((tdata) => (
-            <tr key={tdata.id} className="border-top">
-              {/* Adjust the structure based on your data */}
+          {filteredUsers.map((user) => (
+            <tr key={user._id} className="border-top">
               <td style={{ width: '30%' }}>
                 <div className="d-flex align-items-center p-2">
-                  {/* Adjust the profile image based on your data */}
                   <img
-                    src={tdata.profile || user1}
+                    src={user.profile || user1}
                     className="rounded-circle"
                     alt="avatar"
                     width="45"
                     height="45"
                   />
                   <div className="ms-3">
-                    <h5 className="mb-0 fw-medium">{tdata.firstName} {tdata.lastName}</h5>
-                    <span className="text-muted">{tdata.email}</span>
+                    <h5 className="mb-0 fw-medium">{user.firstName} {user.lastName}</h5>
+                    <span className="text-muted">{user.email}</span>
                   </div>
                 </div>
               </td>
-              <td className="text-center">{formatDate(tdata.dateNaiss)}</td>
-              <td style={{ width: '40%' }} className="text-center">{tdata.address}</td>
-              <td className="text-center">{tdata.mobile}</td>
-              <td className="text-center">{tdata.role}</td>
-              <td className="text-center">    
-              {tdata.role === 'student' && ( // Utilisez === pour comparer, et entourez avec des accolades
+              <td className="text-center">{formatDate(user.dateNaiss)}</td>
+              <td style={{ width: '40%' }} className="text-center">{user.address}</td>
+              <td className="text-center">{user.mobile}</td>
+              <td className="text-center">{user.role}</td>
+              <td className="text-center">
+                {user.role === 'student' && (
                   <button
                     type="button"
-                    style={{ backgroundColor: isPayer ? 'green' : 'red' }}
-                    onClick={handleButtonClick}
+                    style={{ backgroundColor: user.isPayer ? 'green' : 'red' }}
+                    onClick={() => handleButtonClick(user._id)}
                   >
-                    {isPayer ? 'Yes' : 'No'}
+                    {user.isPayer ? 'Yes' : 'No'}
                   </button>
                 )}
-
-                </td>
-                <td className="text-center">
-                <Button onClick={() => handleUpdate(tdata._id)}>
+              </td>
+              <td className="text-center">
+                <Button onClick={() => handleUpdate(user._id)}>
                   <FiEdit size={20} />
                 </Button>{' '}
-                <Button onClick={() => handleDelete(tdata._id)}>
+                <Button onClick={() => handleDelete(user._id)}>
                   <FaArchive size={20} />
                 </Button>
               </td>
