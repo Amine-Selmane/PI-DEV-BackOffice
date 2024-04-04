@@ -11,6 +11,7 @@ const UpdateOrder = () => {
   const [form] = Form.useForm();
   const [books, setBooks] = useState([]);
   const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchOrder();
@@ -24,6 +25,7 @@ const UpdateOrder = () => {
       form.setFieldsValue(response.data);
     } catch (error) {
       console.error('Error fetching order:', error);
+      message.error('Failed to fetch order details');
     }
   };
 
@@ -33,24 +35,28 @@ const UpdateOrder = () => {
       setBooks(response.data.data);
     } catch (error) {
       console.error('Error fetching books:', error);
+      message.error('Failed to fetch book details');
     }
   };
 
   const onFinish = async (values) => {
     try {
+      setLoading(true);
       await axios.put(`http://localhost:5000/orders/updateOrder/${id}`, {
         customerId: values.customerId,
-        items: values.items.map(item => ({ itemId: item, quantity: 1 })), // Map selected book IDs to item objects
-        subtotal: order.subtotal, // Assuming subtotal remains unchanged
-        total: order.total, // Assuming total remains unchanged
-        shipping: order.shipping, // Assuming shipping remains unchanged
-        delivery_status: values.status, // Update delivery status based on form value
-        payment_status: order.payment_status // Assuming payment status remains unchanged
+        items: values.items.map(item => ({ itemId: item, quantity: 1 })), 
+        subtotal: order.subtotal, 
+        total: values.totalPrice,
+        shipping: order.shipping,
+        delivery_status: values.status,
+        payment_status: order.payment_status 
       });
       message.success('Order updated successfully!');
+      setLoading(false);
     } catch (error) {
       console.error('Error updating order:', error);
       message.error('Failed to update order');
+      setLoading(false);
     }
   };
 
@@ -77,7 +83,7 @@ const UpdateOrder = () => {
         <Input type="number" placeholder="Enter total price" />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loading}>
           Update Order
         </Button>
         <Link to={`/orders`}>

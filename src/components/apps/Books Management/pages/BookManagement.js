@@ -111,7 +111,7 @@ const BookManagement = () => {
             <Link to={`/books/update/${record._id}`}>
               <Button
                 icon={<EditOutlined />}
-                style={{ marginRight: 8, backgroundColor: '#1E90FF', color: 'white', width: 40 }}
+                style={{ marginRight: 8}}
               />
             </Link>
             <Button
@@ -123,7 +123,7 @@ const BookManagement = () => {
               title="Sure to delete?"
               onConfirm={() => handleDeleteBook(record._id)}
             >
-              <Button icon={<DeleteOutlined />} type="danger" style={{ backgroundColor: 'red', color: 'white', width: 40 }} />
+              <Button icon={<DeleteOutlined />} type="danger"  />
             </Popconfirm>
           </span>
         );
