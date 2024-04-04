@@ -59,6 +59,7 @@ const Tabs = Loadable(lazy(() => import('../views/ui/Tabs')));
 const Toasts = Loadable(lazy(() => import('../views/ui/Toasts')));
 const Tooltip = Loadable(lazy(() => import('../views/ui/Tooltip')));
 
+
 /***** Form Layout Pages ****/
 const FormBasic = Loadable(lazy(() => import('../views/form-layouts/FormBasic')));
 const FormGrid = Loadable(lazy(() => import('../views/form-layouts/FormGrid')));
@@ -99,8 +100,8 @@ const CustomVectorMap = Loadable(lazy(() => import('../views/maps/CustomVectorMa
 /***** Widget Pages ****/
 const Widget = Loadable(lazy(() => import('../views/widget/Widget')));
 
-/***** CASL Access Control ****/
-const CASL = Loadable(lazy(() => import('../views/apps/accessControlCASL/AccessControl')));
+/***** Courses ****/
+const Courses = Loadable(lazy(() => import('../views/apps/courses/courses')));
 
 /***** Auth Pages ****/
 const Error = Loadable(lazy(() => import('../views/auth/Error')));
@@ -228,7 +229,7 @@ const ThemeRoutes = [
       { path: '/icons/feather', name: 'feather', exact: true, element: <Feather /> },
       { path: '/map/vector', name: 'vector', exact: true, element: <CustomVectorMap /> },
       { path: '/widget', name: 'widget', exact: true, element: <Widget /> },
-      { path: '/casl', name: 'casl', exact: true, element: <CASL /> },
+      { path: '/courses', name: 'courses', exact: true, element: <Courses /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

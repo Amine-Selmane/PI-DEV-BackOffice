@@ -8,6 +8,7 @@
     "@blueprintjs/core": "^4.4.1",
     "@casl/ability": "^5.4.4",
     "@casl/react": "^3.0.0",
+    "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -37,6 +38,7 @@
     "react-draft-wysiwyg": "^1.14.7",
     "react-feather": "^2.0.10",
     "react-hook-form": "^7.31.3",
+    "react-hot-toast": "^2.4.1",
     "react-iframe": "1.8.0",
     "react-jvectormap": "0.0.16",
     "react-pro-sidebar": "^0.7.1",
@@ -77,12 +79,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
+ 
   "browserslist": {
     "production": [
       ">0.2%",
@@ -94,5 +91,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
