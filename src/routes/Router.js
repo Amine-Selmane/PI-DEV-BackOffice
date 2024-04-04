@@ -146,6 +146,11 @@ const ThemeRoutes = [
       { path: '/orders/updateOrder/:id', name: 'books', exact: true, element: <UpdateOrder /> },
 
 
+/////////////events
+{ path: '/Events', name: 'Events', exact: true, element: <EventCrud /> },
+{ path: '/Reservations', name: 'Events', exact: true, element: <Reservations /> },
+
+{ path: '/addEvent', name: 'addEvent', exact: true, element: <EventAdd /> },
 
 
 
@@ -153,12 +158,10 @@ const ThemeRoutes = [
       { path: '/dashboards/analytical', name: 'Analytical', exact: true, element: <Analytical /> },
       { path: '/dashboards/demographical', name: 'Demographical', exact: true, element: <Demographical /> },
       { path: '/dashboards/modern', name: 'Modern', exact: true, element: <Modern /> },
-      //{ path: '/management/reports', name: 'notes', exact: true, element: <Report /> },
 
 
 
 
-      { path: '/apps/notes', name: 'notes', exact: true, element: <Notes /> },
       { path: '/apps/chat', name: 'chat', exact: true, element: <Chat /> },
 
       { path: '/apps/contacts', name: 'contacts', exact: true, element: <Contacts /> },
