@@ -12,6 +12,20 @@ const ProjectTables = () => {
   const navigate = useNavigate();
   const [selectedRole, setSelectedRole] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isPayer, setIsPayer] = useState(null);
+
+  const handleButtonClick = () => {
+    setIsPayer(prevIsPayer => {
+      if (prevIsPayer === null) {
+        return false;
+      } 
+        return !prevIsPayer;
+      
+    });
+  };
+  
+
+
 
   useEffect(() => {
     // Fetch all users from the backend
@@ -129,6 +143,8 @@ const ProjectTables = () => {
             <th className='px-4 text-center' style={{ width: '20%' }}>Address</th>
             <th className='px-4 text-center'>Phone</th>
             <th className='px-4 text-center'>Role</th>
+            <th className='px-4 text-center'>Payed</th>
+
             <th className='px-4 text-center' style={{ width: '20%' }}>Actions</th>
           </tr>
         </thead>
@@ -156,7 +172,19 @@ const ProjectTables = () => {
               <td style={{ width: '40%' }} className="text-center">{tdata.address}</td>
               <td className="text-center">{tdata.mobile}</td>
               <td className="text-center">{tdata.role}</td>
-              <td className="text-center">
+              <td className="text-center">    
+              {tdata.role === 'student' && ( // Utilisez === pour comparer, et entourez avec des accolades
+                  <button
+                    type="button"
+                    style={{ backgroundColor: isPayer ? 'green' : 'red' }}
+                    onClick={handleButtonClick}
+                  >
+                    {isPayer ? 'Yes' : 'No'}
+                  </button>
+                )}
+
+                </td>
+                <td className="text-center">
                 <Button onClick={() => handleUpdate(tdata._id)}>
                   <FiEdit size={20} />
                 </Button>{' '}
