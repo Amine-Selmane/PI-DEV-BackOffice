@@ -35,13 +35,15 @@ const Courses = (args) => {
   const [postid, setPostId] = useState({
     course: "",
     classroom: "",
-    teacher: ""
+    duration:30,
+    teacher: "",
+    nbrQuiz:""
   });
 
   useEffect(() => {
     if (!id) return;
     const fetchPost = async () => {
-      const { data } = await axios.get(`http://localhost:5000/api/courses/getCoursebyId/${id}`);
+      const { data } = await axios.get(`http://localhost:5000/courses/getCoursebyId/${id}`);
       setPostId(data);
     };
     fetchPost();
@@ -53,7 +55,7 @@ const Courses = (args) => {
     setPostId(postClone);
   };
   const fetchPosts = async () => {
-    const res = await axios.get('http://localhost:5000/api/courses/getCourse');
+    const res = await axios.get('http://localhost:5000/courses/getCourse');
     setPosts(res.data);
   };
 
@@ -64,17 +66,17 @@ const Courses = (args) => {
   const handleDelete = async (post) => {
     console.log("post", post);
     setPosts(posts.filter((p) => p._id !== post._id));
-    await axios.delete(`http://localhost:5000/api/courses/deleteCourse/${post._id}`);
+    await axios.delete(`http://localhost:5000/courses/deleteCourse/${post._id}`);
   };
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formMode === "create") {
-      await axios.post(`http://localhost:5000/api/courses/setCourse`, postid);
+      await axios.post(`http://localhost:5000/courses/setCourse`, postid);
     }
    else{
-    await axios.put(`http://localhost:5000/api/courses/updateCourse/${postToUpdate._id}`, postid);
+    await axios.put(`http://localhost:5000/courses/updateCourse/${postToUpdate._id}`, postid);
    }
    window.location.reload(false);
   };
@@ -112,10 +114,29 @@ const Courses = (args) => {
                     <div>
                         <input
                         defaultValue={postToUpdate?.classroom}
-                          type="text"
+                          type="number"
                           placeholder="Classroom..."
                           name="classroom"
                           value={postid?.classroom}
+                          onChange={handleChange}
+                        />
+                    </div>
+                    <div>
+                        <input
+                          defaultValue={postToUpdate?.duration}
+                          placeholder="Class duration"
+                          name="duration"
+                          disabled
+                          value={postid?.duration}
+                        />
+                    </div>
+                    <div>
+                        <input
+                          defaultValue={postToUpdate?.nbrQuiz}
+                          type="number"
+                          placeholder="Number of quizzes"
+                          name="nbrQuiz"
+                          value={postid?.nbrQuiz}
                           onChange={handleChange}
                         />
                     </div>
@@ -145,6 +166,8 @@ const Courses = (args) => {
                   <tr>
                     <th>Course</th>
                     <th>Classroom</th>
+                    <th>Duration(minutes)</th>
+                    <th>Number of quizzes</th>
                     <th>Teacher</th>
                     <th>Update</th>
                     <th>Delete</th>
@@ -155,6 +178,8 @@ const Courses = (args) => {
                     <tr key={post.id}>
                       <td> {post.name} </td>
                       <td> {post.classroom} </td>
+                      <td> {post.duration} </td>
+                      <td> {post.nbrQuiz} </td>
                       <td> {post.teacher_name} </td>
                       <td>
                         <div>
