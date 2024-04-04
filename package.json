@@ -4,13 +4,16 @@
   "homepage": "/",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.3.2",
     "@blueprintjs/core": "^4.4.1",
     "@casl/ability": "^5.4.4",
     "@casl/react": "^3.0.0",
+    "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.2.0",
+    "antd": "^5.15.0",
     "apexcharts": "^3.35.3",
     "axios": "^0.27.2",
     "axios-mock-adapter": "^1.21.1",
@@ -59,6 +62,7 @@
     "redux-devtools-extension": "^2.13.9",
     "sass": "^1.52.2",
     "simplebar-react": "^2.3.6",
+    "uuid": "^9.0.1",
     "web-vitals": "^1.1.2",
     "yup": "^0.32.11",
     "zustand": "^4.5.1"
@@ -82,12 +86,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
+ 
   "browserslist": {
     "production": [
       ">0.2%",
@@ -99,5 +98,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

@@ -6,6 +6,17 @@ import  AuthorizeUser  from '../middlware/auth';
 /** auth middlware */
 // import  {AuthorizeUser,ProtectRoute} from './middlware/auth.js';
 
+import ReportList from '../views/reports/ReportList';
+import ReportForm from '../views/reports/ReportForm';
+import UpdateReport from '../views/reports/UpdateReport';
+import QuizList from '../views/quiz/QuizList';
+import QuizForm from '../views/quiz/QuizForm';
+import UpdateQuiz from '../views/quiz/UpdateQuiz';
+import QuestionList from '../views/questions/QuestionList';
+import QuestionForm from '../views/questions/QuestionForm';
+import UpdateQuestion from '../views/questions/UpdateQuestion';
+import StudentStatistics from '../views/reports/StudentStatistics';
+
 /****Layouts*****/
 
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
@@ -53,6 +64,7 @@ const Tabs = Loadable(lazy(() => import('../views/ui/Tabs')));
 const Toasts = Loadable(lazy(() => import('../views/ui/Toasts')));
 const Tooltip = Loadable(lazy(() => import('../views/ui/Tooltip')));
 
+
 /***** Form Layout Pages ****/
 const FormBasic = Loadable(lazy(() => import('../views/form-layouts/FormBasic')));
 const FormGrid = Loadable(lazy(() => import('../views/form-layouts/FormGrid')));
@@ -98,8 +110,8 @@ const CustomVectorMap = Loadable(lazy(() => import('../views/maps/CustomVectorMa
 /***** Widget Pages ****/
 const Widget = Loadable(lazy(() => import('../views/widget/Widget')));
 
-/***** CASL Access Control ****/
-const CASL = Loadable(lazy(() => import('../views/apps/accessControlCASL/AccessControl')));
+/***** Courses ****/
+const Courses = Loadable(lazy(() => import('../views/apps/courses/courses')));
 
 /***** Auth Pages ****/
 const Error = Loadable(lazy(() => import('../views/auth/Error')));
@@ -121,6 +133,11 @@ const ThemeRoutes = [
       { path: '/dashboards/analytical', name: 'Analytical', exact: true, element: <Analytical /> },
       { path: '/dashboards/demographical', name: 'Demographical', exact: true, element: <Demographical /> },
       { path: '/dashboards/modern', name: 'Modern', exact: true, element: <Modern /> },
+      //{ path: '/management/reports', name: 'notes', exact: true, element: <Report /> },
+
+
+
+
       { path: '/apps/notes', name: 'notes', exact: true, element: <Notes /> },
       { path: '/apps/chat', name: 'chat', exact: true, element: <Chat /> },
       { path: '/apps/contacts', name: 'contacts', exact: true, element: <Contacts /> },
@@ -191,6 +208,16 @@ const ThemeRoutes = [
         exact: true,
         element: <ReactBootstrapTable />,
       },
+      { path:"/question/update/:id" , name: 'question', exact: true, element: <UpdateQuestion/> },
+     { path:"/question/new" , name: 'question', exact: true, element: <QuestionForm/> },
+    { path:"/questions" , name: 'question', exact: true, element: <QuestionList /> },
+      { path:"/quiz/update/:id" , name: 'quiz', exact: true, element: <UpdateQuiz/> },
+     { path:"/quiz/new" , name: 'quiz', exact: true, element: <QuizForm/> },
+    { path:"/quiz" , name: 'quiz', exact: true, element: <QuizList /> },
+      { path:"/reports/update/:id" , name: 'report', exact: true, element: <UpdateReport/> },
+     { path:"/reports/new" , name: 'report', exact: true, element: <ReportForm/> },
+    { path:"/reports" , name: 'report', exact: true, element: <ReportList /> },
+    { path:"/statistics" , name: 'report', exact: true, element: <StudentStatistics /> },
       { path: '/charts/apex', name: 'apex', exact: true, element: <ApexCharts /> },
       { path: '/charts/chartjs', name: 'chartjs', exact: true, element: <ChartJs /> },
       { path: '/sample-pages/profile', name: 'profile', exact: true, element:<AuthorizeUser> <Profile /> </AuthorizeUser>},
@@ -217,7 +244,7 @@ const ThemeRoutes = [
       { path: '/icons/feather', name: 'feather', exact: true, element: <Feather /> },
       { path: '/map/vector', name: 'vector', exact: true, element: <CustomVectorMap /> },
       { path: '/widget', name: 'widget', exact: true, element: <Widget /> },
-      { path: '/casl', name: 'casl', exact: true, element: <CASL /> },
+      { path: '/courses', name: 'courses', exact: true, element: <Courses /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
