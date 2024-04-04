@@ -56,6 +56,27 @@ const SidebarData = [
         collapisble: false,
       },
     ],
+  },{ caption: 'Management' },
+  {
+    title: 'Reports',
+    href: '/reports',
+    icon: <Icon.FileText />,
+    id: 2.1,
+    collapisble: false,
+  },
+  {
+    title: 'Quiz',
+    href: '/quiz',
+    icon: <Icon.FileText />,
+    id: 2.1,
+    collapisble: false,
+  },
+  {
+    title: 'Question',
+    href: '/questions',
+    icon: <Icon.FileText />,
+    id: 2.1,
+    collapisble: false,
   },
   { caption: 'Apps' },
   {
@@ -96,9 +117,9 @@ const SidebarData = [
     collapisble: false,
   },
   {
-    title: 'CASL',
-    href: '/casl',
-    icon: <Icon.UserCheck />,
+    title: 'Courses',
+    href: '/courses',
+    icon: <Icon.Book />,
     id: 2.6,
     collapisble: false,
   },
@@ -331,179 +352,22 @@ const SidebarData = [
   },
   { caption: 'Tables' },
   {
-    title: 'Basic Table',
-    href: '/tables/basic-table',
+    title: 'User Table',
+    href: '/tables/user-table',
     icon: <Icon.Codepen />,
     id: 4.1,
     collapisble: false,
   },
   {
-    title: 'React Table',
-    href: '/tables/react-table',
-    icon: <Icon.Disc />,
-    id: 4.2,
+    title: 'Disponibilite Table',
+    href: '/tables/disponibilite-table',
+    icon: <Icon.Codepen />,
+    id: 4.1,
     collapisble: false,
   },
-  {
-    title: 'Bootstrap Datatable',
-    href: '/tables/data-table',
-    icon: <Icon.HardDrive />,
-    id: 4.3,
-    collapisble: false,
-  },
-  { caption: 'Charts' },
-  {
-    title: 'Apexchart',
-    href: '/charts/apex',
-    icon: <Icon.Loader />,
-    id: 5.1,
-    collapisble: false,
-  },
-  {
-    title: 'ChartJs',
-    href: '/charts/chartjs',
-    icon: <Icon.PieChart />,
-    id: 5.2,
-    collapisble: false,
-  },
-  { caption: 'Extra' },
-  {
-    title: 'Sample Pages',
-    href: '/sample-pages',
-    icon: <Icon.BookOpen />,
-    id: 6.1,
-    collapisble: true,
-    children: [
-      {
-        title: 'Starterkit',
-        href: '/sample-pages/starterkit',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Profile',
-        href: '/sample-pages/profile',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Search Result',
-        href: '/sample-pages/search-result',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Gallery',
-        href: '/sample-pages/gallery',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Helper Class',
-        href: '/sample-pages/helper-class',
-        icon: <Icon.Disc />,
-      },
-    ],
-  },
-  {
-    title: 'Widget',
-    href: '/widget',
-    icon: <Icon.Grid />,
-    id: 6.4,
-    collapisble: false,
-  },
-  {
-    title: 'Icons',
-    href: '/icons',
-    icon: <Icon.Feather />,
-    id: 6.2,
-    collapisble: true,
-    children: [
-      {
-        title: 'Bootstrap',
-        href: '/icons/bootstrap',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Feather',
-        href: '/icons/feather',
-        icon: <Icon.Disc />,
-      },
-    ],
-  },
-  {
-    title: 'Vector Map',
-    href: '/map/vector',
-    icon: <Icon.Map />,
-    id: 6.3,
-    collapisble: false,
-  },
-  {
-    title: 'Authentication',
-    href: '/auth',
-    icon: <Icon.Lock />,
-    id: 6.5,
-    collapisble: true,
-    children: [
-      {
-        title: 'Login',
-        href: '/auth/loginformik',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Register',
-        href: '/auth/registerformik',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Maintanance',
-        href: '/auth/maintanance',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Lockscreen',
-        href: '/auth/lockscreen',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Recover Password',
-        href: '/auth/recoverpwd',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Error',
-        href: '/auth/404',
-        icon: <Icon.Disc />,
-      },
-    ],
-  },
-  {
-    title: 'DD Menu',
-    href: '/',
-    id: 7,
-    collapisble: true,
-    icon: <Icon.Disc />,
-    children: [
-      {
-        title: 'Simple dd 1',
-        href: '/',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Simple dd 2',
-        href: '/',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Simple dd 3',
-        href: '/',
-        icon: <Icon.Disc />,
-        children: [
-          {
-            title: 'Simple dd 1.1',
-            href: '/alerts',
-            icon: <Icon.Disc />,
-          },
-        ],
-      },
-    ],
-  },
+  
+ 
+  
 ];
 
 export default SidebarData;
