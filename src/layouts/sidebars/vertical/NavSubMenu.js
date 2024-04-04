@@ -15,7 +15,6 @@ const NavSubMenu = ({ icon, title, items, isUrl, suffixColor, suffix }) => {
     if (isUrl) {
       setCollapsed(!collapsed);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

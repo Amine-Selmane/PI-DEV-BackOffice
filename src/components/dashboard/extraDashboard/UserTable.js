@@ -88,7 +88,8 @@ const ProjectTables = () => {
       const currentDate = new Date(); // Get current date
       const updatedUser = await axios.put(`http://localhost:5000/api/update/${userId}`, {
         isPayer: true,
-        datePay: currentDate
+        datePay: currentDate,
+        amount: 0 // Provide a default value for amount or replace it with the actual value
       });
   
       // Update the users state with the updated user
@@ -98,17 +99,12 @@ const ProjectTables = () => {
         )
       );
   
-      // Send email
-      await axios.post('http://localhost:5000/api/PayementEmail', {
-        email,
-        firstName,
-        lastName,
-        datePay: currentDate // Pass current date to the email endpoint
-      });
+     
     } catch (error) {
       console.error("Error updating user or sending email:", error);
     }
   };
+  
   
 
   return (
@@ -174,15 +170,28 @@ const ProjectTables = () => {
               <td className="text-center">{user.mobile}</td>
               <td className="text-center">{user.role}</td>
               <td className="text-center">
-                {user.role === 'student' && (
-                  <button
-                    type="button"
-                    style={{ backgroundColor: user.isPayer ? 'green' : 'red' }}
-                    onClick={() => handleButtonClick(user._id)}
-                  >
-                    {user.isPayer ? 'Yes' : 'No'}
-                  </button>
-                )}
+              {user.role === 'student' && (
+  user.isPayer ? (
+    <Button
+      className="btn"
+      outline
+      color="success"
+      onClick={() => handleButtonClick(user._id, user.email, user.firstName, user.lastName)}
+    >
+      Yes
+    </Button>
+  ) : (
+    <Button
+      className="btn"
+      outline
+      color="danger"
+      onClick={() => handleButtonClick(user._id, user.email, user.firstName, user.lastName)}
+    >
+      No
+    </Button>
+  )
+)}
+
               </td>
               <td className="text-center">
                 <Button onClick={() => handleUpdate(user._id)}>
