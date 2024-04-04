@@ -1,13 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; // Import Axios for making HTTP requests
+
 import {
   Button,
   Nav,
-  UncontrolledDropdown,
-  DropdownItem,
-  DropdownToggle,
-  DropdownMenu,
-} from 'reactstrap';
-import { User, FileText, Star, Settings, Droplet } from 'react-feather';
+  UncontrolledDropdown} from 'reactstrap';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SimpleBar from 'simplebar-react';
@@ -22,6 +19,27 @@ import user1 from '../../../assets/images/users/user6.jpg';
 const Sidebar = () => {
   const location = useLocation();
   const currentURL = location.pathname.split('/').slice(0, -1).join('/');
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const response = await axios.get('http://localhost:5000/api/userToken', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUserData(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error.message);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   //const [collapsed, setCollapsed] = useState(null);
   // const toggle = (index) => {
@@ -46,9 +64,14 @@ const Sidebar = () => {
           />
         </div>
         {/********Sidebar Content*******/}
+        {userData && (
         <div className="py-4 text-center profile-area">
-          <img src={user1} alt="John Deo" width={60} className="rounded-circle mb-2" />
+          <img src={userData.profile || user1} alt="John Deo" width={60} className="rounded-circle mb-2" />
           <UncontrolledDropdown>
+            <div caret className="bg-transparent border-0">
+              {userData.firstName} {userData.lastName}
+            </div>
+            
             <DropdownToggle caret className="bg-transparent border-0">
               Soulaima Ftouhi
             </DropdownToggle>
@@ -77,7 +100,9 @@ const Sidebar = () => {
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>
+          )}
         <div>
+          
           <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
             {SidebarData.map((navi) => {
               if (navi.caption) {

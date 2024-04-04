@@ -14,6 +14,8 @@ import {
 import { Bell, MessageSquare, Grid, Menu } from 'react-feather';
 import { useSelector, useDispatch } from 'react-redux';
 import SimpleBar from 'simplebar-react';
+import { useNavigate } from 'react-router-dom';
+
 import MessageDD from './MessageDD';
 import MegaDD from './MegaDD';
 import NotificationDD from './NotificationDD';
@@ -21,15 +23,23 @@ import user1 from '../../assets/images/users/user4.jpg';
 
 import { ToggleMobileSidebar } from '../../store/customizer/CustomizerSlice';
 import ProfileDD from './ProfileDD';
-
 import HorizontalLogo from '../logo/HorizontalLogo';
 
+
 const HorizontalHeader = () => {
+  const navigate = useNavigate();
   const isDarkMode = useSelector((state) => state.customizer.isDark);
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
   // const isMobileSidebar = useSelector((state) => state.customizer.isMobileSidebar);
   const dispatch = useDispatch();
 
+  function userLogout(){
+
+    localStorage.removeItem('token');
+    navigate('/')
+    window.location.reload();
+
+  }
   return (
     <Navbar
       color={topbarColor}
@@ -135,8 +145,8 @@ const HorizontalHeader = () => {
             <ProfileDD />
 
             <div className="p-2 px-3">
-              <Button color="danger" size="sm">
-                Logout
+              <Button color="danger" size="sm" onClick={userLogout}>
+                Logouttt
               </Button>
             </div>
           </DropdownMenu>
