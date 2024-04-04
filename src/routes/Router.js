@@ -1,6 +1,17 @@
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
+import ReportList from '../views/reports/ReportList';
+import ReportForm from '../views/reports/ReportForm';
+import UpdateReport from '../views/reports/UpdateReport';
+import QuizList from '../views/quiz/QuizList';
+import QuizForm from '../views/quiz/QuizForm';
+import UpdateQuiz from '../views/quiz/UpdateQuiz';
+import QuestionList from '../views/questions/QuestionList';
+import QuestionForm from '../views/questions/QuestionForm';
+import UpdateQuestion from '../views/questions/UpdateQuestion';
+import StudentStatistics from '../views/reports/StudentStatistics';
+
 /****Layouts*****/
 
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
@@ -111,6 +122,11 @@ const ThemeRoutes = [
       { path: '/dashboards/analytical', name: 'Analytical', exact: true, element: <Analytical /> },
       { path: '/dashboards/demographical', name: 'Demographical', exact: true, element: <Demographical /> },
       { path: '/dashboards/modern', name: 'Modern', exact: true, element: <Modern /> },
+      //{ path: '/management/reports', name: 'notes', exact: true, element: <Report /> },
+
+
+
+
       { path: '/apps/notes', name: 'notes', exact: true, element: <Notes /> },
       { path: '/apps/chat', name: 'chat', exact: true, element: <Chat /> },
       { path: '/apps/contacts', name: 'contacts', exact: true, element: <Contacts /> },
@@ -176,6 +192,16 @@ const ThemeRoutes = [
         exact: true,
         element: <ReactBootstrapTable />,
       },
+      { path:"/question/update/:id" , name: 'question', exact: true, element: <UpdateQuestion/> },
+     { path:"/question/new" , name: 'question', exact: true, element: <QuestionForm/> },
+    { path:"/questions" , name: 'question', exact: true, element: <QuestionList /> },
+      { path:"/quiz/update/:id" , name: 'quiz', exact: true, element: <UpdateQuiz/> },
+     { path:"/quiz/new" , name: 'quiz', exact: true, element: <QuizForm/> },
+    { path:"/quiz" , name: 'quiz', exact: true, element: <QuizList /> },
+      { path:"/reports/update/:id" , name: 'report', exact: true, element: <UpdateReport/> },
+     { path:"/reports/new" , name: 'report', exact: true, element: <ReportForm/> },
+    { path:"/reports" , name: 'report', exact: true, element: <ReportList /> },
+    { path:"/statistics" , name: 'report', exact: true, element: <StudentStatistics /> },
       { path: '/charts/apex', name: 'apex', exact: true, element: <ApexCharts /> },
       { path: '/charts/chartjs', name: 'chartjs', exact: true, element: <ChartJs /> },
       { path: '/sample-pages/profile', name: 'profile', exact: true, element: <Profile /> },

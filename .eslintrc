@@ -49,6 +49,7 @@
     "react/jsx-no-bind":"off",
     "no-nested-ternary": "off",
     "react/react-in-jsx-scope": "off",
-    "react/destructuring-assignment": "off"
+    "react/destructuring-assignment": "off",
+    "no-underscore-dangle": "off"
   }
 }
