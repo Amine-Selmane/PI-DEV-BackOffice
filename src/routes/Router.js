@@ -17,8 +17,15 @@ import QuestionForm from '../views/questions/QuestionForm';
 import UpdateQuestion from '../views/questions/UpdateQuestion';
 import StudentStatistics from '../views/reports/StudentStatistics';
 
-/****Layouts*****/
+import ShowBook from '../components/apps/Books Management/pages/ShowBook';
+import BookManagement from '../components/apps/Books Management/pages/BookManagement';
+import CreateBooks from '../components/apps/Books Management/pages/CreateBook';
+import UpdateBook from '../components/apps/Books Management/pages/updateBook';
+import OrderManagement from '../components/apps/Orders/OrderManagement';
+import CreateOrder from '../components/apps/Orders/CreateOrder';
+import UpdateOrder from '../components/apps/Orders/UpdateOrder';
 
+/****Layouts*****/
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/BlankLayout')));
 /***** Pages ****/
@@ -29,13 +36,11 @@ const Demographical = Loadable(lazy(() => import('../views/dashboards/Demographi
 const Modern = Loadable(lazy(() => import('../views/dashboards/Modern')));
 
 /***** Apps ****/
-const Notes = Loadable(lazy(() => import('../views/apps/notes/Notes')));
 const Chat = Loadable(lazy(() => import('../views/apps/chat/Chat')));
 const Contacts = Loadable(lazy(() => import('../views/apps/contacts/Contacts')));
 const Calendar = Loadable(lazy(() => import('../views/apps/calendar/CalendarApp')));
-const Email = Loadable(lazy(() => import('../views/apps/email/Email')));
-const Shop = Loadable(lazy(() => import('../views/apps/ecommerce/Shop')));
-const ShopDetail = Loadable(lazy(() => import('../views/apps/ecommerce/ShopDetail')));
+const Shop = Loadable(lazy(() => import('../views/apps/Orders/Shop')));
+const ShopDetail = Loadable(lazy(() => import('../views/apps/Orders/ShopDetail')));
 const Treeview = Loadable(lazy(() => import('../views/apps/treeview/TreeView')));
 const TicketList = Loadable(lazy(() => import('../views/apps/ticket/TicketList')));
 const TicketDetail = Loadable(lazy(() => import('../views/apps/ticket/TicketDetail')));
@@ -129,28 +134,38 @@ const ThemeRoutes = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', name: 'Home', element: <Navigate to="/auth/loginFormik" /> },
-      { path: '/dashboards/minimal', name: 'Minimal', exact: true, element: <AuthorizeUser><Minimal /></AuthorizeUser> },
+      { path: '/', name: 'Home', element: <Navigate to="/dashboards/minimal" /> },
+      { path: '/books', name: 'books', exact: true, element: <BookManagement /> },
+      { path: '/books/details/:id', name: 'books', exact: true, element: <ShowBook /> },
+      { path: '/books/create', name: 'books', exact: true, element: <CreateBooks /> },
+      { path: '/books/update/:id', name: 'books', exact: true, element: <UpdateBook /> },
+///orders
 
-      { path: '/Events', name: 'Events', exact: true, element: <EventCrud /> },
-      { path: '/Reservations', name: 'Events', exact: true, element: <Reservations /> },
+      { path: '/orders', name: 'orders', exact: true, element: < OrderManagement/> },
+      { path: '/orders/create', name: 'books', exact: true, element: <CreateOrder /> },
+      { path: '/orders/updateOrder/:id', name: 'books', exact: true, element: <UpdateOrder /> },
 
-      { path: '/addEvent', name: 'addEvent', exact: true, element: <EventAdd /> },
 
+/////////////events
+{ path: '/Events', name: 'Events', exact: true, element: <EventCrud /> },
+{ path: '/Reservations', name: 'Events', exact: true, element: <Reservations /> },
+
+{ path: '/addEvent', name: 'addEvent', exact: true, element: <EventAdd /> },
+
+
+
+      { path: '/dashboards/minimal', name: 'Minimal', exact: true, element: <Minimal /> },
       { path: '/dashboards/analytical', name: 'Analytical', exact: true, element: <Analytical /> },
       { path: '/dashboards/demographical', name: 'Demographical', exact: true, element: <Demographical /> },
       { path: '/dashboards/modern', name: 'Modern', exact: true, element: <Modern /> },
-      //{ path: '/management/reports', name: 'notes', exact: true, element: <Report /> },
 
 
 
 
-      { path: '/apps/notes', name: 'notes', exact: true, element: <Notes /> },
       { path: '/apps/chat', name: 'chat', exact: true, element: <Chat /> },
+
       { path: '/apps/contacts', name: 'contacts', exact: true, element: <Contacts /> },
       { path: '/apps/calendar', name: 'calendar', exact: true, element: <Calendar /> },
-      { path: '/apps/email', name: 'email', exact: true, element: <Email /> },
-      { path: '/ecom/shop', name: 'email', exact: true, element: <Shop /> },
       { path: '/ecom/shopdetail', name: 'email', exact: true, element: <ShopDetail /> },
       { path: '/tickt/ticket-list', name: 'ticket list', exact: true, element: <TicketList /> },
       {

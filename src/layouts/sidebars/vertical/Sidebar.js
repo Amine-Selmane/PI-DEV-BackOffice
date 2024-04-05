@@ -14,7 +14,7 @@ import { ToggleMobileSidebar } from '../../../store/customizer/CustomizerSlice';
 import NavItemContainer from './NavItemContainer';
 import NavSubMenu from './NavSubMenu';
 
-import user1 from '../../../assets/images/users/user4.jpg';
+import user1 from '../../../assets/images/users/user6.jpg';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -72,6 +72,32 @@ const Sidebar = () => {
               {userData.firstName} {userData.lastName}
             </div>
             
+            <DropdownToggle caret className="bg-transparent border-0">
+              Soulaima Ftouhi
+            </DropdownToggle>
+            <DropdownMenu className='w-100 border'>
+              <DropdownItem className="px-4 py-3">
+                <User size={20} className="text-muted" />
+                &nbsp; My Profile
+              </DropdownItem>
+              <DropdownItem className="px-4 py-3">
+                <FileText size={20} className="text-muted" />
+                &nbsp; Edit Profile
+              </DropdownItem>
+              <DropdownItem className="px-4 py-3">
+                <Star size={20} className="text-muted" />
+                &nbsp; My Balance
+              </DropdownItem>
+              <DropdownItem className="px-4 py-3">
+                <Droplet size={20} className="text-muted" />
+                &nbsp; Customize
+              </DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem className="px-4 py-3">
+                <Settings size={20} className="text-muted" />
+                &nbsp; Settings
+              </DropdownItem>
+            </DropdownMenu>
           </UncontrolledDropdown>
         </div>
           )}
