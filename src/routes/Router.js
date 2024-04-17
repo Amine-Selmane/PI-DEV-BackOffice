@@ -1,6 +1,11 @@
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import Loadable from '../layouts/loader/Loadable';
+import  AuthorizeUser  from '../middlware/auth';
+
+/** auth middlware */
+// import  {AuthorizeUser,ProtectRoute} from './middlware/auth.js';
+
 import ReportList from '../views/reports/ReportList';
 import ReportForm from '../views/reports/ReportForm';
 import UpdateReport from '../views/reports/UpdateReport';
@@ -12,8 +17,15 @@ import QuestionForm from '../views/questions/QuestionForm';
 import UpdateQuestion from '../views/questions/UpdateQuestion';
 import StudentStatistics from '../views/reports/StudentStatistics';
 
-/****Layouts*****/
+import ShowBook from '../components/apps/Books Management/pages/ShowBook';
+import BookManagement from '../components/apps/Books Management/pages/BookManagement';
+import CreateBooks from '../components/apps/Books Management/pages/CreateBook';
+import UpdateBook from '../components/apps/Books Management/pages/updateBook';
+import OrderManagement from '../components/apps/Orders/OrderManagement';
+import CreateOrder from '../components/apps/Orders/CreateOrder';
+import UpdateOrder from '../components/apps/Orders/UpdateOrder';
 
+/****Layouts*****/
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/BlankLayout')));
 /***** Pages ****/
@@ -24,13 +36,11 @@ const Demographical = Loadable(lazy(() => import('../views/dashboards/Demographi
 const Modern = Loadable(lazy(() => import('../views/dashboards/Modern')));
 
 /***** Apps ****/
-const Notes = Loadable(lazy(() => import('../views/apps/notes/Notes')));
 const Chat = Loadable(lazy(() => import('../views/apps/chat/Chat')));
 const Contacts = Loadable(lazy(() => import('../views/apps/contacts/Contacts')));
 const Calendar = Loadable(lazy(() => import('../views/apps/calendar/CalendarApp')));
-const Email = Loadable(lazy(() => import('../views/apps/email/Email')));
-const Shop = Loadable(lazy(() => import('../views/apps/ecommerce/Shop')));
-const ShopDetail = Loadable(lazy(() => import('../views/apps/ecommerce/ShopDetail')));
+const Shop = Loadable(lazy(() => import('../views/apps/Orders/Shop')));
+const ShopDetail = Loadable(lazy(() => import('../views/apps/Orders/ShopDetail')));
 const Treeview = Loadable(lazy(() => import('../views/apps/treeview/TreeView')));
 const TicketList = Loadable(lazy(() => import('../views/apps/ticket/TicketList')));
 const TicketDetail = Loadable(lazy(() => import('../views/apps/ticket/TicketDetail')));
@@ -58,8 +68,9 @@ const Spinner = Loadable(lazy(() => import('../views/ui/Spinner')));
 const Tabs = Loadable(lazy(() => import('../views/ui/Tabs')));
 const Toasts = Loadable(lazy(() => import('../views/ui/Toasts')));
 const Tooltip = Loadable(lazy(() => import('../views/ui/Tooltip')));
-
-
+const EventCrud = Loadable(lazy(() => import('../Event/CRUD')));
+const EventAdd = Loadable(lazy(() => import('../Event/addEvent')));
+const Reservations = Loadable(lazy(() => import('../Event/Reservations')));
 /***** Form Layout Pages ****/
 const FormBasic = Loadable(lazy(() => import('../views/form-layouts/FormBasic')));
 const FormGrid = Loadable(lazy(() => import('../views/form-layouts/FormGrid')));
@@ -71,11 +82,16 @@ const Datepicker = Loadable(lazy(() => import('../views/form-pickers/DateTimePic
 const TagSelect = Loadable(lazy(() => import('../views/form-pickers/TagSelect')));
 
 /***** Form Validation Pages ****/
-const FormValidate = Loadable(lazy(() => import('../views/form-validation/FormValidation')));
+const AddUser = Loadable(lazy(() => import('../views/form-validation/AddUser')));
+const UpdateUser = Loadable(lazy(() => import('../views/form-validation/UpdateUser')));
+const AddDispo = Loadable(lazy(() => import('../views/form-validation/AddDispo')));
+const UpdateDispo = Loadable(lazy(() => import('../views/form-validation/UpdateDispo')));
 const FormSteps = Loadable(lazy(() => import('../views/form-steps/Steps')));
 const FormEditor = Loadable(lazy(() => import('../views/form-editor/FormEditor')));
 /***** Table Pages ****/
-const Basictable = Loadable(lazy(() => import('../views/tables/TableBasic')));
+const Usertable = Loadable(lazy(() => import('../views/tables/TableUser')));
+
+const Dispotable = Loadable(lazy(() => import('../views/tables/TableDispo')));
 const CustomReactTable = Loadable(lazy(() => import('../views/tables/CustomReactTable')));
 const ReactBootstrapTable = Loadable(lazy(() => import('../views/tables/ReactBootstrapTable')));
 
@@ -119,21 +135,37 @@ const ThemeRoutes = [
     element: <FullLayout />,
     children: [
       { path: '/', name: 'Home', element: <Navigate to="/dashboards/minimal" /> },
+      { path: '/books', name: 'books', exact: true, element: <BookManagement /> },
+      { path: '/books/details/:id', name: 'books', exact: true, element: <ShowBook /> },
+      { path: '/books/create', name: 'books', exact: true, element: <CreateBooks /> },
+      { path: '/books/update/:id', name: 'books', exact: true, element: <UpdateBook /> },
+///orders
+
+      { path: '/orders', name: 'orders', exact: true, element: < OrderManagement/> },
+      { path: '/orders/create', name: 'books', exact: true, element: <CreateOrder /> },
+      { path: '/orders/updateOrder/:id', name: 'books', exact: true, element: <UpdateOrder /> },
+
+
+/////////////events
+{ path: '/Events', name: 'Events', exact: true, element: <EventCrud /> },
+{ path: '/Reservations', name: 'Events', exact: true, element: <Reservations /> },
+
+{ path: '/addEvent', name: 'addEvent', exact: true, element: <EventAdd /> },
+
+
+
       { path: '/dashboards/minimal', name: 'Minimal', exact: true, element: <Minimal /> },
       { path: '/dashboards/analytical', name: 'Analytical', exact: true, element: <Analytical /> },
       { path: '/dashboards/demographical', name: 'Demographical', exact: true, element: <Demographical /> },
       { path: '/dashboards/modern', name: 'Modern', exact: true, element: <Modern /> },
-      //{ path: '/management/reports', name: 'notes', exact: true, element: <Report /> },
 
 
 
 
-      { path: '/apps/notes', name: 'notes', exact: true, element: <Notes /> },
       { path: '/apps/chat', name: 'chat', exact: true, element: <Chat /> },
+
       { path: '/apps/contacts', name: 'contacts', exact: true, element: <Contacts /> },
       { path: '/apps/calendar', name: 'calendar', exact: true, element: <Calendar /> },
-      { path: '/apps/email', name: 'email', exact: true, element: <Email /> },
-      { path: '/ecom/shop', name: 'email', exact: true, element: <Shop /> },
       { path: '/ecom/shopdetail', name: 'email', exact: true, element: <ShopDetail /> },
       { path: '/tickt/ticket-list', name: 'ticket list', exact: true, element: <TicketList /> },
       {
@@ -176,11 +208,16 @@ const ThemeRoutes = [
         element: <Datepicker />,
       },
       { path: '/form-pickers/tag-select', name: 'tag-select', exact: true, element: <TagSelect /> },
-      { path: '/form-validation', name: 'form-validation', exact: true, element: <FormValidate /> },
+      { path: '/addUser', name: 'form-validation', exact: true, element:<AuthorizeUser> <AddUser /> </AuthorizeUser>},
+      { path: '/user-update/:UserId', name: 'user-update', exact: true, element:<AuthorizeUser> <UpdateUser /></AuthorizeUser> },
+      { path: '/addDisponibilite', name: 'addDisponibilite', exact: true, element:<AuthorizeUser> <AddDispo /> </AuthorizeUser>},
+      { path: '/disponibilite-update/:id', name: 'Disponibilite-update', exact: true, element:<AuthorizeUser> <UpdateDispo /></AuthorizeUser> },
       { path: '/form-steps', name: 'form-steps', exact: true, element: <FormSteps /> },
       { path: '/form-editor', name: 'form-editor', exact: true, element: <FormEditor /> },
 
-      { path: '/tables/basic-table', name: 'basic-table', exact: true, element: <Basictable /> },
+      { path: '/tables/user-table', name: 'user-table', exact: true, element:<AuthorizeUser> <Usertable /> </AuthorizeUser>},
+
+      { path: '/tables/disponibilite-table', name: 'disponibilite-table', exact: true, element:<AuthorizeUser> <Dispotable /> </AuthorizeUser>},
       {
         path: '/tables/react-table',
         name: 'react-table',
@@ -205,7 +242,7 @@ const ThemeRoutes = [
     { path:"/statistics" , name: 'report', exact: true, element: <StudentStatistics /> },
       { path: '/charts/apex', name: 'apex', exact: true, element: <ApexCharts /> },
       { path: '/charts/chartjs', name: 'chartjs', exact: true, element: <ChartJs /> },
-      { path: '/sample-pages/profile', name: 'profile', exact: true, element: <Profile /> },
+      { path: '/sample-pages/profile', name: 'profile', exact: true, element:<AuthorizeUser> <Profile /> </AuthorizeUser>},
       {
         path: '/sample-pages/helper-class',
         name: 'helper-class',
