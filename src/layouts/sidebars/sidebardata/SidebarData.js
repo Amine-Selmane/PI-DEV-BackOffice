@@ -65,7 +65,13 @@ const SidebarData = [
     id: 4.1,
     collapisble: false,
   },
-  
+  {
+    title: 'Payment Table',
+    href: '/tables/payment-table',
+    icon: <Icon.Codepen />,
+    id: 4.1,
+    collapisble: false,
+  },
  
   
   { caption: 'Books Management' },
