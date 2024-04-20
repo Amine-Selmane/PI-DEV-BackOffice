@@ -33,17 +33,19 @@ const ProjectTables = () => {
     }
   }, [selectedRole, users]);
 
+  
   useEffect(() => {
     if (searchQuery === '') {
       setFilteredUsers(users);
     } else {
       const filtered = users.filter(user =>
-        user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.mobile.toString().toLowerCase().includes(searchQuery) ||
-        user.role.toLowerCase().includes(searchQuery.toLowerCase())
+        (user.firstName && user.firstName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (user.lastName && user.lastName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (user.address && user.address.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (user.mobile && user.mobile.toString().toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (user.role && user.role.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (user.grade && user.grade.toLowerCase().includes(searchQuery.toLowerCase()))
       );
       setFilteredUsers(filtered);
     }
@@ -78,6 +80,7 @@ const ProjectTables = () => {
       });
 
       setUsers(prevUsers => prevUsers.filter(user => user._id !== userId));
+      window.location.reload();
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -88,8 +91,8 @@ const ProjectTables = () => {
       const currentDate = new Date(); // Get current date
       const updatedUser = await axios.put(`http://localhost:5000/api/update/${userId}`, {
         isPayer: true,
-        datePay: currentDate,
-        amount: 0 // Provide a default value for amount or replace it with the actual value
+        datePay: currentDate
+        
       });
   
       // Update the users state with the updated user
@@ -143,7 +146,7 @@ const ProjectTables = () => {
             <th className='px-4 text-center' style={{ width: '20%' }}>Address</th>
             <th className='px-4 text-center'>Phone</th>
             <th className='px-4 text-center'>Role</th>
-            <th className='px-4 text-center'>Payed</th>
+            <th className='px-4 text-center'>Grade</th>
             <th className='px-4 text-center' style={{ width: '20%' }}>Actions</th>
           </tr>
         </thead>
@@ -193,6 +196,7 @@ const ProjectTables = () => {
 )}
 
               </td>
+              <td className="text-center">{user.grade}</td>
               <td className="text-center">
                 <Button onClick={() => handleUpdate(user._id)}>
                   <FiEdit size={20} />
