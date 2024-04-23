@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Upload, message } from 'antd';
-import { UploadOutlined, ArrowLeftOutlined } from '@ant-design/icons'; // Import the ArrowLeftOutlined icon
+import { Form, Input, Button, Upload, message, Image } from 'antd';
+import { UploadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const CreateBook = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
+  const [imageList, setImageList] = useState([]);
   const [formFilled, setFormFilled] = useState(false);
 
   const onFinish = async (values) => {
@@ -15,22 +16,21 @@ const CreateBook = () => {
       formData.append('title', values.title);
       formData.append('description', values.description);
       formData.append('price', values.price);
-      formData.append('file', fileList[0]?.originFileObj); // Get the uploaded file object
-
+      formData.append('quantity', values.quantity);
+      formData.append('file', fileList[0]?.originFileObj);
+      formData.append('image', imageList[0]?.originFileObj);
 
       await axios.post('http://localhost:5000/books/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-
       });
 
       message.success('Book added successfully!');
-     window.location.href='/books';
-        navigate('/books');
       form.resetFields();
-      setFileList([]); // Reset file list after successful submission
-      setFormFilled(false); // Reset formFilled state
+      setFileList([]);
+      setImageList([]);
+      setFormFilled(false);
     } catch (error) {
       console.error('Error adding book:', error);
       message.error('Failed to add book');
@@ -39,10 +39,14 @@ const CreateBook = () => {
 
   const onFileChange = ({ fileList }) => {
     setFileList(fileList);
-    setFormFilled(true); // Set formFilled to true when file is uploaded
+    setFormFilled(true);
   };
 
-  // Function to check if any form field is filled
+  const onImageChange = ({ fileList }) => {
+    setImageList(fileList);
+    setFormFilled(true);
+  };
+
   const isFormEmpty = () => {
     const fields = form.getFieldsValue();
     return Object.values(fields).every(value => value === undefined || value === '');
@@ -57,29 +61,31 @@ const CreateBook = () => {
         <Input.TextArea placeholder="Enter description" />
       </Form.Item>
       <Form.Item name="price" label="Price" rules={[{ required: true, message: 'Please enter price' }]}>
-  <Input
-    type="number"
-    placeholder="Enter price (e.g., $)"
-    addonBefore="$"
-  />
-</Form.Item>
-
+        <Input type="number" placeholder="Enter price" addonBefore="$" />
+      </Form.Item>
+      <Form.Item name="quantity" label="Quantity" rules={[{ required: true, message: 'Please enter quantity' }]}>
+        <Input type="number" placeholder="Enter quantity" />
+      </Form.Item>
       <Form.Item name="file" label="File" rules={[{ required: true, message: 'Please upload file' }]}>
-        <Upload
-          fileList={fileList}
-          onChange={onFileChange}
-          beforeUpload={() => false} // Disable automatic upload
-        >
+        <Upload fileList={fileList} onChange={onFileChange} beforeUpload={() => false} name="file">
           <Button icon={<UploadOutlined />}>Upload File</Button>
         </Upload>
       </Form.Item>
+      <Form.Item name="image" label="Image" rules={[{ required: true, message: 'Please upload image' }]}>
+        <Upload fileList={imageList} onChange={onImageChange} beforeUpload={() => false} name="image">
+          <Button icon={<UploadOutlined />}>Upload Image</Button>
+        </Upload>
+        {imageList.length > 0 && imageList[0]?.originFileObj && (
+          <Image width={200} src={URL.createObjectURL(imageList[0]?.originFileObj)} />
+        )}
+      </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" disabled={!formFilled}>
           Add Book
         </Button>
-        {isFormEmpty() && ( // Render Cancel button only if form is not empty
+        {!isFormEmpty() && (
           <Link to="/books">
-            <Button type="default" icon={<ArrowLeftOutlined />}>back</Button> {/* Use ArrowLeftOutlined icon */}
+            <Button type="default" icon={<ArrowLeftOutlined />}>Back</Button>
           </Link>
         )}
       </Form.Item>
