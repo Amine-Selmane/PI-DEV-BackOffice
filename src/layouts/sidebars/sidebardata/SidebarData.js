@@ -68,7 +68,7 @@ const SidebarData = [
   
  
   
-  
+  { caption: 'Books Management' },
     {
       title: 'Book Store',
       href: '/books',

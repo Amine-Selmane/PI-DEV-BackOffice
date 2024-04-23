@@ -83,13 +83,14 @@ const EventAddForm = () => {
               </Col>
             </Row>
             <Form.Item>
-              <FirebaseImageUpload onImageUpload={setUploadedImageUrl} />
-            </Form.Item>
-            <Form.Item>
-             <Button type="primary" htmlType="submit" onClick={form.submit} style={{ width: '100%' }}>
+             <Button type="primary" htmlType="submit"  style={{ width: '100%' }}>
                 Submit
               </Button>
             </Form.Item>
+            <Form.Item>
+              <FirebaseImageUpload onImageUpload={setUploadedImageUrl} />
+            </Form.Item>
+          
           </Form>
         </Col>
       </Row>
