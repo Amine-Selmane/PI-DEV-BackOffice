@@ -211,23 +211,7 @@ const Courses = (args) => {
                     </tr>
                   ))}
 
-render: (_, post) => (
-        <span>
-        <Popconfirm
 
-        title="Sure to delete?"
-            onConfirm={() => handleEdit(post._id)}
-           // disabled={editingKey !== ''}
-          <Button type="primary" icon={<EditOutlined />} />
-          </Popconfirm>
-          <Popconfirm
-            title="Sure to delete?"
-            onConfirm={() => handleDelete(post._id)}
-          
-          <Button type="danger" icon={<DeleteOutlined />}/>
-          </Popconfirm>
-        </span>
-      ),
                 </tbody>
               </table>
             </div>
