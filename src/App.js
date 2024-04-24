@@ -1,9 +1,12 @@
 import React, { Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
 import Themeroutes from './routes/Router';
 import ThemeSelector from './layouts/theme/ThemeSelector';
 import Loader from './layouts/loader/Loader';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const App = () => {
   const routing = useRoutes(Themeroutes);
@@ -11,6 +14,7 @@ const App = () => {
   const isMode = useSelector((state) => state.customizer.isDark);
   return (
     <Suspense fallback={<Loader />}>
+      <ToastContainer />
       <div
         className={`${direction ? 'rtl' : 'ltr'} ${isMode ? 'dark' : ''}`}
         dir={direction ? 'rtl' : 'ltr'}

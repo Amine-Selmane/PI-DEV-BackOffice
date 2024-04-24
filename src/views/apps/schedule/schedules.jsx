@@ -11,8 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
 import { Button, Grid } from '@mui/material';
-import toast from 'react-hot-toast';
-import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 const Schedules = () => {
@@ -21,7 +20,7 @@ const Schedules = () => {
   const [availability, setAvailability] = useState(false);
   const [message, setMessage] = useState(3);
 
-  const [selectedTeachers, setSelectedTeachers] = useState([]);
+  const [selectedTeachers, setSelectedTeachers] = useState(null);
   const [selectedStudents, setSelectedStudents] = useState([]);
 
   const [scheduleData, setScheduleData] = useState({
@@ -85,7 +84,16 @@ const Schedules = () => {
         setShowSelect(false);
       }
 
-      setMessage(res.data.message)
+      toast(res.data.message, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
 
       return res.data;
     } catch (err) {
@@ -96,17 +104,33 @@ const Schedules = () => {
   const addSchdule = async () => {
     const config = { headers: { "Content-Type": "application/json" } };
     const body = JSON.stringify({
-      teacher: "660e16be23ca2a53f2b9ef99",
+      teacher: selectedTeachers,
       students: selectedStudents,
       startDateTime: scheduleData.heureDebut.format('HH:mm'),
       endDateTime: scheduleData.heureFin.format('HH:mm'),
       day: scheduleData.dateValue.format("dddd").toLowerCase()
     });
-    console.log(body);
+    //console.log(body);
     await axios.post(`http://localhost:5000/scheduleSessions`, body, config)
       .then((res) => {
-        setMessage(res);
+        toast(res.data.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         setAvailability(false);
+        setScheduleData({
+          dateValue: null,
+          heureDebut: null,
+          heureFin: null,
+          teachers: [],
+          students: []
+        })
       }).catch((err) => {
         console.log(err);
       })
@@ -115,17 +139,7 @@ const Schedules = () => {
   const handleClick = async () => {
     try {
       await addSchdule();
-      toast(' Wow so easy!', {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        
-      });
+
     } catch (error) {
       
       console.error("Error adding schedule:", error);
@@ -195,7 +209,6 @@ const Schedules = () => {
                         multiple
                         onChange={(newData) => {
                           setSelectedStudents(newData.target.value);
-                          //selectedStudents.push(newData.target.value);
                           console.log(selectedStudents);
                         }}
                       >
@@ -219,7 +232,6 @@ const Schedules = () => {
                       <Select
                         labelId="demo-multiple-name-label"
                         id="demo-multiple-name"
-                        multiple
                         value={selectedTeachers}
                         onChange={(newData) => {
                           setSelectedTeachers(newData.target.value);
@@ -248,7 +260,6 @@ const Schedules = () => {
           )}
 
         </Grid>
-        <ToastContainer />
       </DemoContainer>
 
       
