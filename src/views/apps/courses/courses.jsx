@@ -12,8 +12,25 @@ const Courses = (args) => {
   const [modal, setModal] = useState(false);
   const [postToUpdate, setPostToUpdate] = useState(null)
   const [formMode, setFormMode] = useState("create");
-  const toggle = () => {setModal(!modal)};
-  
+  const [teachersFetch, setfetchTeachers] = useState([]);
+
+  const toggle = () => { setModal(!modal) };
+
+  const fetchTeacher = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/getall');
+      const teachers = res.data.filter(user => user.role === 'teacher');
+      setfetchTeachers(teachers);
+      console.log(teachersFetch)
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTeacher();
+  }, []);
+
 
   const handleEdit = (post) => {
     console.log(post);
@@ -35,9 +52,9 @@ const Courses = (args) => {
   const [postid, setPostId] = useState({
     course: "",
     classroom: "",
-    duration:30,
+    duration: 30,
     teacher: "",
-    nbrQuiz:""
+    nbrQuiz: ""
   });
 
   useEffect(() => {
@@ -75,10 +92,10 @@ const Courses = (args) => {
     if (formMode === "create") {
       await axios.post(`http://localhost:5000/courses/setCourse`, postid);
     }
-   else{
-    await axios.put(`http://localhost:5000/courses/updateCourse/${postToUpdate._id}`, postid);
-   }
-   window.location.reload(false);
+    else {
+      await axios.put(`http://localhost:5000/courses/updateCourse/${postToUpdate._id}`, postid);
+    }
+    window.location.reload(false);
   };
 
 
@@ -103,7 +120,7 @@ const Courses = (args) => {
                   <ModalBody className="input-add" >
                     <div>
                       <input
-                      defaultValue={postToUpdate?.name}
+                        defaultValue={postToUpdate?.name}
                         type="text"
                         placeholder="Course name..."
                         name="name"
@@ -112,43 +129,56 @@ const Courses = (args) => {
                       />
                     </div>
                     <div>
-                        <input
+                      <input
                         defaultValue={postToUpdate?.classroom}
-                          type="number"
-                          placeholder="Classroom..."
-                          name="classroom"
-                          value={postid?.classroom}
-                          onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <input
-                          defaultValue={postToUpdate?.duration}
-                          placeholder="Class duration"
-                          name="duration"
-                          disabled
-                          value={postid?.duration}
-                        />
-                    </div>
-                    <div>
-                        <input
-                          defaultValue={postToUpdate?.nbrQuiz}
-                          type="number"
-                          placeholder="Number of quizzes"
-                          name="nbrQuiz"
-                          value={postid?.nbrQuiz}
-                          onChange={handleChange}
-                        />
+                        type="number"
+                        placeholder="Classroom..."
+                        name="classroom"
+                        value={postid?.classroom}
+                        onChange={handleChange}
+                      />
                     </div>
                     <div>
                       <input
+                        defaultValue={postToUpdate?.duration}
+                        placeholder="Class duration"
+                        name="duration"
+                        disabled
+                        value={postid?.duration}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        defaultValue={postToUpdate?.nbrQuiz}
+                        type="number"
+                        placeholder="Number of quizzes"
+                        name="nbrQuiz"
+                        value={postid?.nbrQuiz}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div>
+                      <select
+                      defaultValue={postToUpdate?.teacher_name}
+                        placeholder="Teacher Name"
+                        name="teacher_name"
+                        value={postid?.teacher}
+                        onChange={handleChange}
+                        >
+                        {teachersFetch.map((teacher) => (
+                          <option key={teacher.id}>
+                            {teacher.firstName} {teacher.lastName}
+                          </option>
+                        ))}
+                      </select>
+                      {/* <input
                       defaultValue={postToUpdate?.teacher_name}
                         type="text"
                         placeholder="Teacher name..."
                         name="teacher_name"
                         value={postid.teacher_name}
                         onChange={handleChange}
-                      />
+                      /> */}
                     </div>
                   </ModalBody>
                   <ModalFooter>
