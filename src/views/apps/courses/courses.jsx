@@ -26,7 +26,7 @@ const Courses = (args) => {
       console.error('Error fetching users:', error);
     }
   };
-
+ 
   useEffect(() => {
     fetchTeacher();
   }, []);
