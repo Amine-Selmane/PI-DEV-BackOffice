@@ -25,7 +25,7 @@ const FormValidate = () => {
         setValue('email', data.email);
         setValue('address', data.address);
         setValue('mobile', data.mobile);
-        
+        setValue('mobile', data.grade);
         setLoading(false);
       })
       .catch(error => {
@@ -36,7 +36,7 @@ const FormValidate = () => {
 
 
   const onSubmit = (data) => {
-    const updatedUser = { firstName: data.firstName,lastName: data.lastName, username: data.username, email: data.email, address: data.address, mobile: data.mobile };
+    const updatedUser = { firstName: data.firstName,lastName: data.lastName, username: data.username, email: data.email, address: data.address, mobile: data.mobile , grade:data.grade};
     console.log("Data to be sent:", updatedUser);
     fetch(`http://localhost:5000/api/update/${UserId}`, {
       method: "PUT",
@@ -142,7 +142,19 @@ const FormValidate = () => {
                 <span className="text-danger">{errors.address && 'Address is required.'}</span>
               </FormGroup>
              
-              
+              <FormGroup>
+              <Label>Grade</Label><br/>
+              <select name="grade" {...register('grade')}>
+                <option value="Beginner">1st year (Beginner)</option>
+                <option value="2nd year">2nd year (Sophomore)</option>
+                <option value="3rd year">3rd year (Junior)</option>
+                <option value="4th year">4th year (Senior)</option>
+                <option value="5th year">5th year</option>
+                <option value="6th year">6th year</option>
+                <option value="terminal">7th year (Terminal)</option>
+              </select>
+            </FormGroup>
+
               
               <FormGroup>
                 <Button className="button btn-info" type="submit">

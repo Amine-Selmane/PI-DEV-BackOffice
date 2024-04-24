@@ -8,6 +8,7 @@
     "@blueprintjs/core": "^4.4.1",
     "@casl/ability": "^5.4.4",
     "@casl/react": "^3.0.0",
+    "@fortawesome/fontawesome-free": "^6.5.2",
     "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.4",

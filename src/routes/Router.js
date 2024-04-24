@@ -24,6 +24,7 @@ import UpdateBook from '../components/apps/Books Management/pages/updateBook';
 import OrderManagement from '../components/apps/Orders/OrderManagement';
 import CreateOrder from '../components/apps/Orders/CreateOrder';
 import UpdateOrder from '../components/apps/Orders/UpdateOrder';
+import PaymentTables from '../components/dashboard/extraDashboard/PaymentTables';
 
 /****Layouts*****/
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
@@ -90,7 +91,7 @@ const FormSteps = Loadable(lazy(() => import('../views/form-steps/Steps')));
 const FormEditor = Loadable(lazy(() => import('../views/form-editor/FormEditor')));
 /***** Table Pages ****/
 const Usertable = Loadable(lazy(() => import('../views/tables/TableUser')));
-
+const TablePay = Loadable(lazy(() => import('../views/tables/TablePay')));
 const Dispotable = Loadable(lazy(() => import('../views/tables/TableDispo')));
 const CustomReactTable = Loadable(lazy(() => import('../views/tables/CustomReactTable')));
 const ReactBootstrapTable = Loadable(lazy(() => import('../views/tables/ReactBootstrapTable')));
@@ -134,7 +135,8 @@ const ThemeRoutes = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', name: 'Home', element: <Navigate to="/dashboards/minimal" /> },
+      { path: '/', name: 'Home', element: <Navigate to="/auth/loginformik" /> },
+
       { path: '/books', name: 'books', exact: true, element: <BookManagement /> },
       { path: '/books/details/:id', name: 'books', exact: true, element: <ShowBook /> },
       { path: '/books/create', name: 'books', exact: true, element: <CreateBooks /> },
@@ -216,7 +218,7 @@ const ThemeRoutes = [
       { path: '/form-editor', name: 'form-editor', exact: true, element: <FormEditor /> },
 
       { path: '/tables/user-table', name: 'user-table', exact: true, element:<AuthorizeUser> <Usertable /> </AuthorizeUser>},
-
+      { path: '/tables/payment-table', name: 'payment-table', exact: true, element:<AuthorizeUser> <TablePay /> </AuthorizeUser>},
       { path: '/tables/disponibilite-table', name: 'disponibilite-table', exact: true, element:<AuthorizeUser> <Dispotable /> </AuthorizeUser>},
       {
         path: '/tables/react-table',

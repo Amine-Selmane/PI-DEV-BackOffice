@@ -9,12 +9,18 @@ const EditBook = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  const [fileList, setFileList] = useState([]);
+  const [imageList, setImageList] = useState([]);
+  const [quantity, setQuantity] = useState(0); // Initialize quantity state
 
   useEffect(() => {
-    // Fetch book data and set form fields
     axios.get(`http://localhost:5000/books/getbookbyid/${id}`)
       .then((response) => {
-        form.setFieldsValue(response.data); // Set form fields with fetched data
+        const { title, description, price, file, image, quantity } = response.data;
+        form.setFieldsValue({ title, description, price });
+        setFileList([{ uid: '-1', name: file, status: 'done', url: file }]);
+        setImageList([{ uid: '-1', name: image, status: 'done', url: image }]);
+        setQuantity(quantity); // Set quantity state
       })
       .catch((error) => {
         console.error('Error fetching book data:', error);
@@ -27,7 +33,19 @@ const EditBook = () => {
 
   const handleFinish = (values) => {
     setLoading(true);
-    axios.put(`http://localhost:5000/books/update/${id}`, values)
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('description', values.description);
+    formData.append('price', values.price);
+    formData.append('file', fileList[0]?.originFileObj);
+    formData.append('image', imageList[0]?.originFileObj);
+    formData.append('quantity', quantity); // Include quantity in form data
+
+    axios.put(`http://localhost:5000/books/update/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
       .then(() => {
         setLoading(false);
         navigate('/books');
@@ -57,7 +75,6 @@ const EditBook = () => {
         form={form}
         onFinish={handleFinish}
         layout="vertical"
-        initialValues={{ price: 0 }} // Set initial value for price field
       >
         <Form.Item
           name="title"
@@ -73,22 +90,45 @@ const EditBook = () => {
         >
           <Input.TextArea placeholder="Enter description" />
         </Form.Item>
-        <Form.Item name="price" label="Price" rules={[{ required: true, message: 'Please enter price' }]}>
-  <Input
-    type="number"
-    placeholder="Enter price (e.g., $)"
-    addonBefore="$"
-  />
-</Form.Item>
+        <Form.Item
+          name="price"
+          label="Price"
+          rules={[{ required: true, message: 'Please enter price' }]}
+        >
+          <Input type="number" placeholder="Enter price" addonBefore="$" />
+        </Form.Item>
+        <Form.Item
+          name="quantity"
+          label="Quantity" // Add quantity field
+          initialValue={quantity} // Set initial value
+          rules={[{ required: true, message: 'Please enter quantity' }]}
+        >
+          <Input type="number" placeholder="Enter quantity" />
+        </Form.Item>
         <Form.Item
           name="file"
           label="File"
           rules={[{ required: true, message: 'Please upload file' }]}
         >
           <Upload
+            fileList={fileList}
+            onChange={({ fileList }) => setFileList(fileList)}
             beforeUpload={() => false} // Disable automatic upload
           >
             <Button icon={<UploadOutlined />}>Upload File</Button>
+          </Upload>
+        </Form.Item>
+        <Form.Item
+          name="image"
+          label="Image"
+          rules={[{ required: true, message: 'Please upload image' }]}
+        >
+          <Upload
+            fileList={imageList}
+            onChange={({ fileList }) => setImageList(fileList)}
+            beforeUpload={() => false} // Disable automatic upload
+          >
+            <Button icon={<UploadOutlined />}>Upload Image</Button>
           </Upload>
         </Form.Item>
         <Form.Item>
