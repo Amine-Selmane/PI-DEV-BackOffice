@@ -48,6 +48,15 @@ const SidebarData = [
     id: 2.6,
     collapisble: false,
   },
+  { caption: 'Schedule Managment' },
+ 
+  {
+    title: 'Schedules',
+    href: '/schedules',
+    icon: <Icon.Calendar />,
+    id: 2.7,
+    collapisble: false,
+  },
   
 
   { caption: 'User Management' },

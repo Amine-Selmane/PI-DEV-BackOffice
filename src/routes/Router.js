@@ -119,6 +119,8 @@ const Widget = Loadable(lazy(() => import('../views/widget/Widget')));
 
 /***** Courses ****/
 const Courses = Loadable(lazy(() => import('../views/apps/courses/courses')));
+/***** Schedules ****/
+const Schedules = Loadable(lazy(() => import('../views/apps/schedule/schedules')));
 
 /***** Auth Pages ****/
 const Error = Loadable(lazy(() => import('../views/auth/Error')));
@@ -269,6 +271,7 @@ const ThemeRoutes = [
       { path: '/map/vector', name: 'vector', exact: true, element: <CustomVectorMap /> },
       { path: '/widget', name: 'widget', exact: true, element: <Widget /> },
       { path: '/courses', name: 'courses', exact: true, element: <Courses /> },
+      { path: '/schedules', name: 'schedules', exact: true, element: <Schedules /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
