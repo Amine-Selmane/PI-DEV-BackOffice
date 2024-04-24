@@ -161,9 +161,9 @@ const toggleSearchInput = () => {
       title: 'Course',
       dataIndex: 'course',
       width: '25%',
-      render: (text, record) => <span>{record.course.name}</span>,
-  
+      render: (text, record) => record.course ? <span>{record.course.name}</span> : null,
     },
+    
     {
       title: 'Mark',
       dataIndex: 'mark',
