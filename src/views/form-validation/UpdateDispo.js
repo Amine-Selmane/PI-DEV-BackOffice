@@ -66,14 +66,14 @@ const FormValidate = () => {
                     {...register('jour', { required: true })}
                     className="form-control"
                   >
-                    <option value="">Sélectionnez un jour</option>
-                    <option value="lundi">Lundi</option>
-                    <option value="mardi">Mardi</option>
-                    <option value="mercredi">Mercredi</option>
-                    <option value="jeudi">Jeudi</option>
-                    <option value="vendredi">Vendredi</option>
-                    <option value="samedi">Samedi</option>
-                    <option value="dimanche">Dimanche</option>
+                     <option value="">Select a day</option>
+                    <option value="monday">Monday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
+                    <option value="sunday">Sunday</option>
                   </select>
                 </div>
                 <span className="text-danger">{errors.jour && 'Jour is required.'}</span>

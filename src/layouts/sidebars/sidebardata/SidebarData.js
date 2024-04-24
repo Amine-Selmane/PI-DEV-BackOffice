@@ -48,6 +48,15 @@ const SidebarData = [
     id: 2.6,
     collapisble: false,
   },
+  { caption: 'Schedule Managment' },
+ 
+  {
+    title: 'Schedules',
+    href: '/schedules',
+    icon: <Icon.Calendar />,
+    id: 2.7,
+    collapisble: false,
+  },
   
 
   { caption: 'User Management' },
@@ -65,7 +74,13 @@ const SidebarData = [
     id: 4.1,
     collapisble: false,
   },
-  
+  {
+    title: 'Payment Table',
+    href: '/tables/payment-table',
+    icon: <Icon.Codepen />,
+    id: 4.1,
+    collapisble: false,
+  },
  
   
   { caption: 'Books Management' },

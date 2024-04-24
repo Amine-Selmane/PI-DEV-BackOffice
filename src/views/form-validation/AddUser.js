@@ -9,20 +9,20 @@ import ComponentCard from '../../components/ComponentCard';
 const FormValidate = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm(); // initialise the hook
-  const [setUser] = useState({
-
+  const [user, setUser] = useState({
     firstName: '',
     lastName: '',
     username: '', 
     email: '',
     dateNaiss: '',
     address: '',
-    mobile: '', // Leave as an empty string initially
+    mobile: '',
     sexe: '',
     role: '',
     password: '',
-    
+    grade:'',
   });
+  
 
 
   const onSubmit = (data) => {
@@ -196,6 +196,18 @@ const FormValidate = () => {
                 </div>
                 <span className="text-danger">{errors.role && 'Please select value.'}</span>
               </FormGroup>
+              <FormGroup>
+                            <Label>Grade</Label><br/>
+                            <select name="grade" value={userData.grade} onChange={handleInputChange} style={selectStyle}>
+                              <option value="Beginner">1st year (Beginner)</option>
+                              <option value="2nd year">2nd year (Sophomore)</option>
+                              <option value="3rd year">3rd year (Junior)</option>
+                              <option value="4th year">4th year (Senior)</option>
+                              <option value="5th year">5th year</option>
+                              <option value="6th year">6th year</option>
+                              <option value="terminal">7th year (Terminal)</option>
+                            </select>
+                          </FormGroup>
               <FormGroup>
                 <Button className="button btn-info" type="submit">
                   Submit

@@ -51,6 +51,7 @@ const TableDispo = () => {
 
       // Remove the deleted disponibilite from the state
       setDispo(prevDispo => prevDispo.filter(dispoItem => dispoItem.idDispo !== idDispo));
+      window.location.reload();
     } catch (error) {
       console.error("Error deleting disponibilite:", error);
     }
@@ -69,67 +70,81 @@ const filteredDispo = dispo.filter(dispoItem => {
     user.lastName.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 });
+const groupedDispo = Object.values(filteredDispo.reduce((acc, dispoItem) => {
+  if (!acc[dispoItem.utilisateur]) {
+    acc[dispoItem.utilisateur] = [];
+  }
+  acc[dispoItem.utilisateur].push(dispoItem);
+  return acc;
+}, {}));
 
-  return (
-    <>
-      <ComponentCard title="Availability Table">
-        {/* Champ de recherche */}
-        <Nav className="me-auto d-none d-lg-flex " navbar>
-      <NavItem className="app-search ps-3">
-        <Input
-          type="text"
-          placeholder="Search..."
-          className="rounded-pill"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ borderColor: 'orange' }}
-        />
+
+return (
+  <>
+    <ComponentCard title="Availability Table">
+      {/* Champ de recherche */}
+      <Nav className="me-auto d-none d-lg-flex " navbar>
+        <NavItem className="app-search ps-3">
+          <Input
+            type="text"
+            placeholder="Search..."
+            className="rounded-pill"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ borderColor: 'orange' }}
+          />
         </NavItem>
-
-</Nav>
-<br></br>
-        <Button onClick={() => navigate('/addDisponibilite')} className="mb-3">
-          <FiPlusCircle size={20} className="me-2" />
-          Add Availability
-        </Button>
-        <Table className="no-wrap align-middle" responsive borderless>
-          <thead>
-            <tr>
-              <th className='px-4 text-center'>User</th>
-              <th className='px-4 text-center'>Role</th>
-              <th className='px-4 text-center'>Jour</th>
-              <th className='px-4 text-center'>Heure Debut</th>
-              <th className='px-4 text-center'>Heure Fin</th>
-              <th className='px-4 text-center'>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredDispo.map((dispoItem) => (
-              <tr key={dispoItem._id}>
-                {users[dispoItem.utilisateur] && (
-                  <>
-                    <td className="text-center">{`${users[dispoItem.utilisateur].firstName} ${users[dispoItem.utilisateur].lastName}`}</td>
-                    <td className="text-center">{users[dispoItem.utilisateur].role}</td>
-                  </>
-                )}
-                 <td className="text-center"> {dispoItem.jour}</td>
-                <td className="text-center">{dispoItem.heureDebut}</td>
-                <td className="text-center">{dispoItem.heureFin}</td>
-                <td className="text-center">
-                  <Button onClick={() => handleUpdate(dispoItem._id)}>
-                    <FiEdit size={20} />
-                  </Button>{" "}
-                  <Button onClick={() => handleDelete(dispoItem._id)}>
-                    <FaArchive size={20} />
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </ComponentCard>
-    </>
-  );
-};
-
+      </Nav>
+      <br />
+      <Button onClick={() => navigate('/addDisponibilite')} className="mb-3">
+        <FiPlusCircle size={20} className="me-2" />
+        Add Availability
+      </Button>
+      <Table className="no-wrap align-middle" responsive borderless>
+        <thead>
+          <tr>
+            <th className='px-4 text-center'>User</th>
+            <th className='px-4 text-center'>Role</th>
+            <th className='px-4 text-center'>Jour</th>
+            <th className='px-4 text-center'>Heure Debut</th>
+            <th className='px-4 text-center'>Heure Fin</th>
+            <th className='px-4 text-center'>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {groupedDispo.map((userDispos, index) => {
+            const user = users[userDispos[0].utilisateur];
+            return (
+              <React.Fragment key={index}>
+                {userDispos.map((dispoItem, subIndex) => (
+                  <tr key={`${index}-${subIndex}`}>
+                    {subIndex === 0 ? (
+                      <>
+                        <td className="text-center">{`${user.firstName} ${user.lastName}`}</td>
+                        <td className="text-center">{user.role}</td>
+                      </>
+                    ) : (
+                      <>
+                        <td className="text-center"></td>
+                        <td className="text-center"></td>
+                      </>
+                    )}
+                    <td className="text-center">{dispoItem.jour}</td>
+                    <td className="text-center">{dispoItem.heureDebut}</td>
+                    <td className="text-center">{dispoItem.heureFin}</td>
+                    <td className="text-center">
+                      <Button onClick={() => handleUpdate(dispoItem._id)}><FiEdit size={20} /></Button>{" "}
+                      <Button onClick={() => handleDelete(dispoItem._id)}><FaArchive size={20} /></Button>
+                    </td>
+                  </tr>
+                ))}
+              </React.Fragment>
+            );
+          })}
+        </tbody>
+      </Table>
+    </ComponentCard>
+  </>
+);
+}
 export default TableDispo;
