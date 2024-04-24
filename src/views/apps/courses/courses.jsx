@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Row, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button,Popconfirm } from 'antd';
+import { DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons';
 
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -12,8 +14,25 @@ const Courses = (args) => {
   const [modal, setModal] = useState(false);
   const [postToUpdate, setPostToUpdate] = useState(null)
   const [formMode, setFormMode] = useState("create");
-  const toggle = () => {setModal(!modal)};
-  
+  const [teachersFetch, setfetchTeachers] = useState([]);
+
+  const toggle = () => { setModal(!modal) };
+
+  const fetchTeacher = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/getall');
+      const teachers = res.data.filter(user => user.role === 'teacher');
+      setfetchTeachers(teachers);
+      console.log(teachersFetch)
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+ 
+  useEffect(() => {
+    fetchTeacher();
+  }, []);
+
 
   const handleEdit = (post) => {
     console.log(post);
@@ -35,9 +54,9 @@ const Courses = (args) => {
   const [postid, setPostId] = useState({
     course: "",
     classroom: "",
-    duration:30,
+    duration: 30,
     teacher: "",
-    nbrQuiz:""
+    nbrQuiz: ""
   });
 
   useEffect(() => {
@@ -75,10 +94,10 @@ const Courses = (args) => {
     if (formMode === "create") {
       await axios.post(`http://localhost:5000/courses/setCourse`, postid);
     }
-   else{
-    await axios.put(`http://localhost:5000/courses/updateCourse/${postToUpdate._id}`, postid);
-   }
-   window.location.reload(false);
+    else {
+      await axios.put(`http://localhost:5000/courses/updateCourse/${postToUpdate._id}`, postid);
+    }
+    window.location.reload(false);
   };
 
 
@@ -103,7 +122,7 @@ const Courses = (args) => {
                   <ModalBody className="input-add" >
                     <div>
                       <input
-                      defaultValue={postToUpdate?.name}
+                        defaultValue={postToUpdate?.name}
                         type="text"
                         placeholder="Course name..."
                         name="name"
@@ -112,43 +131,47 @@ const Courses = (args) => {
                       />
                     </div>
                     <div>
-                        <input
+                      <input
                         defaultValue={postToUpdate?.classroom}
-                          type="number"
-                          placeholder="Classroom..."
-                          name="classroom"
-                          value={postid?.classroom}
-                          onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <input
-                          defaultValue={postToUpdate?.duration}
-                          placeholder="Class duration"
-                          name="duration"
-                          disabled
-                          value={postid?.duration}
-                        />
-                    </div>
-                    <div>
-                        <input
-                          defaultValue={postToUpdate?.nbrQuiz}
-                          type="number"
-                          placeholder="Number of quizzes"
-                          name="nbrQuiz"
-                          value={postid?.nbrQuiz}
-                          onChange={handleChange}
-                        />
+                        type="number"
+                        placeholder="Classroom..."
+                        name="classroom"
+                        value={postid?.classroom}
+                        onChange={handleChange}
+                      />
                     </div>
                     <div>
                       <input
+                        defaultValue={postToUpdate?.duration}
+                        placeholder="Class duration"
+                        name="duration"
+                        disabled
+                        value={postid?.duration}
+                      />
+                    </div>
+                  
+                    <div>
+                      <select
+                      defaultValue={postToUpdate?.teacher_name}
+                        placeholder="Teacher Name"
+                        name="teacher_name"
+                        value={postid?.teacher}
+                        onChange={handleChange}
+                        >
+                        {teachersFetch.map((teacher) => (
+                          <option key={teacher.id}>
+                            {teacher.firstName} {teacher.lastName}
+                          </option>
+                        ))}
+                      </select>
+                      {/* <input
                       defaultValue={postToUpdate?.teacher_name}
                         type="text"
                         placeholder="Teacher name..."
                         name="teacher_name"
                         value={postid.teacher_name}
                         onChange={handleChange}
-                      />
+                      /> */}
                     </div>
                   </ModalBody>
                   <ModalFooter>
@@ -167,10 +190,8 @@ const Courses = (args) => {
                     <th>Course</th>
                     <th>Classroom</th>
                     <th>Duration(minutes)</th>
-                    <th>Number of quizzes</th>
                     <th>Teacher</th>
-                    <th>Update</th>
-                    <th>Delete</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -179,29 +200,34 @@ const Courses = (args) => {
                       <td> {post.name} </td>
                       <td> {post.classroom} </td>
                       <td> {post.duration} </td>
-                      <td> {post.nbrQuiz} </td>
                       <td> {post.teacher_name} </td>
                       <td>
-                        <div>
-                          <Button color="warning"
-                            onClick={() => handleEdit(post)}
-                          >
-                            Update
-                          </Button>
+  <div>
+    <Button type="primary" onClick={() => handleEdit(post)} icon={<EditOutlined />} />
 
-                        </div>
-                      </td>
-                      <td>
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(post)}
-                          className="btn btn-danger"
-                        >
-                          Delete
-                        </button>
-                      </td>
+    <Button type="danger" onClick={() => handleDelete(post)} icon={<DeleteOutlined />} />
+  </div>
+</td>
                     </tr>
                   ))}
+
+render: (_, post) => (
+        <span>
+        <Popconfirm
+
+        title="Sure to delete?"
+            onConfirm={() => handleEdit(post._id)}
+           // disabled={editingKey !== ''}
+          <Button type="primary" icon={<EditOutlined />} />
+          </Popconfirm>
+          <Popconfirm
+            title="Sure to delete?"
+            onConfirm={() => handleDelete(post._id)}
+          
+          <Button type="danger" icon={<DeleteOutlined />}/>
+          </Popconfirm>
+        </span>
+      ),
                 </tbody>
               </table>
             </div>

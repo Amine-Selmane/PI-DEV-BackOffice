@@ -195,7 +195,7 @@ const toggleSearchInput = () => {
            // disabled={editingKey !== ''}
           >
           {/* <Button icon={<DeleteOutlined />} type="danger" style={{ backgroundColor: 'red', color: 'white', width: 40 }} /> */}
-          <Button type="danger" icon={<DeleteOutlined />} style={{ backgroundColor: 'red', color: 'white', width: 40 }}/>
+          <Button type="danger" icon={<DeleteOutlined />}/>
           </Popconfirm>
         </span>
       ),
