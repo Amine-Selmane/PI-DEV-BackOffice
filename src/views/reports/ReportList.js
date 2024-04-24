@@ -129,7 +129,7 @@ const toggleSearchInput = () => {
 
 // const handleInputChange = async (e) => {
 //   const { value } = e.target;
-//   try {
+//  // try {
 //     const response = await axios.get(`${baseURL}/reports/search/${value}`);
 //     setData(response.data.reports);
 //   } catch (error) {
