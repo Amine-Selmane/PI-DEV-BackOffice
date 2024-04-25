@@ -172,30 +172,7 @@ const ProjectTables = () => {
               <td style={{ width: '40%' }} className="text-center">{user.address}</td>
               <td className="text-center">{user.mobile}</td>
               <td className="text-center">{user.role}</td>
-              <td className="text-center">
-              {user.role === 'student' && (
-  user.isPayer ? (
-    <Button
-      className="btn"
-      outline
-      color="success"
-      onClick={() => handleButtonClick(user._id, user.email, user.firstName, user.lastName)}
-    >
-      Yes
-    </Button>
-  ) : (
-    <Button
-      className="btn"
-      outline
-      color="danger"
-      onClick={() => handleButtonClick(user._id, user.email, user.firstName, user.lastName)}
-    >
-      No
-    </Button>
-  )
-)}
 
-              </td>
               <td className="text-center">{user.grade}</td>
               <td className="text-center">
                 <Button onClick={() => handleUpdate(user._id)}>
