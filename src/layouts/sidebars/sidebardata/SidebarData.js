@@ -1,6 +1,29 @@
 import * as Icon from 'react-feather';
 
 const SidebarData = [
+  { caption: 'User Management' },
+  {
+    title: 'User Table',
+    href: '/tables/user-table',
+    icon: <Icon.UserCheck />,
+    id: 4.1,
+    collapisble: false,
+  },
+  {
+    title: 'Disponibilite Table',
+    href: '/tables/disponibilite-table',
+    icon: <Icon.UserCheck />,
+    id: 4.1,
+    collapisble: false,
+  },
+  {
+    title: 'Payment Table',
+    href: '/tables/payment-table',
+    icon: <Icon.UserCheck />,
+    id: 4.1,
+    collapisble: false,
+  },
+ 
   { caption: 'Event Management' },
   {
     title: 'Event',
@@ -24,20 +47,20 @@ const SidebarData = [
     id: 2.1,
     collapisble: false,
   },
-  {
-    title: 'Quiz',
-    href: '/quiz',
-    icon: <Icon.FileText />,
-    id: 2.1,
-    collapisble: false,
-  },
-  {
-    title: 'Question',
-    href: '/questions',
-    icon: <Icon.FileText />,
-    id: 2.1,
-    collapisble: false,
-  },
+  // {
+  //   title: 'Quiz',
+  //   href: '/quiz',
+  //   icon: <Icon.FileText />,
+  //   id: 2.1,
+  //   collapisble: false,
+  // },
+  // {
+  //   title: 'Question',
+  //   href: '/questions',
+  //   icon: <Icon.FileText />,
+  //   id: 2.1,
+  //   collapisble: false,
+  // },
  
   { caption: 'Courses Management' },
  
@@ -59,28 +82,6 @@ const SidebarData = [
   },
   
 
-  { caption: 'User Management' },
-  {
-    title: 'User Table',
-    href: '/tables/user-table',
-    icon: <Icon.Codepen />,
-    id: 4.1,
-    collapisble: false,
-  },
-  {
-    title: 'Disponibilite Table',
-    href: '/tables/disponibilite-table',
-    icon: <Icon.Codepen />,
-    id: 4.1,
-    collapisble: false,
-  },
-  {
-    title: 'Payment Table',
-    href: '/tables/payment-table',
-    icon: <Icon.Codepen />,
-    id: 4.1,
-    collapisble: false,
-  },
  
   
   { caption: 'Books Management' },

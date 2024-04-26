@@ -129,7 +129,7 @@ const toggleSearchInput = () => {
 
 // const handleInputChange = async (e) => {
 //   const { value } = e.target;
-//  // try {
+//   try {
 //     const response = await axios.get(`${baseURL}/reports/search/${value}`);
 //     setData(response.data.reports);
 //   } catch (error) {
@@ -161,7 +161,8 @@ const toggleSearchInput = () => {
       title: 'Course',
       dataIndex: 'course',
       width: '25%',
-      render: (text, record) => <span>{record.course.name}</span>,
+      render: (text, record) => record.course ? <span>{record.course.name}</span> : null,
+
   
     },
     {
@@ -195,7 +196,7 @@ const toggleSearchInput = () => {
            // disabled={editingKey !== ''}
           >
           {/* <Button icon={<DeleteOutlined />} type="danger" style={{ backgroundColor: 'red', color: 'white', width: 40 }} /> */}
-          <Button type="danger" icon={<DeleteOutlined />} style={{ backgroundColor: 'red', color: 'white', width: 40 }}/>
+          <Button type="danger" icon={<DeleteOutlined />}/>
           </Popconfirm>
         </span>
       ),
@@ -204,19 +205,18 @@ const toggleSearchInput = () => {
 
   return (
     <div>
-      <h2 style={{ color: 'blue', textAlign: 'center' }}>List Of Reports</h2>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
         <div>
-          <Button type="primary" onClick={handleSort}>
+          <Button style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' }} onClick={handleSort}>
             Sort by Mark
           </Button>
         </div>
         <div>
           <Link to="/reports/new">
-            <Button type="primary">New</Button>
+            <Button style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' }}>New</Button>
           </Link>
           <Link to="/statistics">
-          <Button type="primary" onClick={toggleStatistics} style={{ marginLeft: 16 }}>
+          <Button style={{  marginLeft: 16 }} onClick={toggleStatistics} >
            Show Statistics
          </Button>
          </Link>

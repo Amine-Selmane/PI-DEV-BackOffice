@@ -122,15 +122,15 @@ const ProjectTables = () => {
             type="text"
             value={searchQuery}
             onChange={handleSearchChange}
-            style={{ borderColor: 'orange' }}
+            style={{ borderColor: 'rgb(58, 58, 226)' }}
           />
         </NavItem>
       </Nav>
       <div style={{ textAlign: 'right' }}>
-        <Button onClick={() => handleFilterByRole('admin')} className="btn" outline color="primary">Admin</Button>{' '}
-        <Button onClick={() => handleFilterByRole('teacher')} className="btn" outline color="primary">Teacher</Button>{' '}
-        <Button onClick={() => handleFilterByRole('student')} className="btn" outline color="primary">Student</Button>{' '}
-        <Button onClick={() => handleFilterByRole('')} className="btn" color="primary" size="lg" active>Show All</Button>
+        <Button onClick={() => handleFilterByRole('admin')} className="btn" outline style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' }} >Admin</Button>{' '}
+        <Button onClick={() => handleFilterByRole('teacher')} className="btn" outline style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' }}>Teacher</Button>{' '}
+        <Button onClick={() => handleFilterByRole('student')} className="btn" outline style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' }}>Student</Button>{' '}
+        <Button onClick={() => handleFilterByRole('')} className="btn" style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' }} size="lg" active>Show All</Button>
       </div>
 
       <Button onClick={handleAddUser} className="mb-3">

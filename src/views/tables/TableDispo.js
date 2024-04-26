@@ -91,7 +91,7 @@ return (
             className="rounded-pill"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ borderColor: 'orange' }}
+            style={{ borderColor: 'rgb(58, 58, 226)' }}
           />
         </NavItem>
       </Nav>

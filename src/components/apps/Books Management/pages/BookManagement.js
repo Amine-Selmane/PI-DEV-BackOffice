@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Import useHistory
 import { Form, Input, Table, Popconfirm, message, Button, Modal } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons';
 
@@ -12,8 +12,8 @@ const BookManagement = () => {
   const [form] = Form.useForm();
   const [searchTitle, setSearchTitle] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
-  const [selectedBook, setSelectedBook] = useState(null); // Add state for selected book
-  const [modalVisible, setModalVisible] = useState(false); // Add state for modal visibility
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const fetchBooks = async () => {
     try {
@@ -28,7 +28,7 @@ const BookManagement = () => {
     fetchBooks();
   }, [sortOrder]);
 
-  const isEditing = (record) => record.id === editingKey;
+  const isEditing = (record) => record._id === editingKey;
 
   const cancel = () => {
     setEditingKey('');
@@ -36,7 +36,7 @@ const BookManagement = () => {
 
   const edit = (record) => {
     form.setFieldsValue(record);
-    setEditingKey(record.id);
+    setEditingKey(record._id);
   };
 
   const handleDeleteBook = async (id) => {
@@ -50,13 +50,13 @@ const BookManagement = () => {
   };
 
   const handleViewDetails = (record) => {
-    setSelectedBook(record); // Set selected book
-    setModalVisible(true); // Show modal
+    setSelectedBook(record);
+    setModalVisible(true);
   };
 
   const handleCloseModal = () => {
-    setSelectedBook(null); // Clear selected book
-    setModalVisible(false); // Hide modal
+    setSelectedBook(null);
+    setModalVisible(false);
   };
 
   const handleSearch = async () => {
@@ -71,14 +71,14 @@ const BookManagement = () => {
   };
 
   const handleSort = () => {
-    const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc'; // Inverser l'ordre de tri actuel
+    const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
     setSortOrder(newSortOrder);
   };
 
   const handleReset = async () => {
     try {
-      await fetchBooks(); // Reset the list by fetching all books
-      setSearchTitle(''); // Clear the search title
+      await fetchBooks();
+      setSearchTitle('');
     } catch (error) {
       console.error('Error resetting list:', error);
     }
@@ -88,7 +88,7 @@ const BookManagement = () => {
     {
       title: 'Title',
       dataIndex: 'title',
-      width: '25%',
+      width: '20%',
     },
     {
       title: 'Description',
@@ -96,10 +96,21 @@ const BookManagement = () => {
       width: '25%',
     },
     {
-      title: 'Price ', // Change the title to "Price (TND)"
+      title: 'Price (TND)',
       dataIndex: 'price',
+      width: '10%',
+      render: (text) => `$${text}`,
+    },
+    {
+      title: 'Image',
+      dataIndex: 'image',
       width: '15%',
-      render: (text) => `$${text}`, // Render price with a dollar sign
+      render: (image) => <img src={image} alt="Book" style={{ maxWidth: '100px' }} />,
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      width: '10%',
     },
     {
       title: 'Operations',
@@ -109,20 +120,10 @@ const BookManagement = () => {
         return (
           <span>
             <Link to={`/books/update/${record._id}`}>
-              <Button
-                icon={<EditOutlined />}
-                style={{ marginRight: 8}}
-              />
+              <Button type="primary" icon={<EditOutlined />} style={{ marginRight: 8}} />
             </Link>
-            <Button
-              icon={<EyeOutlined />}
-              style={{ marginRight: 8, width: 40 }}
-              onClick={() => handleViewDetails(record)} // Add click handler for details
-            />
-            <Popconfirm
-              title="Sure to delete?"
-              onConfirm={() => handleDeleteBook(record._id)}
-            >
+            <Button icon={<EyeOutlined />} style={{ marginRight: 8, width: 40 }} onClick={() => handleViewDetails(record)} />
+            <Popconfirm title="Sure to delete?" onConfirm={() => handleDeleteBook(record._id)}>
               <Button icon={<DeleteOutlined />} type="danger"  />
             </Popconfirm>
           </span>
@@ -135,7 +136,9 @@ const BookManagement = () => {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
         <Link to="/books/create">
-          <Button type="primary">New</Button>
+          
+        <Button style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' }}>New Book</Button>
+
         </Link>
         <div>
           <Input
@@ -144,12 +147,12 @@ const BookManagement = () => {
             value={searchTitle}
             onChange={(e) => setSearchTitle(e.target.value)}
           />
-          <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>Search</Button>
-          <Button onClick={handleReset}>Reset</Button> {/* Add a reset button */}
+          <Button style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' }} icon={<SearchOutlined />} onClick={handleSearch}>Search</Button>
+          <Button onClick={handleReset}>Reset</Button>
         </div>
       </div>
       <div style={{ marginBottom: 16, textAlign: 'right' }}>
-        <Button type="primary" onClick={handleSort}>
+        <Button style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' }} onClick={handleSort}>
           {`Sort by Price `}
         </Button>
       </div>
@@ -162,7 +165,6 @@ const BookManagement = () => {
         />
       </Form>
 
-      {/* Modal to display book details */}
       <Modal
         title="Book Details"
         visible={modalVisible}
@@ -174,7 +176,8 @@ const BookManagement = () => {
             <p>Title: {selectedBook.title}</p>
             <p>Description: {selectedBook.description}</p>
             <p>Price: {selectedBook.price}</p>
-            {/* Additional book details */}
+            <p>Quantity: {selectedBook.quantity}</p>
+            <p>Image: <img src={selectedBook.image} alt="Book" style={{ maxWidth: '200px' }} /></p>
           </div>
         )}
       </Modal>

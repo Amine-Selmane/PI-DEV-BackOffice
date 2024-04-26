@@ -36,9 +36,11 @@ const EventAddForm = () => {
 
   return (
     <div>
-      <Button type="primary" style={{ marginBottom: 16 }}>
-        <Link to="/Events">Go to List Event Page</Link>
-      </Button>
+       <Link to="/Events">
+          
+          <Button style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' }}>Events</Button>
+  
+          </Link>
       <Row justify="center">
         <Col span={18}>
           <Form

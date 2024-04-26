@@ -3,6 +3,7 @@ import { Form, Input, InputNumber, Table, Popconfirm, Typography, message, Butto
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { EditOutlined, DeleteOutlined, SaveOutlined, CloseCircleOutlined } from '@ant-design/icons'; // Import Ant Design icons
 
 const EditableCell = ({
   editing,
@@ -120,93 +121,89 @@ const EventManagement = () => {
     {
       title: 'IMAGE',
       dataIndex: 'imageUrl',
-      width: '25%',
+      width: '10%',
       render: (text, record) => <Image src={text} alt={record.name} width={50} />,
       editable: true,
     },
     {
-      title: 'name',
+      title: 'Name',
       dataIndex: 'name',
-      width: '25%',
+      width: '15%',
       editable: true,
     },
     {
-      title: 'date',
+      title: 'Date',
       dataIndex: 'date',
       width: '15%',
       editable: true,
       render: (text) => <span>{text ? new Date(text).toLocaleDateString('en-GB') : ''}</span>,
     },
     {
-      title: 'location',
+      title: 'Location',
       dataIndex: 'location',
-      width: '40%',
+      width: '20%',
       editable: true,
     },
     {
-      title: 'description',
+      title: 'Description',
       dataIndex: 'description',
-      width: '40%',
+      width: '20%',
       editable: true,
     },
     {
-      title: 'price',
+      title: 'Price',
       dataIndex: 'price',
-      width: '15%',
+      width: '10%',
       editable: true,
     },
     {
-      title: 'nbrPlaces',
+      title: 'Seats',
       dataIndex: 'nbrPlaces',
-      width: '15%',
+      width: '10%',
       editable: true,
     },
     {
-      title: 'begintime',
+      title: 'Begin Time',
       dataIndex: 'beginTime',
       width: '15%',
       editable: true,
       render: (text) => <span>{text ? new Date(text).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}</span>,
     },
     {
-      title: 'endtime',
+      title: 'End Time',
       dataIndex: 'endTime',
       width: '15%',
       editable: true,
       render: (text) => <span>{text ? new Date(text).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : ''}</span>,
     },
     {
-      title: 'operation',
+      title: 'Actions',
       dataIndex: 'operation',
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
           <span>
-            <Typography.Link
-              onClick={() => save(record.key)}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              Save
+            <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
+              <SaveOutlined style={{ fontSize: '16px' }} />
             </Typography.Link>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
+              <a><CloseCircleOutlined style={{ fontSize: '16px' }} /></a>
             </Popconfirm>
           </span>
         ) : (
           <>
             <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-              Edit
+            <Button type="primary" icon={<EditOutlined />} />
             </Typography.Link>
             <Popconfirm
               title="Sure to delete?"
               onConfirm={() => handleDelete(record.key)}
               disabled={editingKey !== ''}
             >
-              <a style={{ marginLeft: 8, color: 'red' }}>Delete</a>
+          <Button type="danger" icon={<DeleteOutlined />}/>
             </Popconfirm>
           </>
+       
         );
       },
     },
@@ -249,12 +246,11 @@ const EventManagement = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       {/* Button to navigate to the Add Event page */}
-      <Button type="primary" style={{ marginBottom: 16 }}>
-        <Link to="/addEvent">Go to Add Event Page</Link>
-      </Button>
-      <h2>List Of Events</h2>
+      <Link to="/addEvent">
+        <Button  style={{ backgroundColor: 'rgb(58, 58, 226)', borderColor: 'rgb(58, 58, 226)' , marginBottom: '20px' }}>New Event</Button>
+      </Link>
       <Form form={form} component={false}>
         <Table
           components={{

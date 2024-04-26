@@ -146,7 +146,7 @@ const PaymentTables = () => {
             type="text"
             value={searchQuery}
             onChange={handleSearchChange}
-            style={{ borderColor: 'orange' }}
+            style={{ borderColor: 'rgb(58, 58, 226)' }}
           />
         </NavItem>
       </Nav>
