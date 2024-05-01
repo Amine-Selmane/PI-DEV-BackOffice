@@ -266,7 +266,6 @@ const BookRating = () => {
 
   return (
     <div>
-      <h1>Book Ratings</h1>
       <div style={{ marginBottom: '16px' }}>
         <Select
           placeholder="Select a book"
