@@ -3,12 +3,14 @@ import { Form, Input, Button, Upload, message, Image } from 'antd';
 import { UploadOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import HTMLFlipBook from 'react-pageflip';
 
 const CreateBook = () => {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
   const [imageList, setImageList] = useState([]);
   const [formFilled, setFormFilled] = useState(false);
+  const [htmlContent, setHtmlContent] = useState(null);
 
   const onFinish = async (values) => {
     try {
@@ -20,11 +22,15 @@ const CreateBook = () => {
       formData.append('file', fileList[0]?.originFileObj);
       formData.append('image', imageList[0]?.originFileObj);
 
-      await axios.post('http://localhost:5000/books/create', formData, {
+      // Upload the file to the server
+      const response = await axios.post('http://localhost:5000/books/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
+
+      // Extract the HTML content from the response (assuming the server converts PDF to HTML)
+      setHtmlContent(response.data.htmlContent);
 
       message.success('Book added successfully!');
       form.resetFields();
@@ -71,6 +77,14 @@ const CreateBook = () => {
           <Button icon={<UploadOutlined />}>Upload File</Button>
         </Upload>
       </Form.Item>
+
+      {/* Display HTMLFlipBook if HTML content is available */}
+      {htmlContent && (
+        <HTMLFlipBook width={800} height={600}>
+          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        </HTMLFlipBook>
+      )}
+
       <Form.Item name="image" label="Image" rules={[{ required: true, message: 'Please upload image' }]}>
         <Upload fileList={imageList} onChange={onImageChange} beforeUpload={() => false} name="image">
           <Button icon={<UploadOutlined />}>Upload Image</Button>
@@ -79,6 +93,7 @@ const CreateBook = () => {
           <Image width={200} src={URL.createObjectURL(imageList[0]?.originFileObj)} />
         )}
       </Form.Item>
+
       <Form.Item>
         <Button type="primary" htmlType="submit" disabled={!formFilled}>
           Add Book

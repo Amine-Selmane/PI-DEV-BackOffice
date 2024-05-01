@@ -82,6 +82,13 @@ const SidebarData = [
       id: 1.2,
       collapsible: false, // Corrected spelling from 'collapisble' to 'collapsible'
     },
+    {
+      title: 'Rating Analysis',
+      href: '/ratings',
+      icon: <Icon.ShoppingCart />,
+      id: 1.2,
+      collapsible: false, // Corrected spelling from 'collapisble' to 'collapsible'
+    },
   
     {
       title: 'Orders',

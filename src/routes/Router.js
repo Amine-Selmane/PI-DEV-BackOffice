@@ -25,6 +25,7 @@ import OrderManagement from '../components/apps/Orders/OrderManagement';
 import CreateOrder from '../components/apps/Orders/CreateOrder';
 import UpdateOrder from '../components/apps/Orders/UpdateOrder';
 import PaymentTables from '../components/dashboard/extraDashboard/PaymentTables';
+import BookRating from '../components/apps/Ratings Management/BookRating';
 
 /****Layouts*****/
 const FullLayout = Loadable(lazy(() => import('../layouts/FullLayout')));
@@ -144,6 +145,8 @@ const ThemeRoutes = [
 ///orders
 
       { path: '/orders', name: 'orders', exact: true, element: < OrderManagement/> },
+      
+      { path: '/ratings', name: 'ratings', exact: true, element: < BookRating/> },
       { path: '/orders/create', name: 'books', exact: true, element: <CreateOrder /> },
       { path: '/orders/updateOrder/:id', name: 'books', exact: true, element: <UpdateOrder /> },
 
