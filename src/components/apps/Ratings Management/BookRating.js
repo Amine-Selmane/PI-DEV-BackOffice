@@ -14,6 +14,7 @@ const BookRating = () => {
   const [averageRating, setAverageRating] = useState(null);
   const [ratingAnalysis, setRatingAnalysis] = useState(null);
   const [sentiment, setSentiment] = useState(null); // New state for sentiment analysis result
+  const [bookClassifications, setBookClassifications] = useState({}); // State for book classifications
 
   // Function to fetch ratings for a specific book
   const fetchRatingsForBook = async (bookId) => {
@@ -181,8 +182,26 @@ const BookRating = () => {
   // Function to perform sentiment analysis on comments
   const performSentimentAnalysis = async () => {
     try {
-      const response = await axios.post(`${baseURL}/sentiment`, { comments: ratings.map((rating) => rating.comment) });
+      const response = await axios.post(`${baseURL}/ratings/sentiment`, { comments: ratings.map((rating) => rating.comment) });
       setSentiment(response.data.sentiment);
+
+      // Map sentiment analysis results to book classifications
+      const bookClassifications = response.data.sentiment.map((result, index) => {
+        const book = ratings[index].book;
+        return {
+          bookId: book._id,
+          classification: result === 'Good book' ? 'Good' : 'Bad',
+        };
+      });
+
+      // Group book classifications by book ID
+      const groupedClassifications = bookClassifications.reduce((acc, curr) => {
+        acc[curr.bookId] = curr.classification;
+        return acc;
+      }, {});
+
+      // Set book classifications state
+      setBookClassifications(groupedClassifications);
     } catch (error) {
       console.error('Error performing sentiment analysis:', error);
     }
@@ -241,6 +260,11 @@ const BookRating = () => {
       dataIndex: 'book',
       render: (book) => book._id,
     },
+    {
+        title: 'Classification',
+        dataIndex: 'book',
+        render: (book) => bookClassifications[book._id],
+      },
     {
       title: 'Rating',
       dataIndex: 'rating',
