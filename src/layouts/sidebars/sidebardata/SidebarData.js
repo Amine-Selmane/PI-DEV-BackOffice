@@ -85,7 +85,7 @@ const SidebarData = [
     {
       title: 'Rating Analysis',
       href: '/ratings',
-      icon: <Icon.ShoppingCart />,
+      icon: <Icon.Star />,
       id: 1.2,
       collapsible: false, // Corrected spelling from 'collapisble' to 'collapsible'
     },
