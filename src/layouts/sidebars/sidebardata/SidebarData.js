@@ -92,7 +92,13 @@ const SidebarData = [
       id: 1.2,
       collapsible: false, // Corrected spelling from 'collapisble' to 'collapsible'
     },
-  
+    {
+      title: 'Rating Analysis',
+      href: '/ratings',
+      icon: <Icon.Star />,
+      id: 1.2,
+      collapsible: false, // Corrected spelling from 'collapisble' to 'collapsible'
+    },
     {
       title: 'Orders',
       href: '/orders',
