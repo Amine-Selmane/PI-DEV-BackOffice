@@ -15,8 +15,9 @@ const BookRating = () => {
   const [ratingAnalysis, setRatingAnalysis] = useState(null);
   const [sentiment, setSentiment] = useState(null); // New state for sentiment analysis result
   const [bookClassifications, setBookClassifications] = useState({}); // State for book classifications
+  const [stockBookData, setStockBookData] = useState(null); // State for stock book data
 
-  // Function to fetch ratings for a specific book
+  // Fetch ratings for a specific book
   const fetchRatingsForBook = async (bookId) => {
     try {
       const response = await axios.get(`${baseURL}/ratings/getratingsforbook/${bookId}`);
@@ -27,7 +28,7 @@ const BookRating = () => {
     }
   };
 
-  // Function to fetch average rating for a specific book
+  // Fetch average rating for a specific book
   const fetchAverageRatingForBook = async (bookId) => {
     try {
       const response = await axios.get(`${baseURL}/ratings/book/${bookId}/average`);
@@ -55,13 +56,18 @@ const BookRating = () => {
   // Update ratings when selectedBook changes
   useEffect(() => {
     const fetchUpdatedRatings = async () => {
-      if (selectedBook) {
-        const updatedRatings = await fetchRatingsForBook(selectedBook);
+      try {
+        let updatedRatings = [];
+        if (selectedBook) {
+          updatedRatings = await fetchRatingsForBook(selectedBook);
+        } else {
+          // If no book is selected, show all ratings
+          const ratingsResponse = await axios.get(`${baseURL}/ratings`);
+          updatedRatings = ratingsResponse.data;
+        }
         setRatings(updatedRatings);
-      } else {
-        // If no book is selected, show all ratings
-        const ratingsResponse = await axios.get(`${baseURL}/ratings`);
-        setRatings(ratingsResponse.data);
+      } catch (error) {
+        console.error('Error updating ratings:', error);
       }
     };
 
@@ -71,9 +77,13 @@ const BookRating = () => {
   // Display average rating for selected book
   useEffect(() => {
     const fetchAverageRating = async () => {
-      if (selectedBook) {
-        const avgRating = await fetchAverageRatingForBook(selectedBook);
-        setAverageRating(avgRating);
+      try {
+        if (selectedBook) {
+          const avgRating = await fetchAverageRatingForBook(selectedBook);
+          setAverageRating(avgRating);
+        }
+      } catch (error) {
+        console.error('Error fetching average rating:', error);
       }
     };
 
@@ -89,7 +99,7 @@ const BookRating = () => {
         const minRating = Math.min(...totalRatings);
         const totalRatingSum = totalRatings.reduce((acc, curr) => acc + curr, 0);
         const avgRating = totalRatingSum / ratings.length;
-        
+
         setRatingAnalysis({
           maxRating,
           minRating,
@@ -159,10 +169,10 @@ const BookRating = () => {
       const response = await axios.get(`${baseURL}/ratings/api/reviews/${audioId}/audio`, {
         responseType: 'arraybuffer',
       });
-  
+
       const audioBlob = new Blob([response.data], { type: 'audio/mpeg' });
       const audioUrl = URL.createObjectURL(audioBlob);
-  
+
       const audio = new Audio();
       audio.src = audioUrl;
       audio.controls = true;
@@ -190,7 +200,7 @@ const BookRating = () => {
         const book = ratings[index].book;
         return {
           bookId: book._id,
-          classification: result === 'Good book' ? 'Good' : 'Bad',
+          classification: result === 'Positive' ? 'Good' : 'Bad',
         };
       });
 
@@ -232,8 +242,21 @@ const BookRating = () => {
     ],
   };
 
-  // State for stock book data
-  const [stockBookData, setStockBookData] = useState(null);
+  // Data for the classification pie chart
+  const classificationChartData = {
+    labels: ['Good Books', ' Books need new editions'],
+    datasets: [
+      {
+        label: 'Book Classifications',
+        backgroundColor: ['#5EFFA9', '#FF5733'], // Changed colors here
+        borderColor: 'rgba(255,255,255,1)',
+        borderWidth: 1,
+        hoverBackgroundColor: ['#5EFFA9', '#FF5733'],
+        hoverBorderColor: 'rgba(255,255,255,1)',
+        data: [Object.values(bookClassifications).filter(classification => classification === 'Good').length, Object.values(bookClassifications).filter(classification => classification === 'Bad').length],
+      },
+    ],
+  };
 
   // Columns configuration for the ratings table
   const columns = [
@@ -261,10 +284,10 @@ const BookRating = () => {
       render: (book) => book._id,
     },
     {
-        title: 'Classification',
-        dataIndex: 'book',
-        render: (book) => bookClassifications[book._id],
-      },
+      title: 'Classification',
+      dataIndex: 'book',
+      render: (book) => bookClassifications[book._id],
+    },
     {
       title: 'Rating',
       dataIndex: 'rating',
@@ -316,14 +339,14 @@ const BookRating = () => {
         <Pie
           data={chartData}
           options={{
-            title:{
-              display:true,
-              text:'Rating Analysis',
-              fontSize:16
+            title: {
+              display: true,
+              text: 'Rating Analysis',
+              fontSize: 16
             },
-            legend:{
-              display:true,
-              position:'bottom'
+            legend: {
+              display: true,
+              position: 'bottom'
             },
             maintainAspectRatio: false // To prevent the chart from maintaining aspect ratio
           }}
@@ -336,14 +359,14 @@ const BookRating = () => {
           <Pie
             data={stockBookData}
             options={{
-              title:{
-                display:true,
-                text:'Stock Book Ratings',
-                fontSize:16
+              title: {
+                display: true,
+                text: 'Stock Book Ratings',
+                fontSize: 16
               },
-              legend:{
-                display:true,
-                position:'bottom'
+              legend: {
+                display: true,
+                position: 'bottom'
               },
               maintainAspectRatio: false // To prevent the chart from maintaining aspect ratio
             }}
@@ -352,6 +375,27 @@ const BookRating = () => {
           />
         )}
       </div>
+
+      <div style={{ marginTop: '16px', textAlign: 'center' }}>
+        <Pie
+          data={classificationChartData}
+          options={{
+            title: {
+              display: true,
+              text: 'Book Classifications',
+              fontSize: 16
+            },
+            legend: {
+              display: true,
+              position: 'bottom'
+            },
+            maintainAspectRatio: false // To prevent the chart from maintaining aspect ratio
+          }}
+          width={400} // Set desired width for the chart
+          height={300} // Set desired height for the chart
+        />
+      </div>
+
       {/* Display sentiment analysis result */}
       {sentiment && (
         <div style={{ marginTop: '16px', textAlign: 'center' }}>
