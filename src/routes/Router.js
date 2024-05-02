@@ -26,6 +26,7 @@ import CreateOrder from '../components/apps/Orders/CreateOrder';
 import UpdateOrder from '../components/apps/Orders/UpdateOrder';
 import PaymentTables from '../components/dashboard/extraDashboard/PaymentTables';
 import BookRating from '../components/apps/Ratings Management/BookRating';
+import ClaimList from '../views/claims/ClaimList';
 
 
 /****Layouts*****/
@@ -246,6 +247,7 @@ const ThemeRoutes = [
       { path:"/reports/update/:id" , name: 'report', exact: true, element: <UpdateReport/> },
      { path:"/reports/new" , name: 'report', exact: true, element: <ReportForm/> },
     { path:"/reports" , name: 'report', exact: true, element: <ReportList /> },
+    { path:"/claims" , name: 'claim', exact: true, element: <ClaimList /> },
     { path:"/statistics" , name: 'report', exact: true, element: <StudentStatistics /> },
       { path: '/charts/apex', name: 'apex', exact: true, element: <ApexCharts /> },
       { path: '/charts/chartjs', name: 'chartjs', exact: true, element: <ChartJs /> },
